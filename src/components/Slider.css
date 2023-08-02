@@ -1,0 +1,71 @@
+
+
+  .slider-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Image will cover the entire container while preserving aspect ratio */
+    /* Add any other styles for your slider images */
+  }
+  
+  
+/* Styles for the individual slides (images) */
+.slick-slide {
+  /* Add your styles for each slide (image) here */
+  display: flex;
+  justify-content: center;
+}
+
+.slick-slide img {
+  /* Add your styles for the images here */
+  width: 100%;
+  max-height: 300px; /* Adjust this value to set the maximum height of the images */
+  object-fit: cover; /* To ensure the images fill the available space without distortion */
+}
+
+.imageSlider {
+  position: relative;
+  display: flex;
+  align-items: center; /* Vertically center the buttons */
+  justify-content: center; 
+} 
+
+/* Styles for the buttons */
+.prev-next-buttons {
+  /* Add your styles for the buttons */
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  min-width: auto; 
+  opacity: 0.5;
+  
+}
+
+.button-disabled {
+  background-color: #999;
+}
+
+.button:hover{
+  opacity: 1;
+}
+/* Styles for the left button */
+.left-button {
+  /* Add your styles for the left button */
+  left:20px
+}
+
+/* Styles for the right button */
+.right-button {
+  /* Add your styles for the right button */
+  right: 20px; /* Adjust this value for spacing between the buttons */
+} 
+
+.round {
+  /* border-radius: 50%; */
+}

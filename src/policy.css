@@ -1,0 +1,12 @@
+.policy-container .cart-item {
+  padding: 5px !important;
+}
+.policy-container .cart-header {
+    padding: 7px !important;
+}
+
+
+.policy-right-col .fancy-bullets li { 
+    
+    font-size: 13px; 
+  }

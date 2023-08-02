@@ -1,38 +1,375 @@
-.App {
+.container {
+  height: 100vh; /* Set the container height to the full height of the viewport */
+  overflow-y: auto;
+}
+.content-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+#navigation {
+  margin-bottom: 2rem;
+}
+
+button {
+  min-width: 80px;
+}
+
+.column {
+  flex: 1;
+  margin: 10px;
+}
+
+.text-center {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.left-column {
+  flex: 0 0 45%;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.flex {
   display: flex;
-  flex-direction: column;
+}
+
+.right-column {
+  flex: 1 1;
+}
+
+.top-nav-bar {
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.top-nav {
+  color: #000;
+  display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  justify-content: space-between;
+  padding: 10px 20px;
 }
 
-.App-link {
-  color: #61dafb;
+.logo img {
+  width: 100px; /* Adjust the logo width as needed */
+  height: auto;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.nav-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links li {
+  display: inline-block;
+  margin-left: 20px; /* Adjust the spacing between the links */
+}
+
+.nav-links li:first-child {
+  margin-left: 0;
+}
+
+.nav-links li a {
+  text-decoration: none;
+  color: #999;
+}
+
+.nav-links li a:hover {
+  text-decoration: underline;
+}
+
+.hide-on-small-screens {
+  display: block; /* By default, show the div */
+}
+
+.justify-start {
+  justify-content: flex-start;
+}
+
+.my-2 {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.mx-3 {
+  margin-left: 0.75rem;
+  margin-right: 0.75rem;
+}
+
+.gap-2 {
+  gap: 0.5rem;
+}
+
+.text-typography {
+  --tw-text-opacity: 1;
+  color: rgb(47 72 88 / var(--tw-text-opacity));
+}
+.text-xl {
+  font-size: 2rem;
+  line-height: 1.75rem;
+  padding-bottom: 10px !important;
+  margin: 0px !important;
+  margin-bottom: 10px !important;
+}
+
+.my-0 {
+  margin: top 0px;
+}
+.mx-10 {
+  margin-left: 10px;
+}
+
+.wid-80 {
+  width: 80% !important;
+}
+
+/* TimePicker.css */
+
+.time-am {
+  color: blue; /* Example style for AM time options */
+}
+
+.time-pm {
+  color: red; /* Example style for PM time options */
+}
+
+/* .incDec .inc {
+  flex: 0 0 45%;
+}
+
+.incDec .dec {
+  flex: 0 0 45%;
+} */
+
+.sil-fieldSet {
+  text-align: left;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  top: -5px;
+  left: 0;
+  margin: 0;
+  padding: 0 8px !important;
+  pointer-events: none;
+  border-radius: 3px !important;
+  border-style: solid;
+  border-width: 1px;
+  overflow: hidden;
+  min-width: 0%;
+  border-color: rgba(0, 0, 0, 0.23);
+}
+
+.SILFieldSetComp.MuiFormControl-root {
+  margin-bottom: 20px !important;
+}
+
+.SILFieldSetComp .SILFieldSetCompLabel {
+  color: rgba(0, 0, 0, 0.6) !important;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif !important;
+  font-weight: bold;
+  font-size: 1rem !important;
+  line-height: 1.4375em !important;
+  letter-spacing: 0.00938em !important;
+  padding: 0 !important;
+  position: relative !important;
+  display: block !important;
+  transform-origin: top left !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  max-width: calc(133% - 32px) !important;
+  position: absolute;
+  left: 0 !important;
+  top: 0 !important;
+  -webkit-transform: translate(14px, -9px) scale(0.75) !important;
+  -moz-transform: translate(14px, -9px) scale(0.75) !important;
+  -ms-transform: translate(14px, -9px) scale(0.75) !important;
+  transform: translate(14px, -9px) scale(0.75) !important;
+  -webkit-transition: color 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,
+    -webkit-transform 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,
+    max-width 200ms cubic-bezier(0, 0, 0.2, 1) 0ms !important;
+  transition: color 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,
+    transform 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,
+    max-width 200ms cubic-bezier(0, 0, 0.2, 1) 0ms !important;
+  z-index: 0 !important;
+  pointer-events: auto !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+}
+
+.sil-input-adornment {
+  display: -webkit-box !important;
+  display: -webkit-flex !important;
+  display: -ms-flexbox v;
+  display: flex !important;
+  height: 0.01em !important;
+  max-height: 2em !important;
+  -webkit-align-items: center !important;
+  -webkit-box-align: center !important;
+  -ms-flex-align: center !important;
+  align-items: center !important;
+  white-space: nowrap !important;
+  color: rgba(0, 0, 0, 0.54) !important;
+  margin-right: 8px !important;
+  position: relative;
+}
+
+.sil-svg-end-adornment {
+  position: absolute !important;
+  top: 5px;
+  right: 15px;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+  height: 0em !important;
+  display: inline-block !important;
+  fill: currentColor !important;
+  -webkit-flex-shrink: 0 !important;
+  -ms-flex-negative: 0 !important;
+  flex-shrink: 0 !important;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms !important;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms !important;
+  font-size: 1.5rem !important;
+}
+
+.react-datepicker__triangle {
+  position: absolute;
+  left: 2.6rem !important;
+  transform: translate3d(0px, 0px, 0px);
+}
+
+.MuiFormLabel-root.MuiInputLabel-root {
+  z-index: 0 !important;
+}
+
+.cartImg {
+  position: absolute;
+  inset: 0px;
+  box-sizing: border-box;
+  padding: 0px;
+  border: none;
+  margin: auto;
+  display: block;
+  width: 0px;
+  height: 0px;
+  min-width: 100%;
+  max-width: 100%;
+  min-height: 100%;
+  max-height: 100%;
+}
+
+.cart-outer-box {
+  box-sizing: border-box;
+  display: inline-block;
+  overflow: hidden;
+  width: initial;
+  height: initial;
+  background: none;
+  opacity: 1;
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+  position: relative;
+  max-width: 100%;
+}
+
+.cart-inner-box {
+  box-sizing: border-box;
+  display: block;
+  width: initial;
+  height: initial;
+  background: none;
+  opacity: 1;
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+  max-width: 100%;
+}
+
+.div-flex {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-content: center;
+}
+
+.flex-item {
+  flex: 1 0;
+}
+
+.policy-left-col {
+  padding: 0.3rem;
+  background-color: #fff !important;
+}
+
+.policy-left-col .policy-container,
+.policy-right-col .policy-container {
+  padding: 1rem;
+  border: 1px solid #e3e0e0;
+  /* background-color: #eee; */
+  border-radius: 0.3rem;
+}
+
+.policy-right-col {
+  padding: 0.3rem;
+  background-color: #fff !important;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* Base styles for the list */
+.fancy-bullets {
+  list-style: none;
+  padding-left: 20px;
+  margin: 0;
+
+}
+
+/* Custom bullet styles using ::before pseudo-element */
+.fancy-bullets li::before {
+  content: "\f058"; /* Use the Font Awesome icon code for the bullet (e.g., f058 for solid circle) */
+  font-family: "Font Awesome 6 Free"; /* Use the Font Awesome font family */
+  color: #007bff; /* Customize the color of the bullet */
+  font-size: 12px; /* Customize the size of the bullet */
+  margin-right: 10px; /* Add some space between the bullet and the text */
+  vertical-align: middle; /* Vertically align the bullet with the text */
+}
+
+.top-nav-bar {
+  background-color: #50A4FF;
+}
+.top-nav .nav-links li a {
+  color:#fff
+  
+}
+
+
+
+/* Use a media query to hide the div for screen sizes smaller than a certain breakpoint */
+@media (max-width: 991px) {
+  .hide-on-small-screens {
+    display: none;
   }
-  to {
-    transform: rotate(360deg);
+  .left-column {
+    flex: 0 0 35%;
+    padding: 10px;
+  }
+}
+
+/* Media queries for responsiveness */
+@media screen and (max-width: 600px) {
+  .column {
+    flex-basis: 100%;
   }
 }

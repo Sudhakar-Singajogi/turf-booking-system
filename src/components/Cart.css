@@ -1,0 +1,111 @@
+/* Cart styles */
+.cart-container {
+    /* Add your cart container styles here */
+    width: 100%;
+    max-width: 600px;
+    border: 1px solid #ccc;
+  border-radius: 4px;
+    /* Add any other styles for your cart container */
+  }
+
+  
+/* Top Section */
+.cart-header {
+  
+  padding: 10px;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #ccc;
+}
+
+.cart-title {
+  font-size: 24px;
+}
+
+.cart-trash-icon {
+  font-size: 24px;
+  color: #999;
+  cursor: pointer;
+}
+
+.trash-icon{
+  color: rgb(237 65 65)
+}
+
+.trash-icon:hover{
+  color: red;
+}
+
+
+/* Middle Section */
+.cart-items {
+  margin-bottom: 16px;
+}
+
+.cart-item {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.item-label {
+  flex: 1;
+  font-weight: bold;
+}
+
+.item-value {
+  flex: 2;
+}
+
+/* Replace the below styles with your actual icon styles */
+i {
+  margin-right: 8px;
+  font-size: 20px;
+  color: #999;
+}
+
+/* Footer Section */
+.cart-footer {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.proceed-btn {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.cart-amount {
+  font-weight: bold;
+}
+  
+
+.w100 {
+  width:100%
+}
+
+.cart-label {
+  padding-top: 20px;
+  margin-left: 5px;
+}
+.pointer {
+  cursor:pointer; 
+  
+}
+.pointer:hover {
+  font-size:14px;
+  transition: all 0.5s;
+}
+
+.btn-block {
+  width: 100%;
+}
