@@ -4,12 +4,15 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { useSelector } from 'react-redux';
 
 
+function SelectGame({wid80,title, options, onChange, defValue}) { 
+    const {data} = useSelector(state=>state.booking)
+    const game = data.game;
 
-function MUISelect({wid80,title, options, onChange, defValue}) {
-  const handleChange = (e) => {
-    console.log(e.target.value);
+  const handleChange = (e) => { 
+    onChange(e.target.value)
 
   }
 
@@ -20,9 +23,9 @@ function MUISelect({wid80,title, options, onChange, defValue}) {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={defValue}
+          value={game}
           label={title} 
-          handleChange={(e) => handleChange(e)}
+          onChange={(e) => handleChange(e)}
         > 
           {options.map((option) => ( 
             <MenuItem key={option.value} value={option.value}>{ option.icon ? option.icon: ''  } {option.label}</MenuItem> 
@@ -36,4 +39,4 @@ function MUISelect({wid80,title, options, onChange, defValue}) {
 }
 
 
-export default MUISelect
+export default SelectGame

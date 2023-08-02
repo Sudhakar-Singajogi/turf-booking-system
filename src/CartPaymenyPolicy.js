@@ -20,9 +20,9 @@ function CartPaymenyPolicy() {
       <div className="div-flex w100">
         <div className="flex-item policy-left-col">
           <div className="policy-container">
-            <div class="cart-header">
+            <div className="cart-header">
               <div
-                class="cart-title"
+                className="cart-title"
                 style={{
                   display: "flex",
                   width: "100%",
@@ -37,22 +37,22 @@ function CartPaymenyPolicy() {
                 </div>
               </div>
             </div>
-            <div class="cart-items">
+            <div className="cart-items">
               <div>
                 <h6 style={{ fontWeight: "bold", paddingLeft: "10px" }}>
                   Game and Venue Details
                 </h6>
               </div>
-              <div class="cart-item">
-                <div class="flex flex-row items-center justify-start col-span-5 space-x-1 w100">
+              <div className="cart-item">
+                <div className="flex flex-row items-center justify-start col-span-5 space-x-1 w100">
                   <div style={{ flex: "1 1" }}>
-                    <div class="w- text-xs font-medium md:text-sm md:mt-0.5 pointer">
+                    <div className="w- text-xs font-medium md:text-sm md:mt-0.5 pointer">
                       <SportsSoccerIcon style={{ color: "orange" }} />
                       <span className="cart-label">Soccer</span>
                     </div>
                   </div>
                   <div style={{ flex: "1 1" }}>
-                    <div class="w- text-xs font-medium md:text-sm md:mt-0.5 pointer">
+                    <div className="w- text-xs font-medium md:text-sm md:mt-0.5 pointer">
                       <GrassIcon style={{ color: "green" }} />
                       <span className="cart-label">Turf No# 2</span>
                     </div>
@@ -60,16 +60,16 @@ function CartPaymenyPolicy() {
                 </div>
               </div>
 
-              <div class="cart-item">
-                <div class="flex flex-row items-center justify-start col-span-5 space-x-1 w100">
+              <div className="cart-item">
+                <div className="flex flex-row items-center justify-start col-span-5 space-x-1 w100">
                   <div style={{ flex: "1 1" }}>
-                    <div class="w- text-xs font-medium md:text-sm md:mt-0.5 pointer">
+                    <div className="w- text-xs font-medium md:text-sm md:mt-0.5 pointer">
                       <EventAvailableIcon style={{ color: "orange" }} />
                       <span className="cart-label">05-08-2023</span>
                     </div>
                   </div>
                   <div style={{ flex: "1 1" }}>
-                    <div class="w- text-xs font-medium md:text-sm md:mt-0.5 pointer">
+                    <div className="w- text-xs font-medium md:text-sm md:mt-0.5 pointer">
                       <AccessTimeIcon style={{ color: "orange" }} />
                       <span className="cart-label">3:00 pm TO 6:00 pm</span>
                     </div>
@@ -77,17 +77,17 @@ function CartPaymenyPolicy() {
                 </div>
               </div>
 
-              <div class="cart-item">
-                <div class="flex flex-row items-center justify-start col-span-5 space-x-1 w100">
+              <div className="cart-item">
+                <div className="flex flex-row items-center justify-start col-span-5 space-x-1 w100">
                   <div style={{ flex: "1 1" }}>
-                    <div class="w- text-xs font-medium md:text-sm md:mt-0.5 pointer">
+                    <div className="w- text-xs font-medium md:text-sm md:mt-0.5 pointer">
                       <TimelapseIcon style={{ color: "orange" }} />
                       <span className="cart-label">3hrs</span>
                     </div>
                   </div>
 
                   <div style={{ flex: "1 1" }}>
-                    <div class="w- text-xs font-medium md:text-sm md:mt-0.5 pointer">
+                    <div className="w- text-xs font-medium md:text-sm md:mt-0.5 pointer">
                       <CurrencyRupeeIcon style={{ color: "orange" }} />
                       <span className="cart-label">3000</span>
                     </div>
@@ -225,8 +225,8 @@ function CartPaymenyPolicy() {
                   <strong style={{ fontSize: "11px" }}>Amount to be paid at venue: <CurrencyRupeeIcon style={{ fontSize: "15px" }} />1800</strong>  
                 </li>
               </ul>
-              <div class="cart-footer">
-              <button class="proceed-btn btn-block">Proceed To Pay</button> 
+              <div className="cart-footer">
+              <button className="proceed-btn btn-block">Proceed To Pay</button> 
             </div>
           </div>
         </div>

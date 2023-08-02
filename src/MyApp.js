@@ -6,6 +6,7 @@ import Cart from "./components/Cart";
 import Footer from "./components/Footer";
 import Header from "./Header";
 
+
 function MyApp() {
   return (
     <div className="App">
@@ -16,8 +17,10 @@ function MyApp() {
       <main>
         <div className="container">
           <div className="content-wrapper"> 
+              {/* <SlideShow /> */}
             <div className="booking-cart-wrapper column right-column">
-              <BookingForm />              
+              <BookingForm />    
+              
             </div>
           </div>
         </div>

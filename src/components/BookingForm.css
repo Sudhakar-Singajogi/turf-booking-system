@@ -9,7 +9,7 @@
 
 .booking-form {
     /* Add your booking form container styles here */
-    width: 100%; 
+    width: 60%; 
     display: flex;
     flex-direction: column; 
     align-items: flex-start;

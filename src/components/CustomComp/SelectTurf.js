@@ -3,15 +3,18 @@ import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Select from '@mui/material/Select';
+import { useSelector } from 'react-redux';
 
 
+function SelectTurf({wid80,title, options, onChange, defValue}) {
+    const {data} = useSelector(state=>state.booking)
+    const turf = data.turf;
+    
+  const handleChange = (e) => { 
+    onChange(e.target.value)
 
-function MUISelect({wid80,title, options, onChange, defValue}) {
-  const handleChange = (e) => {
-    console.log(e.target.value);
-
-  }
+  } 
 
   return (
     <Box>
@@ -20,9 +23,9 @@ function MUISelect({wid80,title, options, onChange, defValue}) {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={defValue}
+          value={turf}
           label={title} 
-          handleChange={(e) => handleChange(e)}
+          onChange={(e) => handleChange(e)}
         > 
           {options.map((option) => ( 
             <MenuItem key={option.value} value={option.value}>{ option.icon ? option.icon: ''  } {option.label}</MenuItem> 
@@ -36,4 +39,4 @@ function MUISelect({wid80,title, options, onChange, defValue}) {
 }
 
 
-export default MUISelect
+export default SelectTurf

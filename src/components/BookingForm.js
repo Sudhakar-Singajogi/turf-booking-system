@@ -1,6 +1,12 @@
 import React, { useRef, useState } from "react";
 import "./BookingForm.css";
-import MUISelect from "./MUI/MUISelect";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  changeDate,
+  changeTimeSlot,
+  changeTurf,
+  changeGame,
+} from "../Redux/Slices/BokingSliceReducer";
 
 import SportsCricketIcon from "@mui/icons-material/SportsCricket";
 import SportsSoccerIcon from "@mui/icons-material/SportsSoccer";
@@ -15,30 +21,13 @@ import "react-datepicker/dist/react-datepicker.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import IncrementDecrement from "./IncrementDecrement";
 import Cart from "./Cart";
-// import BootstrapDatePickerComponent from "./BootstrapUI/BootstrapDatePickerComponent";
-export const MUITextFields = () => {
-  return (
-    <>
-      <TextField
-        label="With normal TextField"
-        id="outlined-start-adornment"
-        sx={{ m: 1, width: "25ch" }}
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="start">
-              <CalendarMonthIcon />
-            </InputAdornment>
-          ),
-        }}
-      />
-    </>
-  );
-};
+import SelectGame from "./CustomComp/SelectGame";
+import SelectTurf from "./CustomComp/SelectTurf";
 
 const BookingForm = ({ children }) => {
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [selectedTime, setSelectedTime] = useState(null);
-  const [duration, setDuration] = useState(0);
+  const dispatch = useDispatch();
+  const { data } = useSelector((state) => state.booking);
+  console.log("booking:", data);
 
   const calenderRef = useRef();
   const TimeRef = useRef();
@@ -79,14 +68,28 @@ const BookingForm = ({ children }) => {
     }
   };
 
+  const handleGameChange = (value) => {
+    console.log(value);
+    dispatch(changeGame(value));
+  };
+
   const handleDateChange = (date) => {
     console.log(convertDateDYM(date));
-    setSelectedDate(convertDateDYM(date));
+    dispatch(changeDate(convertDateDYM(date)));
   };
 
   const handleTimeChange = (time) => {
-    console.log(getTimeformDateTime(time));
-    setSelectedTime(getTimeformDateTime(time));
+    let am_pm = getTimeformDateTime(time).split(" ");
+    let timeSlot = getTimeformDateTime(time).split(":");
+    dispatch(
+      changeTimeSlot(
+        timeSlot[0] + ":" + timeSlot[1] + " " + am_pm[1].toLowerCase()
+      )
+    );
+  };
+
+  const handleturfChange = (value) => {
+    dispatch(changeTurf(value));
   };
 
   const getTimeClassName = (time) => {
@@ -94,15 +97,11 @@ const BookingForm = ({ children }) => {
     return hours < 12 ? "time-am" : "time-pm";
   };
 
-  const onIncrement = () => {};
-
-  const onDecrement = () => {};
-
   return (
     <>
       <div className="booking-form">
         <div className="flex flex-row items-center justify-start gap-2 mx-3 ">
-          <div >
+          <div>
             <div>
               <h1 className="font-bold text-md text-xl text-typography">
                 Book your time slot
@@ -110,8 +109,7 @@ const BookingForm = ({ children }) => {
             </div>
             {/* Your form fields go here */}
             <div className="form-fields">
-              <MUISelect
-                wid80={"wid-80"}
+              <SelectGame
                 options={[
                   {
                     label: "Cricket",
@@ -125,15 +123,17 @@ const BookingForm = ({ children }) => {
                   },
                 ]}
                 title={"Select Game"}
-                handleChange={() => {}}
+                onChange={(e) => handleGameChange(e)}
+                defValue={data.game}
               />
+
               <div>
                 <TextField
-                  className="wid-80"
+                  className="w100"
                   label="Select Date"
                   id="outlined-start-adornment"
                   ref={calenderRef}
-                  value={selectedDate}
+                  value={data.bookeddate}
                   onFocus={() => showCalender()}
                   InputProps={{
                     startAdornment: (
@@ -156,11 +156,11 @@ const BookingForm = ({ children }) => {
                 />
 
                 <TextField
-                  className="wid-80"
+                  className="w100"
                   label="Start Time"
                   id="outlined-start-adornment"
                   ref={calenderRef}
-                  value={selectedTime}
+                  value={data.timeslot}
                   onFocus={() => showTimer()}
                   InputProps={{
                     startAdornment: (
@@ -186,13 +186,12 @@ const BookingForm = ({ children }) => {
                 />
 
                 <IncrementDecrement
-                  duration={duration}
-                  onDecrement={onDecrement}
-                  onIncrement={onIncrement}
+                  onDecrement={() => {}}
+                  onIncrement={() => {}}
                 />
 
-                <MUISelect
-                  wid80={"wid-80"}
+                <SelectTurf
+                  wid80={"w100"}
                   options={[
                     {
                       label: "Turf 1",
@@ -206,16 +205,15 @@ const BookingForm = ({ children }) => {
                     },
                   ]}
                   title={"Select Turf"}
+                  onChange={(e) => handleturfChange(e)}
+                  defValue={""}
                 />
               </div>
-            </div>
-            <button onClick={() => {}}>Add to Cart</button>
-          </div>
-          <div style={{flex:'0 1 50%', marginTop:'3rem'}}>
-            <Cart />
+            </div> 
           </div>
         </div>
       </div>
+      <Cart />
     </>
   );
 };

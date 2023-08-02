@@ -7,14 +7,19 @@ import CssBaseline from '@mui/material/CssBaseline'; // Import CssBaseline for b
 import 'react-datepicker/dist/react-datepicker.css'; // Import the datepicker CSS
 import CartPaymenyPolicy from './CartPaymenyPolicy';
 
+import { Provider } from "react-redux";
+import store from "./Redux/store";
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <Provider store={store}>
     <CssBaseline />
-    {/* <MyApp /> */}
-    <CartPaymenyPolicy />
+
+    <MyApp />
+    </Provider>
+    {/* <CartPaymenyPolicy /> */}
 
   </React.StrictMode>
 );

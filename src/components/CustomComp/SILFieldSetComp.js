@@ -1,9 +1,10 @@
 import React from "react"; 
 
 function SILFieldSetComp({insideComp, endAdornment}) {
+  
   return (
-    <div className="SILFieldSetComp  MuiFormControl-root MuiTextField-root wid-80 css-1u3bzj6-MuiFormControl-root-MuiTextField-root">
-      <label className=" SILFieldSetCompLabel MuiFormControl-root MuiTextField-root wid-80 css-1u3bzj6-MuiFormControl-root-MuiTextField-root">
+    <div className="SILFieldSetComp  MuiFormControl-root MuiTextField-root w100 css-1u3bzj6-MuiFormControl-root-MuiTextField-root">
+      <label className=" SILFieldSetCompLabel MuiFormControl-root MuiTextField-root w100 css-1u3bzj6-MuiFormControl-root-MuiTextField-root">
         Duration
       </label>
 
@@ -12,17 +13,17 @@ function SILFieldSetComp({insideComp, endAdornment}) {
       </div>
       
 
-      <div class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined MuiInputAdornment-sizeMedium css-ittuaa-MuiInputAdornment-root">
-        <span class="notranslate">​</span>
+      <div className="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined MuiInputAdornment-sizeMedium css-ittuaa-MuiInputAdornment-root">
+        <span className="notranslate">​</span>
       </div>
-      <div class="sil-input-adornment  sil-svg-end-adornment">
+      <div className="sil-input-adornment  sil-svg-end-adornment">
          {endAdornment}
       </div>
       <fieldset
         aria-hidden="true"
-        class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline sil-fieldSet"
+        className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline sil-fieldSet"
       >
-        <legend class="css-14lo706">
+        <legend className="css-14lo706">
           <span>Duration</span>
         </legend>
       </fieldset>
