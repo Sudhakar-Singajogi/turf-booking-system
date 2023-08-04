@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import "./App.css";
 import "./policy.css";
 
@@ -16,11 +16,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { clearErrors } from "./Redux/Slices/BookingFormValidatorReducer";
 import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import useGetExactToTime from "./CustomHooks/useGetExactToTime";
 
 function CartPaymentPolicy() {
   const { data: slot } = useSelector((state) => state.booking);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { getExactToTime } = useGetExactToTime();
 
   if (
     slot.game !== "" ||
@@ -35,10 +38,52 @@ function CartPaymentPolicy() {
   let hours = slot.hrs;
   let duration = "";
   if (slot.hrs > 0) {
-    let startTime = slot.timeslot.split(":");
-    let endTime = parseInt(startTime[0]) + parseInt(hours);
-    duration = endTime + ":" + startTime[1];
+    duration = getExactToTime(slot.timeslot, slot.hrs * 60);
   }
+
+  const disptimings = `${slot.timeslot} ${slot.hrs > 0 ? duration : "" }`
+
+  const game_venue_details = [
+    [
+      {
+        value: slot.game,
+        icon_comp: <SportsEsportsIcon style={{ color: "orange" }} />,
+        css_class:""
+      },
+      {
+        value: slot.bookeddate,
+        icon_comp: <EventAvailableIcon style={{ color: "orange" }} />,
+        css_class:"flex-col-right"
+      },
+      {
+        value: disptimings,
+        extraparam: "",
+        icon_comp: <AccessTimeIcon style={{ color: "orange" }} />,
+        css_class:"txt-lower-case"
+      },
+    ],
+    [
+      {
+        value: slot.turf,
+        icon_comp: <GrassIcon style={{ color: "green" }} />,
+        css_class:"flex-col-right"
+      },
+      {
+        value: 3000,
+        icon_comp: <CurrencyRupeeIcon style={{ color: "orange" }} />,
+        css_class:""
+      },
+      {
+        value: slot.hrs > 0
+          ? slot.hrs > 1
+            ? `${slot.hrs} hrs`
+            : `${slot.hrs} hr`
+          : "Nill",
+        icon_comp: <TimelapseIcon style={{ color: "orange" }} />,
+        css_class:"flex-col-right"
+      },
+    ],
+  ];
 
   return (
     <>
@@ -78,91 +123,26 @@ function CartPaymentPolicy() {
                   className="trash-icon"
                 />
               </div>
-              <div className="cart-item m-y-10">
-                <div className="flex flex-row  justify-start col-span-5 space-x-1 w100">
-                  <div className="flex-col">
-                    <div className="w- text-xs font-medium md:text-sm md:mt-0.5 pointer ">
-                      <SportsEsportsIcon style={{ color: "orange" }} />
-                      <span className="cart-label">
-                        {slot.game !== "" ? slot.game.toUpperCase() : "Nill"}
-                      </span>
+              {game_venue_details.map(
+                (items) => (
+                  <div className="cart-item m-y-10">
+                    <div className="flex flex-row  justify-start col-span-5 space-x-1 w100">
+                      {items.map((item) => (
+                        <div className="flex-col">
+                          <div className="w- text-xs font-medium md:text-sm md:mt-0.5 pointer ">
+                            {item.icon_comp}
+                            <span className={`cart-label  ${ item.css_class} `}>
+                              {item.value !== ""
+                                ? item.value 
+                                : "Nill"}
+                            </span>
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
-                  
-
-                  <div className="flex-col flex-col-right">
-                    <div className="w- text-xs font-medium md:text-sm md:mt-0.5 pointer">
-                    <EventAvailableIcon style={{ color: "orange" }} />{" "}
-                      <span className="cart-label">
-                        {slot.bookeddate !== "" ? slot.bookeddate : "Nill"}
-                      </span>
-                    </div>
-                  </div>
-
-
-
-                  <div className="flex-col flex-col-right">
-                    <div className="each-booking-item pointer">
-                      <div className="flex-col-right">
-                      <TimelapseIcon style={{ color: "orange" }} /> {" "}
-                      <span className="cart-label">
-                        {slot.hrs > 0
-                          ? slot.hrs > 1
-                            ? `${slot.hrs} hrs`
-                            : `${slot.hrs} hr`
-                          : "Nill"}
-                      </span>
-                      </div>
-                    </div>
-                  </div>
-                  
-                </div>
-              </div>
-
-              <div className="cart-item m-y-10">
-                <div className="flex flex-row  justify-start col-span-5 space-x-1 w100">
-                  <div className="flex-col">
-                    <div className="w- text-xs font-medium md:text-sm md:mt-0.5 pointer ">
-                    <GrassIcon
-                          style={{ color: "green" }}
-                          className="flex-col-items"
-                        />
-                        <span className="cart-label ">
-                          {slot.turf !== "" ? slot.turf.toUpperCase() : "Nill"}
-                        </span>
-                    </div>
-                  </div>
-                  
-
-                  <div className="flex-col flex-col-right">
-                    <div className="w- text-xs font-medium md:text-sm md:mt-0.5 pointer">
-                    <CurrencyRupeeIcon style={{ color: "orange", marginLeft:'-25px' }} />{" "}
-                      <span className="cart-label" style={{marginLeft:'0px'}}>
-                        
-                        {slot.price !== "" ? "  3000" : "Nill"}
-                      </span>
-                    </div>
-                  </div>
-
-
-
-                  <div className="flex-col flex-col-right">
-                    <div className="each-booking-item pointer">
-                      <div className="flex-col-right">
-                      {/* <TimelapseIcon style={{ color: "orange" }} /> {" "}
-                      <span className="cart-label">
-                        {slot.hrs > 0
-                          ? slot.hrs > 1
-                            ? `${slot.hrs} hrs`
-                            : `${slot.hrs} hr`
-                          : "Nill"}
-                      </span> */}
-                      </div>
-                    </div>
-                  </div>
-                  
-                </div>
-              </div>
+                ) 
+              )} 
               
             </div>
             <hr />

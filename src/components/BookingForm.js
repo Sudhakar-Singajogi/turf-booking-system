@@ -125,19 +125,22 @@ const BookingForm = ({ children }) => {
 
   return (
     <>
-      <div className="booking-form">
-        <div className="flex flex-row items-center justify-start gap-2 mx-3 w100">
-          <div style={{ width: "95%" }}>
+      <div className="booking-form-container "> 
+        <div class="div-a ">
+        <div className="form-container" >
             <div>
-              <h1 className="font-bold text-md text-xl text-typography">
-                Book your time slot
-              </h1>
-              <CleaningServicesIcon className="clear-form-fields" onClick={() => {
+              <h1 className="font-bold text-md text-xl text-typography pos-rel">
+                Box Cricket Information
+                <CleaningServicesIcon  className="clear-form-fields" onClick={() => {
                     dispatch(clearErrors());
                   }} />
+              </h1>
+              <h6 style={{fontWeight:'bold', color:'#999'}}>Location</h6>
+
+              
             </div>
             {/* Your form fields go here */}
-            <div className="form-fields">
+            <div className="form-fields mar-tp30">
               <SelectGame
                 options={[
                   {
@@ -244,12 +247,12 @@ const BookingForm = ({ children }) => {
                   options={[
                     {
                       label: "Turf 1",
-                      value: "turf1",
+                      value: "turf1 name goes here",
                       icon: <GrassOutlinedIcon style={{ color: "green" }} />,
                     },
                     {
                       label: "Turf 2",
-                      value: "turf2",
+                      value: "turf2 name goes here",
                       icon: <GrassOutlinedIcon style={{ color: "green" }} />,
                     },
                   ]}
@@ -266,8 +269,17 @@ const BookingForm = ({ children }) => {
             </div>
           </div>
         </div>
+        <div class="div-b">
+        <Cart />
+        </div>
+        <div class="show-mble">
+        <Cart />
+        </div>
+        
+      {/* </div> */}
+         
       </div>
-      <Cart />
+      
     </>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import "./Cart.css";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EventAvailableIcon from "@mui/icons-material/EventAvailable";
@@ -17,16 +17,19 @@ import { Link, useNavigate } from "react-router-dom";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
+import useGetExactToTime from "../CustomHooks/useGetExactToTime";
+
 const Cart = () => {
   // Your cart items state and handlers go here
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state.booking);
   const isAvailable = useSelector((state) => state.validateForm.isAvailable);
   const errors = useSelector((state) => state.validateForm.errors);
+  const { getExactToTime } = useGetExactToTime();  
 
   const slot = data;
   let showCart = false;
-  const navigate = useNavigate();
+  const navigate = useNavigate(); 
 
   if (
     slot.game !== "" ||
@@ -38,12 +41,9 @@ const Cart = () => {
     showCart = true;
   }
 
-  let hours = slot.hrs;
   let duration = "";
   if (slot.hrs > 0) {
-    let startTime = slot.timeslot.split(":");
-    let endTime = parseInt(startTime[0]) + parseInt(hours);
-    duration = endTime + ":" + startTime[1];
+    duration = getExactToTime(slot.timeslot, slot.hrs*60);
   }
 
   let hasError = false;
@@ -132,7 +132,7 @@ const Cart = () => {
 
   return (
     <>
-      <div className="dnt-show-mble">
+      <div className="show-mble">
         <div class="footer">
           <div class="footer-icon">
             <ProductionQuantityLimitsIcon style={{ fontSize: "2rem" }} />
@@ -163,7 +163,7 @@ const Cart = () => {
         </div>
       </div>
 
-      <div className="cart mx-10 only-for-desktop" style={{ width: "40%" }}>
+      <div className="cart mx-10 dnt-show-mble">
         <div className="flex flex-col items-center justify-center space-y-10 text-typography">
           {!showCart ? (
             <div className="cart-container">
@@ -197,9 +197,7 @@ const Cart = () => {
                         <div className="w- text-xs font-medium md:text-sm md:mt-0.5 pointer">
                           <SportsEsportsIcon style={{ color: "orange" }} />
                           <span className="cart-label">
-                            {slot.game !== ""
-                              ? slot.game.toUpperCase()
-                              : "Nill"}
+                            {slot.game !== "" ? slot.game : "Nill"}
                           </span>
                         </div>
                       </div>
@@ -211,9 +209,7 @@ const Cart = () => {
                               className="flex-col-items"
                             />
                             <span className="cart-label ">
-                              {slot.turf !== ""
-                                ? slot.turf.toUpperCase()
-                                : "Nill"}
+                              {slot.turf !== "" ? slot.turf : "Nill"}
                             </span>
                           </div>
                         </div>
@@ -238,11 +234,11 @@ const Cart = () => {
                               style={{ color: "orange" }}
                               className="flex-col-items"
                             />
-                            <p className="cart-label ">
+                            <span className="cart-label txt-lower-case">
                               {" "}
                               {slot.timeslot}{" "}
                               {slot.hrs > 0 ? ` To ${duration}` : " To Nill"}{" "}
-                            </p>
+                            </span>
                           </div>
                         </div>
                       </div>
@@ -255,7 +251,12 @@ const Cart = () => {
                         <div className="w- text-xs font-medium md:text-sm md:mt-0.5 pointer">
                           <TimelapseIcon style={{ color: "orange" }} />
                           <span className="cart-label">
-                            {slot.hrs > 0 ? `${slot.hrs} hrs` : "Nill"}
+                             
+                            {slot.hrs > 0
+                          ? slot.hrs > 1
+                            ? `${slot.hrs} hrs`
+                            : `${slot.hrs} hr`
+                          : "Nill"}
                           </span>
                         </div>
                       </div>
