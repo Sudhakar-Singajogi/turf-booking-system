@@ -3,7 +3,7 @@ import './Footer.css';
 
 const Footer = () => {
   return (
-    <footer>
+    <footer className="only-for-desktop">
       {/* Add your dummy social media links here */}
       {/* Example: */}
       <a href="https://www.facebook.com">Facebook</a>

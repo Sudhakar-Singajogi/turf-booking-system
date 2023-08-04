@@ -160,8 +160,8 @@ button {
 }
 
 .SILFieldSetComp.MuiFormControl-root {
-   /* margin-bottom: 20px !important; */
-    }
+  /* margin-bottom: 20px !important; */
+}
 
 .SILFieldSetComp .SILFieldSetCompLabel {
   color: rgba(0, 0, 0, 0.6) !important;
@@ -219,7 +219,7 @@ button {
 .sil-svg-end-adornment {
   position: absolute !important;
   top: 5px;
-  right: 15px;
+  right: 2px;
   -webkit-user-select: none !important;
   -moz-user-select: none !important;
   -ms-user-select: none !important;
@@ -333,7 +333,6 @@ button {
   list-style: none;
   padding-left: 20px;
   margin: 0;
-
 }
 
 /* Custom bullet styles using ::before pseudo-element */
@@ -347,18 +346,254 @@ button {
 }
 
 .top-nav-bar {
-  background-color: #50A4FF;
+  background-color: #50a4ff;
 }
 .top-nav .nav-links li a {
-  color:#fff
-  
+  color: #fff;
 }
 
 .errmsg {
   color: red;
 }
 
+.flex-row {
+  flex-direction: row;
+}
 
+.flex-col {
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.md\:items-start {
+  align-items: flex-start;
+}
+
+.justify-start {
+  justify-content: flex-start;
+}
+
+.space-x-1 > * + * {
+  margin-left: 0.25rem;
+}
+
+.space-y-1 > * + * {
+  margin-top: 0.25rem;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.text-xs {
+  font-size: 0.75rem;
+}
+
+.text-sm {
+  font-size: 0.875rem;
+}
+
+.md\:mt-0\.5 {
+  margin-top: 0.125rem;
+}
+
+.flex-col {
+  flex: 1 1 !important;
+  text-transform: capitalize !important;
+}
+
+.flex-col .cart-label {
+  font-size: 15px;
+  /* width: 50% !important; */
+  padding-top: 10px !important;
+}
+
+.flex-col-items {
+  display: flex;
+}
+
+.book-icon {
+  font-size: 10rem !important;
+  color: rgb(205 137 8 / 65%);
+  margin-top: 6rem;
+}
+
+.each-booking-item {
+  align-items: center;
+}
+.flex-col {
+  flex-direction: column !important;
+  width: 100% !important;
+  text-transform: capitalize !important;
+}
+
+.flex-col-items {
+  width: 100%;
+}
+
+.flex-col-right {
+  align-items: flex-start;
+  text-align: right !important;
+}
+
+.cart-container .trash-icon {
+  font-size: 30px;
+}
+
+/* Styles for the sticky footer */
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: orange; /* Customize background color if needed */
+  padding: 10px;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for separation */
+}
+
+.footer-icon svg {
+  font-size: 20px;
+}
+
+.footer-icon svg.proceed-icon {
+  font-size: 35px !important;
+}
+
+.footer-middle {
+  flex: 1;
+  text-align: center;
+}
+
+.clear-form-fields {
+  position: absolute;
+  top: 100px;
+  right: 25px;
+}
+
+/* General styles */
+.containers {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.containers .game-venue-details,
+.containers .div-c {
+  margin: 5px; 
+  padding: 8px; 
+  flex: 1 1 100%; /* All divs take up full width by default */ 
+}
+
+.containers .div-b {
+  margin: 5px; 
+  padding: 8px; 
+}
+
+.m-y-10 {
+  margin-top: 10px;
+}
+
+.pricing-details, .game-venue-details {
+  border:2px solid #eee;
+  border-radius: 5px;
+}
+
+.fancy-bullets span {
+  font-size: 12px;
+}
+
+/* Styles for Div A and Div B to be side by side */
+.containers > .div-a,
+.div-b {
+  flex-basis: calc(
+    50% - 16px
+  ); 
+}
+
+
+.game-venue-details .flex-col-right {
+  text-align: center !important;
+}
+
+.text-left {
+text-align: left !important;
+}
+
+/* Media query for mobile devices */
+@media (max-width: 767px) {
+  /* .containers {
+    flex-direction: column;  
+  } */
+
+  .div-a,
+  .div-b {
+    flex-basis: 100%; /* All divs take up full width on mobile */
+  }
+}
+
+/* Media Query for Tablets and Desktops */
+
+@media (max-width: 530px) {
+  .only-for-desktop {
+    display: none !important;
+  }
+
+  .pricing-details {
+    border:none !important;
+    border-radius: 5px;
+  }
+
+  .booking-form {
+    width: 100% !important;
+  }
+  .flex-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .text-xl {
+    font-size: 1.5rem;
+  }
+  .container,
+  .container-fluid,
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container-xl,
+  .container-xxl {
+    padding: 0px !important;
+    height: auto !important;
+    margin-top: 20px !important;
+  }
+
+  .top-nav-bar {
+    padding: 0px !important;
+  }
+
+  .logo svg {
+    font-size: 40px !important;
+    color: #fff !important;
+    width: auto !important;
+  }
+
+  .sil-svg-end-adornment {
+    top: 10px !important;
+    right: 1px !important;
+  }
+
+  .css-ittuaa-MuiInputAdornment-root {
+    position: absolute;
+    right: 0px !important;
+  }
+}
 
 /* Use a media query to hide the div for screen sizes smaller than a certain breakpoint */
 @media (max-width: 991px) {
@@ -375,5 +610,35 @@ button {
 @media screen and (max-width: 600px) {
   .column {
     flex-basis: 100%;
+  }
+}
+
+/** Media queries for cart based on screen size **/
+@media screen and (max-width: 600px) {
+  .cart-outer-box {
+    width: 100%;
+  }
+  .cart-inner-box {
+    width: 100%;
+  }
+}
+
+/* Media Query for Tablets and Desktops */
+@media (min-width: 530px) {
+  .dnt-show-mble,
+  .clear-form-fields {
+    display: none !important;
+  }
+}
+
+/* Media Query for Mobile Screens (up to 767px) */
+@media (max-width: 767px) {
+  .flex-row {
+    flex-direction: column;
+  }
+
+  .space-x-1 > * + * {
+    margin-left: 0;
+    margin-top: 0.25rem;
   }
 }

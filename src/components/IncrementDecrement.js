@@ -53,7 +53,7 @@ const DurationComp = ({ onDecrement, onIncrement }) => {
           className="dec"
           onClick={(e) => { setHours('dec') }}
         />
-        <span>{hours} {hours <= 1 ? "Hr" :"Hrs" }</span>
+        <span className="booked-hours">{hours} {hours <= 1 ? "Hr" :"Hrs" }</span> 
         <AddCircleIcon
         style={{color:"#003f84e0"}}
           className="inc"

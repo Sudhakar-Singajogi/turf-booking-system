@@ -3,7 +3,7 @@
     /* Add your cart container styles here */
     width: 100%;
     max-width: 600px;
-    border: 1px solid #ccc;
+    border-left: 2px solid #ebebeb;
   border-radius: 4px;
     /* Add any other styles for your cart container */
   }
@@ -67,8 +67,7 @@ i {
 /* Footer Section */
 .cart-footer {
   padding: 10px;
-  display: flex;
-  justify-content: space-between;
+  
 }
 
 .proceed-btn {
@@ -89,10 +88,6 @@ i {
   width:100%
 }
 
-.cart-label {
-  padding-top: 20px;
-  margin-left: 5px;
-}
 .pointer {
   cursor:pointer; 
   
@@ -105,3 +100,135 @@ i {
 .btn-block {
   width: 100%;
 }
+
+
+
+
+/* Media Query for Tablets and Desktops */
+/*
+@media (max-width: 530px) {
+  .dnt-show-mble {
+    display: none !important;
+  }
+
+  .only-for-mobile .book-icon {
+    font-size: 5rem !important;
+    color: rgb(205 137 8 / 65%);
+    margin-top: 2rem;
+  }
+
+  .only-for-mobile .book-empty-txt {
+    font-size:1rem !important;
+    text-align: center !important;
+    margin-left: 5px;
+  }
+
+  .only-for-mobile .book-slot-txt {
+    font-size:0.8rem !important;
+    text-align: center !important;
+    margin-left: 5px;
+  }
+
+  .only-for-mobile .flex-col {
+    flex-direction: row !important;
+    width: 100% !important;
+    border-bottom: 1px solid #eee;
+    text-transform: capitalize !important;
+  }
+
+  .only-for-mobile .flex-col-items {
+    width: 100%;
+  }
+  .only-for-mobile .cart-item .flex-row {
+    flex-direction: column !important;
+  }
+
+  .only-for-mobile .cart-item .flex-row .flex-col-items svg {
+    width: 40% !important;
+  } 
+
+  .only-for-mobile .flex-col svg {
+    font-size: 30px;
+  }
+
+  .only-for-mobile .flex-col .cart-label {
+    font-size: 15px;
+  }
+  
+  .only-for-mobile .cart-footer {
+    display: inherit !important;
+    padding: 0px !important;
+    padding-left: 10px !important;
+    padding-bottom: 15px !important;
+
+    margin-top: 0px !important;
+  } 
+
+  .only-for-mobile .proceed-btn {
+    padding: 10px !important;
+  }
+
+  .only-for-mobile .proceed-btn label {
+    font-size: 12px;
+  }
+
+  .only-for-mobile .md\:space-x-1 > * + * {
+    margin-left: 0.25rem;
+    margin-top: 0;
+  }
+
+ .only-for-mobile .flex-col .cart-label {
+    margin-left: 0px !important;
+  }
+
+  .only-for-mobile .text-xl {
+    font-size: 1.2rem;
+    line-height: 1.9rem; 
+    margin: 0px !important;
+    margin-bottom: 20px !important;
+    border-bottom: 1px solid #ccc;
+    align-items: baseline; 
+  }
+  .only-for-mobile .flex-col .cart-label {
+    padding-top: 5px !important;
+  }
+  .only-for-mobile .cart-title {
+    font-size: 1.2rem !important;
+  }
+  .only-for-mobile .cart-header .trash-icon {
+    font-size: 25px !important;
+  }
+
+  .only-for-mobile .cart-item {
+    margin: 0px !important;
+    padding: 4px !important;
+  }
+
+  .only-for-mobile .cart-item:last-child {
+    margin: 0px !important;
+    padding: 0px !important;
+  }
+
+  .only-for-mobile .sil-field-set-comp {
+    width: 65% !important;
+    top: 50% !important;
+    left: 40% !important;
+  }
+
+  .only-for-mobile .sil-svg-end-adornment {
+    top: 10px !important;
+    right: 0px !important;
+  }
+
+  .css-ittuaa-MuiInputAdornment-root {
+    position: absolute;
+    right: 2px !important;
+  }
+
+  .booked-hours {
+    margin:0px !important;
+  }
+  
+}
+
+*/

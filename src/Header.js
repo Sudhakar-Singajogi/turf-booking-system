@@ -1,20 +1,23 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import DiamondIcon from '@mui/icons-material/Diamond';
 
 function Header() {
   return (
     <header className="top-nav-bar">
       <nav className="top-nav">
         <div className="logo">
-          <Link to="/"><img src="path/to/logo.png" alt="Logo" /></Link>
+          <Link to="/"> 
+          <DiamondIcon/ >
+          </Link>
         </div>
         <ul className="nav-links">
-          <li>
+          {/* <li>
             <a href="#">Sign Up</a>
-          </li>
-          <li>
+          </li> */}
+          {/* <li>
             <a href="#">Sign In</a>
-          </li>
+          </li> */}
           <li>
             <a href="#">Contact Us</a>
           </li>

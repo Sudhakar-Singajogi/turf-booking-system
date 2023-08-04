@@ -24,20 +24,20 @@ import Cart from "./Cart";
 import SelectGame from "./CustomComp/SelectGame";
 import SelectTurf from "./CustomComp/SelectTurf";
 import { validateBookingForm } from "../Redux/Slices/BookingFormValidatorReducer";
+import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
+import { clearErrors } from "../Redux/Slices/BookingFormValidatorReducer";
 
 const BookingForm = ({ children }) => {
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state.booking);
-  const errors = useSelector((state) => state.validateForm.errors); 
+  const errors = useSelector((state) => state.validateForm.errors);
 
   const calenderRef = useRef();
   const TimeRef = useRef();
   const datePickerRef = useRef(null);
   const today = new Date(); // Get today's date
 
-  useEffect(() => {
-
-  }, [data]);
+  useEffect(() => {}, [data]);
 
   const CustomDatePickerInput = React.forwardRef((props, ref) => {
     return (
@@ -78,8 +78,8 @@ const BookingForm = ({ children }) => {
     dispatch(changeGame(value));
     let ers = {
       ...errors,
-      game_error:''
-    }
+      game_error: "",
+    };
     dispatch(validateBookingForm(ers));
   };
 
@@ -88,8 +88,8 @@ const BookingForm = ({ children }) => {
     dispatch(changeDate(convertDateDYM(date)));
     let ers = {
       ...errors,
-      bookeddate_error:''
-    }
+      bookeddate_error: "",
+    };
     dispatch(validateBookingForm(ers));
   };
 
@@ -103,18 +103,18 @@ const BookingForm = ({ children }) => {
     );
     let ers = {
       ...errors,
-      timeslot_error:''
-    }
+      timeslot_error: "",
+    };
     dispatch(validateBookingForm(ers));
   };
 
   const handleturfChange = (value) => {
     dispatch(changeTurf(value));
-    console.log({...errors})
+    console.log({ ...errors });
     let ers = {
       ...errors,
-      turf_error:''
-    }
+      turf_error: "",
+    };
     dispatch(validateBookingForm(ers));
   };
 
@@ -122,17 +122,19 @@ const BookingForm = ({ children }) => {
     const hours = time.getHours();
     return hours < 12 ? "time-am" : "time-pm";
   };
-  
 
   return (
     <>
       <div className="booking-form">
-        <div className="flex flex-row items-center justify-start gap-2 mx-3 w100" >
-          <div style={{width:'95%'}}>
+        <div className="flex flex-row items-center justify-start gap-2 mx-3 w100">
+          <div style={{ width: "95%" }}>
             <div>
               <h1 className="font-bold text-md text-xl text-typography">
                 Book your time slot
               </h1>
+              <CleaningServicesIcon className="clear-form-fields" onClick={() => {
+                    dispatch(clearErrors());
+                  }} />
             </div>
             {/* Your form fields go here */}
             <div className="form-fields">
@@ -153,7 +155,11 @@ const BookingForm = ({ children }) => {
                 onChange={(e) => handleGameChange(e)}
                 defValue={data.game}
               />
-              { errors.game_error !== '' ? <p className="errmsg">{errors.game_error}</p> : <p>&nbsp;</p>  }
+              {errors.game_error !== "" ? (
+                <p className="errmsg">{errors.game_error}</p>
+              ) : (
+                <p>&nbsp;</p>
+              )}
 
               <div>
                 <TextField
@@ -182,7 +188,11 @@ const BookingForm = ({ children }) => {
                     ),
                   }}
                 />
-                { errors.bookeddate_error !== '' ? <p className="errmsg ">{errors.bookeddate_error}</p> : <p>&nbsp;</p> }
+                {errors.bookeddate_error !== "" ? (
+                  <p className="errmsg ">{errors.bookeddate_error}</p>
+                ) : (
+                  <p>&nbsp;</p>
+                )}
 
                 <TextField
                   className="w100"
@@ -213,14 +223,21 @@ const BookingForm = ({ children }) => {
                     ),
                   }}
                 />
-                { errors.timeslot_error !== '' ? <p className="errmsg">{errors.timeslot_error}</p>  : <p>&nbsp;</p>  }
+                {errors.timeslot_error !== "" ? (
+                  <p className="errmsg">{errors.timeslot_error}</p>
+                ) : (
+                  <p>&nbsp;</p>
+                )}
 
                 <IncrementDecrement
                   onDecrement={() => {}}
                   onIncrement={() => {}}
-                /> 
-                { errors.hrs_error !== 0 ? <p className="errmsg">{errors.hrs_error}</p>  :<p style={{marginBottom:'30px'}}> </p> }
-                
+                />
+                {errors.hrs_error !== 0 ? (
+                  <p className="errmsg">{errors.hrs_error}</p>
+                ) : (
+                  <p style={{ marginBottom: "30px" }}> </p>
+                )}
 
                 <SelectTurf
                   wid80={"w100"}
@@ -240,9 +257,13 @@ const BookingForm = ({ children }) => {
                   onChange={(e) => handleturfChange(e)}
                   defValue={""}
                 />
-                { errors.turf_error !== '' ? <p className="errmsg ">{errors.turf_error}</p>  : <p>&nbsp;</p>  }
+                {errors.turf_error !== "" ? (
+                  <p className="errmsg ">{errors.turf_error}</p>
+                ) : (
+                  <p>&nbsp;</p>
+                )}
               </div>
-            </div> 
+            </div>
           </div>
         </div>
       </div>

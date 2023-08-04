@@ -13,7 +13,7 @@ function MyApp() {
   return (
     <div className="App">
       <BrowserRouter>
-      <Header />
+      <Header  />
       {/* Header Navigation */}
 
       {/* Main Content */}
@@ -23,8 +23,8 @@ function MyApp() {
               {/* <SlideShow /> */}
             <div className="booking-cart-wrapper column right-column">
             <Routes>
-              <Route path="/" exact element={<BookingForm /> } />
-              <Route path="/confirm-slot" exact element={<CartPaymenyPolicy /> } />
+              <Route path="/" exact element={<CartPaymenyPolicy /> } />
+              {/* <Route path="/confirm-slot" exact element={<CartPaymenyPolicy /> } /> */}
               
               </Routes>
               
