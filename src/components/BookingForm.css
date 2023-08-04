@@ -29,12 +29,12 @@
   }
 
   .form-fields .MuiBox-root {
-    padding-bottom: 15px;
+    /* padding-bottom: 15px; */
   }
 
   .form-fields .MuiTextField-root 
   {
-    padding-bottom: 15px !important;
+    /* padding-bottom: 15px !important; */
   }
 
   .form-fields label {

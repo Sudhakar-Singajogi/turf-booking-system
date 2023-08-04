@@ -1,11 +1,12 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function Header() {
   return (
     <header className="top-nav-bar">
       <nav className="top-nav">
         <div className="logo">
-          <img src="path/to/logo.png" alt="Logo" />
+          <Link to="/"><img src="path/to/logo.png" alt="Logo" /></Link>
         </div>
         <ul className="nav-links">
           <li>

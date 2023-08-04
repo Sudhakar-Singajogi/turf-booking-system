@@ -3,7 +3,7 @@ import React from "react";
 function SILFieldSetComp({insideComp, endAdornment}) {
   
   return (
-    <div className="SILFieldSetComp  MuiFormControl-root MuiTextField-root w100 css-1u3bzj6-MuiFormControl-root-MuiTextField-root">
+    <div className="SILFieldSetComp  MuiFormControl-root MuiTextField-root w100 css-1u3bzj6-MuiFormControl-root-MuiTextField-root" style={{paddingBottom:'35px'}}>
       <label className=" SILFieldSetCompLabel MuiFormControl-root MuiTextField-root w100 css-1u3bzj6-MuiFormControl-root-MuiTextField-root">
         Duration
       </label>

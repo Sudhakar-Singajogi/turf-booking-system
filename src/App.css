@@ -160,8 +160,8 @@ button {
 }
 
 .SILFieldSetComp.MuiFormControl-root {
-  margin-bottom: 20px !important;
-}
+   /* margin-bottom: 20px !important; */
+    }
 
 .SILFieldSetComp .SILFieldSetCompLabel {
   color: rgba(0, 0, 0, 0.6) !important;
@@ -352,6 +352,10 @@ button {
 .top-nav .nav-links li a {
   color:#fff
   
+}
+
+.errmsg {
+  color: red;
 }
 
 

@@ -7,10 +7,12 @@ import TimelapseIcon from "@mui/icons-material/Timelapse";
 import SILFieldSetComp from "./CustomComp/SILFieldSetComp";
 import { changeHrs } from "../Redux/Slices/BokingSliceReducer";
 import { useDispatch, useSelector  } from "react-redux";
+import { validateBookingForm } from "../Redux/Slices/BookingFormValidatorReducer";
 
 const DurationComp = ({ onDecrement, onIncrement }) => {
   const dispatch = useDispatch();
   const {data} = useSelector(state=>state.booking)
+  const errors = useSelector((state) => state.validateForm.errors); 
   const hours = data.hrs;
 
   // console.log(onIncrement)
@@ -21,11 +23,22 @@ const DurationComp = ({ onDecrement, onIncrement }) => {
     if(type === 'inc') { 
       setHrs((prevHrs) => prevHrs + 1);
       dispatch(changeHrs(hrs+1))
+      let ers = {
+        ...errors,
+        hrs_error:''
+      }
+      dispatch(validateBookingForm(ers));
+
 
     } else {
       if(hrs > 0) {
         setHrs((prevHrs) => prevHrs - 1);
         dispatch(changeHrs(hrs-1))
+        let ers = {
+          ...errors,
+          hrs_error:''
+        }
+        dispatch(validateBookingForm(ers));
       }
     }
 
@@ -66,8 +79,7 @@ const IncrementDecrement = ({ onDecrement, onIncrement }) => {
     }
   }; 
 
-  return (
-    <form>
+  return ( 
       <SILFieldSetComp
         insideComp={
           <DurationComp 
@@ -76,8 +88,7 @@ const IncrementDecrement = ({ onDecrement, onIncrement }) => {
           />
         }
         endAdornment={<TimelapseIcon />}
-      />
-    </form>
+      /> 
   );
 };
 
