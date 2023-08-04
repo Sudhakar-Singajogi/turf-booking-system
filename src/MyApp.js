@@ -5,8 +5,8 @@ import SlideShow from "./components/SlideShow";
 import BookingForm from "./components/BookingForm";
 import Cart from "./components/Cart";
 import Footer from "./components/Footer";
-import Header from "./Header";
-import CartPaymenyPolicy from "./CartPaymenyPolicy";
+import Header from "./Header"; 
+import CartPaymentPolicy from "./CartPaymentPolicy";
 
 
 function MyApp() {
@@ -23,8 +23,8 @@ function MyApp() {
               {/* <SlideShow /> */}
             <div className="booking-cart-wrapper column right-column">
             <Routes>
-              <Route path="/" exact element={<CartPaymenyPolicy /> } />
-              {/* <Route path="/confirm-slot" exact element={<CartPaymenyPolicy /> } /> */}
+              <Route path="/" exact element={<BookingForm /> } />
+              <Route path="/confirm-slot" exact element={<CartPaymentPolicy /> } />
               
               </Routes>
               

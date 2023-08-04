@@ -486,22 +486,23 @@ button {
 
 .containers .game-venue-details,
 .containers .div-c {
-  margin: 5px; 
-  padding: 8px; 
-  flex: 1 1 100%; /* All divs take up full width by default */ 
+  margin: 5px;
+  padding: 8px;
+  flex: 1 1 100%; /* All divs take up full width by default */
 }
 
 .containers .div-b {
-  margin: 5px; 
-  padding: 8px; 
+  margin: 5px;
+  padding: 8px;
 }
 
 .m-y-10 {
   margin-top: 10px;
 }
 
-.pricing-details, .game-venue-details {
-  border:2px solid #eee;
+.pricing-details,
+.game-venue-details {
+  border: 2px solid #eee;
   border-radius: 5px;
 }
 
@@ -512,18 +513,32 @@ button {
 /* Styles for Div A and Div B to be side by side */
 .containers > .div-a,
 .div-b {
-  flex-basis: calc(
-    50% - 16px
-  ); 
+  flex-basis: calc(50% - 16px);
 }
-
 
 .game-venue-details .flex-col-right {
   text-align: center !important;
 }
 
 .text-left {
-text-align: left !important;
+  text-align: left !important;
+}
+
+.policy-bullet-points {
+  font-size: 13px !important;
+}
+
+.price-section {
+  display: flex !important;
+  width: 100% !important;
+  justify-content: space-between !important;
+}
+
+.apply-coupon-btn {
+  position:absolute;
+  top:33px;
+  right:0px !important;
+  z-index:999999999999;
 }
 
 /* Media query for mobile devices */
@@ -532,9 +547,57 @@ text-align: left !important;
     flex-direction: column;  
   } */
 
+  .game-venue-details,
+  .pricing-details {
+    border: none;
+  }
+
+  .containers {
+    border: 2px solid #eee;
+    border-radius: 5px !important;
+  }
+
+  .containers .game-venue-details,
+  .containers .div-c {
+    padding: 0px;
+  }
+  .containers .div-b {
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+  }
+
   .div-a,
   .div-b {
-    flex-basis: 100%; /* All divs take up full width on mobile */
+    flex-basis: 100%;
+  }
+  .dnt-show-at-765 {
+    display: none;
+  }
+  .policy-bullet-points {
+    font-size: 13px !important;
+  }
+
+  .policy-terms {
+    margin-bottom: 50px !important;
+  }
+
+  .show-at-765 .footer {
+    margin-top: 50px !important;
+  }
+
+  .show-at-765 {
+    display: block;
+  }
+}
+
+/* Media query for mobile devices */
+@media (min-width: 768px) {
+  /* .dnt-show-at-765 {
+    display: block;
+  } */
+
+  .show-at-765 {
+    display: none;
   }
 }
 
@@ -546,7 +609,7 @@ text-align: left !important;
   }
 
   .pricing-details {
-    border:none !important;
+    border: none !important;
     border-radius: 5px;
   }
 

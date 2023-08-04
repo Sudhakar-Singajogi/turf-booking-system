@@ -17,8 +17,7 @@ export default function TextFieldWithIcon() {
         <Input
           id="input-with-icon-adornment"
           startAdornment={
-            <InputAdornment position="start">
-              <AccountCircle />
+            <InputAdornment position="start"> 
             </InputAdornment>
           }
         />

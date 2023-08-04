@@ -15,7 +15,6 @@ import {
 } from "../Redux/Slices/BookingFormValidatorReducer";
 import { Link, useNavigate } from "react-router-dom";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
-
 import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 const Cart = () => {
@@ -140,16 +139,16 @@ const Cart = () => {
           </div>
           <div class="footer-middle flex-right">
             <div class="total-hours">
-              <TimelapseIcon />:{" "}
+              {slot.hrs > 0 && <TimelapseIcon />}
               {slot.hrs > 0
                 ? slot.hrs > 1
                   ? `${slot.hrs} hrs`
                   : `${slot.hrs} hr`
-                : "Nill"}
+                : ""}
             </div>
             <div style={{ marginLeft: "20px" }}> </div>
             <div class="total-cost">
-              <CurrencyRupeeIcon /> 3000
+              {slot.hrs > 0 && <CurrencyRupeeIcon />}
             </div>
           </div>
           <div class="footer-icon">
