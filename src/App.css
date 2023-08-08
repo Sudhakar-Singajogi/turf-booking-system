@@ -106,10 +106,10 @@ button {
 }
 .text-xl {
   font-size: 1.5rem;
-  line-height: 1.75rem; 
+  line-height: 1.75rem;
   margin: 0px !important;
   margin-bottom: 10px !important;
-  color:orange
+  color: orange;
 }
 
 .my-0 {
@@ -406,7 +406,7 @@ button {
 }
 
 .flex-col .cart-label {
-  font-size: 14px; 
+  font-size: 14px;
   padding-top: 10px !important;
 }
 
@@ -465,7 +465,7 @@ button {
   font-size: 35px !important;
 }
 
-.footer-middle { 
+.footer-middle {
   display: flex;
   text-align: center;
   justify-content: space-between;
@@ -474,8 +474,8 @@ button {
 .clear-form-fields {
   position: absolute;
   top: 0px;
-  right:0px;
-  color:red;
+  right: 0px;
+  color: red;
   cursor: pointer;
 }
 
@@ -547,7 +547,6 @@ button {
   z-index: 999999999999;
 }
 
-
 .booking-form-container {
   display: flex;
   justify-content: space-between;
@@ -556,14 +555,15 @@ button {
   width: 100%;
 }
 
-.booking-form-container.div-a, .booking-form-container.div-b  {
+.booking-form-container.div-a,
+.booking-form-container.div-b {
   text-align: center; /* Center the content in each div */
   padding: 16px; /* Add padding for better visual appearance */
 }
 
 /* Styles for divA and divB */
 .booking-form-container .div-a {
-  flex-basis: 60%; 
+  flex-basis: 60%;
   border: 2px solid #ebebeb;
   margin: 10px;
   padding: 20px;
@@ -571,12 +571,11 @@ button {
 }
 
 .booking-form-container .div-b {
-  flex-basis: 40%;  
+  flex-basis: 40%;
   border: 2px solid #ebebeb;
-  margin: 10px; 
+  margin: 10px;
   border-radius: 5px;
 }
-
 
 .mar-tp30 {
   margin-top: 30px;
@@ -586,7 +585,171 @@ button {
   text-transform: lowercase !important;
 }
 
+.cardBox {
+  padding: 0px !important;
+  width: auto !important;
+}
 
+.modal-title {
+  padding: 15px;
+  /* border-bottom:1px solid #999 */
+}
+
+.assignsection-card {
+  padding: 0px !important;
+}
+
+.modal-close-btn {
+  position: absolute;
+  right: 10px;
+  top: 05px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.modal-body {
+  padding: 0px !important; 
+}
+
+/* css rules for modal popup content */
+
+/* Styles for the modal overlay */
+.modal-overlay {
+  /* position: fixed; */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* background-color: rgba(0, 0, 0, 0.6); */
+  /* display: flex;
+  align-items: center;
+  justify-content: center;  */
+  animation: fadeIn 0.3s;
+}
+
+/* Styles for the modal content */
+.modal-overlay .modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  /* text-align: center;
+  display: flex; */
+  max-width: 600px; /* Adjust the maximum width as needed */
+  flex-direction: inherit !important;
+}
+
+h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.send-otp-btn {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 10px;
+}
+
+.send-otp-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Styles for the left section with the graphical image */
+.left-section {
+  flex: 1 1;
+  padding: 5px;
+  background-color: #f5f5f5;
+}
+
+.graphic-image {
+  max-width: 100%; /* Adjust the size as needed */
+  display: block; /* Ensure the image does not create extra spacing */
+  margin: 0 auto; /* Center the image horizontally */
+}
+
+/* Styles for the right section with the form */
+.right-section {
+  flex: 1 1;
+  margin: 5px;
+  display: flex;
+  flex-direction: column;
+  margin-top:0px !important
+}
+
+.register-user .form-control{
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+}
+
+.register-user h4 {
+  font-size: 1.1rem;
+}
+.register-user input {
+  font-size: 13px;
+}
+
+
+/* .payment-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; 
+} */
+
+.payment-row {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: white;
+  border-radius: 5px;
+  margin: 10px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s;
+  cursor: pointer;
+}
+
+.payment-row:hover {
+  background-color: #dcdee0;
+  color: #000;
+}
+
+.payment-icon {
+  margin-right: 10px;
+}
+
+.payment-icon img {
+  width: 30px; /* Adjust the size as needed */
+  height: auto;
+}
+
+.payment-label {
+  font-size: 16px;
+}
+
+/* Keyframes for fadeIn animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 
 /* Media query for mobile devices */
 @media (max-width: 767px) {
@@ -610,6 +773,7 @@ button {
   }
   .containers .div-b {
     padding-top: 0px !important;
+ 
     padding-bottom: 0px !important;
   }
 
@@ -635,7 +799,7 @@ button {
   .show-at-765 {
     display: block;
   }
-  
+
   .div-b {
     display: none !important;
   }
@@ -656,43 +820,45 @@ button {
   }
   .dnt-show-mble {
     display: none;
-   }
-   .clear-form-fields {
+  }
+  .clear-form-fields {
     display: block !important;
-   }
+  }
 
-   .div-a,
+  .div-a,
   .div-b {
     flex-basis: 100%;
     display: block !important;
+  }
+  .left-section {
+    display:none !important;
   }
 }
 
 /* Media query for mobile devices */
 @media (min-width: 768px) {
   .show-at-765 {
-   display: none;
- }
- .show-mble {
-   display: none;
- }
- 
- .sil-field-set-comp {
-  width:55% !important;
- }
- .clear-form-fields {
-  display: none !important;
- }
-}
+    display: none;
+  }
+  .show-mble {
+    display: none;
+  }
 
+  .sil-field-set-comp {
+    width: 55% !important;
+  }
+  .clear-form-fields {
+    display: none !important;
+  }
+}
 
 /* Media Query for Tablets and Desktops */
 
 @media (max-width: 530px) {
   .booking-form-container .div-a {
-    flex-basis: 100% !important; 
+    flex-basis: 100% !important;
   }
-  
+
   .dnt-show-mble {
     display: none;
   }
@@ -748,13 +914,13 @@ button {
   }
 
   .sil-field-set-comp {
-    width:55% !important;
-   }
+    width: 55% !important;
+  }
 }
 
 /* Use a media query to hide the div for screen sizes smaller than a certain breakpoint */
 /* @media (max-width: 991px) { */
-  @media (min-width: 768px) and (max-width: 991px) {
+@media (min-width: 768px) and (max-width: 991px) {
   .hide-on-small-screens {
     display: none;
   }
@@ -765,7 +931,6 @@ button {
   .clear-form-fields {
     display: none !important;
   }
-  
 }
 
 /* Media queries for responsiveness */
@@ -789,9 +954,16 @@ button {
 @media (max-width: 767px) {
   .flex-row {
     flex-direction: column;
-  }  
+  }
   .space-x-1 > * + * {
     margin-left: 0;
     margin-top: 0.25rem;
   }
 }
+
+
+/** 
+rzp_test_kvq0flV7YLPMFu
+Au4ih494g0lYoWZuXhGB3nfS
+ */
+

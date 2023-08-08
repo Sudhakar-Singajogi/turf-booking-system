@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import "./App.css";
 import "./policy.css";
 
@@ -19,13 +19,15 @@ import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import useGetExactToTime from "./CustomHooks/useGetExactToTime";
 
+
+
 function CartPaymentPolicy() {
+  
   const { data: slot } = useSelector((state) => state.booking);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { getExactToTime } = useGetExactToTime();
-
-  if (
+ if (
     slot.game !== "" ||
     slot.turf !== "" ||
     slot.hrs === 0 ||
@@ -41,49 +43,57 @@ function CartPaymentPolicy() {
     duration = getExactToTime(slot.timeslot, slot.hrs * 60);
   }
 
-  const disptimings = `${slot.timeslot} ${slot.hrs > 0 ? duration : "" }`
+  const disptimings = `${slot.timeslot} ${slot.hrs > 0 ? duration : ""}`;
 
   const game_venue_details = [
     [
       {
         value: slot.game,
         icon_comp: <SportsEsportsIcon style={{ color: "orange" }} />,
-        css_class:""
+        css_class: "",
       },
       {
         value: slot.bookeddate,
         icon_comp: <EventAvailableIcon style={{ color: "orange" }} />,
-        css_class:"flex-col-right"
+        css_class: "flex-col-right",
       },
       {
         value: disptimings,
         extraparam: "",
         icon_comp: <AccessTimeIcon style={{ color: "orange" }} />,
-        css_class:"txt-lower-case"
+        css_class: "txt-lower-case",
       },
     ],
     [
       {
         value: slot.turf,
         icon_comp: <GrassIcon style={{ color: "green" }} />,
-        css_class:"flex-col-right"
+        css_class: "flex-col-right",
       },
       {
         value: 3000,
         icon_comp: <CurrencyRupeeIcon style={{ color: "orange" }} />,
-        css_class:""
+        css_class: "",
       },
       {
-        value: slot.hrs > 0
-          ? slot.hrs > 1
-            ? `${slot.hrs} hrs`
-            : `${slot.hrs} hr`
-          : "Nill",
+        value:
+          slot.hrs > 0
+            ? slot.hrs > 1
+              ? `${slot.hrs} hrs`
+              : `${slot.hrs} hr`
+            : "Nill",
         icon_comp: <TimelapseIcon style={{ color: "orange" }} />,
-        css_class:"flex-col-right"
+        css_class: "flex-col-right",
       },
     ],
   ];
+
+  const handlePaymentProcess = (e) => {
+console.log('hey')
+    // setModalOpen(true);    
+    e.preventDefault();
+
+  }
 
   return (
     <>
@@ -123,27 +133,22 @@ function CartPaymentPolicy() {
                   className="trash-icon"
                 />
               </div>
-              {game_venue_details.map(
-                (items) => (
-                  <div className="cart-item m-y-10">
-                    <div className="flex flex-row  justify-start col-span-5 space-x-1 w100">
-                      {items.map((item) => (
-                        <div className="flex-col">
-                          <div className="w- text-xs font-medium md:text-sm md:mt-0.5 pointer ">
-                            {item.icon_comp}
-                            <span className={`cart-label  ${ item.css_class} `}>
-                              {item.value !== ""
-                                ? item.value 
-                                : "Nill"}
-                            </span>
-                          </div>
+              {game_venue_details.map((items) => (
+                <div className="cart-item m-y-10">
+                  <div className="flex flex-row  justify-start col-span-5 space-x-1 w100">
+                    {items.map((item) => (
+                      <div className="flex-col">
+                        <div className="w- text-xs font-medium md:text-sm md:mt-0.5 pointer ">
+                          {item.icon_comp}
+                          <span className={`cart-label  ${item.css_class} `}>
+                            {item.value !== "" ? item.value : "Nill"}
+                          </span>
                         </div>
-                      ))}
-                    </div>
+                      </div>
+                    ))}
                   </div>
-                ) 
-              )} 
-              
+                </div>
+              ))}
             </div>
             <hr />
             <div className="dnt-show-at-765">
@@ -311,7 +316,7 @@ function CartPaymentPolicy() {
               </li>
             </ul>
             <div className="cart-footer dnt-show-at-765">
-              <button className="proceed-btn btn-block">Proceed To Pay</button>
+              <button className="proceed-btn btn-block" onClick={(e) => { handlePaymentProcess(e)}}>Proceed To Pay</button>
             </div>
           </div>
         </div>
@@ -393,7 +398,7 @@ function CartPaymentPolicy() {
           <div class="footer-icon">
             <Link
               to="/confirm-cart"
-              onClick={(e) => {}}
+              onClick={(e) => { handlePaymentProcess(e)}}
               style={{ color: "#fff" }}
             >
               <ArrowCircleRightIcon className="proceed-icon" />{" "}
@@ -401,6 +406,7 @@ function CartPaymentPolicy() {
           </div>
         </div>
       </div>
+      
     </>
   );
 }

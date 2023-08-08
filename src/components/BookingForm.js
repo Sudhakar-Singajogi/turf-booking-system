@@ -24,13 +24,39 @@ import Cart from "./Cart";
 import SelectGame from "./CustomComp/SelectGame";
 import SelectTurf from "./CustomComp/SelectTurf";
 import { validateBookingForm } from "../Redux/Slices/BookingFormValidatorReducer";
-import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
+import CleaningServicesIcon from "@mui/icons-material/CleaningServices";
 import { clearErrors } from "../Redux/Slices/BookingFormValidatorReducer";
+import MUIModal from "./MUI/MUIModal";
+import axios from "axios";
+
+function loadScript(src) {
+  return new Promise((resolve) => {
+    const script = document.createElement("script");
+    script.src = src;
+    script.onload = () => {
+      resolve(true);
+    };
+    script.onerror = () => {
+      resolve(false);
+    };
+    document.body.appendChild(script);
+  });
+}
 
 const BookingForm = ({ children }) => {
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state.booking);
   const errors = useSelector((state) => state.validateForm.errors);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [showOTP, setShowOTP] = useState(false);
+  const [showVisibilityForm, setShowVisibilityForm] = useState(false);
+  const [showPaymentPage, setShowPaymentPage] = useState(false);
+  const [orderId, setOrderId] = useState("");
+
+  const handleModalClose = () => {
+    setModalOpen(false);
+    setShowOTP(false);
+  };
 
   const calenderRef = useRef();
   const TimeRef = useRef();
@@ -123,21 +149,170 @@ const BookingForm = ({ children }) => {
     return hours < 12 ? "time-am" : "time-pm";
   };
 
+  const initiatePayment = async () => {
+    try {
+      const res = await loadScript(
+        "https://checkout.razorpay.com/v1/checkout.js"
+      );
+
+      if (!res) {
+        alert("Razorpay SDK failed to load. Are you online?");
+        return;
+      }
+      const resp = await fetch("http://127.0.0.1:8080/api/razor/create-order", {
+        method: "POST",
+      });
+      if (!resp.result === "OK") {
+        throw new Error("Failed to get response, contact admin");
+      }
+      const response = await resp.json();
+      console.log("resp data: ", response.data[0]);
+
+      const { order_id, amount } = response.data[0];
+      setOrderId(order_id);
+      console.log('amount is: ', amount)
+
+      const options = {
+        key: "rzp_test_kvq0flV7YLPMFu", // Enter the Key ID generated from the Dashboard
+        amount: amount, 
+        name: "Sonet Info Labs.",
+        description: "Test Transaction",
+        image:"",
+        order_id: order_id,
+        handler: async function (response) {
+            const data = {
+                orderCreationId: order_id,
+                razorpayPaymentId: response.razorpay_payment_id,
+                razorpayOrderId: response.razorpay_order_id,
+                razorpaySignature: response.razorpay_signature,
+            };
+
+            const result = await axios.post("http://127.0.0.1:8080/api/razor/success", data);
+
+            alert(result.data.message);
+        },
+        prefill: {
+            name: "Soumya Dey",
+            email: "SoumyaDey@example.com",
+            contact: "9999999999",
+        },
+        notes: {
+            address: "Soumya Dey Corporate Office",
+        },
+        theme: {
+            color: "#61dafb",
+        },
+    };
+
+    const paymentObject = new window.Razorpay(options);
+    paymentObject.open();
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  };
+
+  const LoginComponent = () => {
+    return (
+      <>
+        <div class="modal-overlay">
+          <div class="modal-content">
+            <div class="left-section">
+              <img
+                src="https://c7.alamy.com/comp/2F4TF5W/four-happy-kids-playing-characters-2F4TF5W.jpg"
+                alt="Graphic"
+                class="graphic-image"
+              />
+            </div>
+            <div class="right-section">
+              <form style={{ marginTop: "1rem" }}>
+                {!showOTP ? (
+                  <>
+                    <h4>Login</h4>
+                    <input type="text" placeholder="Enter mobile number" />
+                    {/* <h5 style={{ textAlign: "center", margin: "1rem" }}>Or </h5>
+                    <input type="text" placeholder="Enter email id" /> */}
+                    <button
+                      class="send-otp-btn"
+                      onClick={(e) => {
+                        setShowOTP(true);
+                        setShowVisibilityForm(true);
+                        e.preventDefault();
+                      }}
+                    >
+                      Send OTP
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <div className="register-user">
+                      <h4 style={{ marginBottom: "0.5rem" }}>
+                        Enter OTP {showVisibilityForm}
+                      </h4>
+                      <input
+                        type="text"
+                        placeholder="Enter OTP"
+                        style={{ marginBottom: "1rem" }}
+                      />
+                      {showVisibilityForm ? (
+                        <div>
+                          <h4>Register your visibility</h4>
+                          <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Enter your full name"
+                          />
+                          <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Enter email id"
+                          />
+                        </div>
+                      ) : (
+                        ""
+                      )}
+
+                      <button
+                        class="validate-otp"
+                        onClick={(e) => {
+                          setShowOTP(true);
+                          initiatePayment();
+                          e.preventDefault();
+                        }}
+                      >
+                        Submit
+                      </button>
+                    </div>
+                  </>
+                )}
+              </form>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  };
+
   return (
     <>
-      <div className="booking-form-container "> 
+      <div className="booking-form-container ">
         <div class="div-a ">
-        <div className="form-container" >
+          <div className="form-container">
             <div>
               <h1 className="font-bold text-md text-xl text-typography pos-rel">
                 Box Cricket Information
-                <CleaningServicesIcon  className="clear-form-fields" onClick={() => {
+                <CleaningServicesIcon
+                  className="clear-form-fields"
+                  onClick={() => {
                     dispatch(clearErrors());
-                  }} />
+                  }}
+                />
+                <CleaningServicesIcon
+                  onClick={() => {
+                    setModalOpen(true);
+                  }}
+                />
               </h1>
-              <h6 style={{fontWeight:'bold', color:'#999'}}>Location</h6>
-
-              
+              <h6 style={{ fontWeight: "bold", color: "#999" }}>Location</h6>
             </div>
             {/* Your form fields go here */}
             <div className="form-fields mar-tp30">
@@ -270,16 +445,25 @@ const BookingForm = ({ children }) => {
           </div>
         </div>
         <div class="div-b">
-        <Cart />
+          <Cart />
         </div>
         <div class="show-mble">
-        <Cart />
+          <Cart />
         </div>
-        
-      {/* </div> */}
-         
+
+        {/* </div> */}
       </div>
-      
+      <MUIModal
+        params={{
+          open: modalOpen,
+          handleClose: handleModalClose,
+          modalTitle: "Login",
+          component: LoginComponent,
+          width: 1000,
+          adjustTop: "55%",
+          showTitle: "yes",
+        }}
+      />
     </>
   );
 };
