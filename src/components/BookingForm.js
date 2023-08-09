@@ -6,6 +6,7 @@ import {
   changeTimeSlot,
   changeTurf,
   changeGame,
+  getTurfs,
 } from "../Redux/Slices/BokingSliceReducer";
 
 import SportsCricketIcon from "@mui/icons-material/SportsCricket";
@@ -62,8 +63,6 @@ const BookingForm = ({ children }) => {
   const TimeRef = useRef();
   const datePickerRef = useRef(null);
   const today = new Date(); // Get today's date
-
-  useEffect(() => {}, [data]);
 
   const CustomDatePickerInput = React.forwardRef((props, ref) => {
     return (
@@ -170,42 +169,45 @@ const BookingForm = ({ children }) => {
 
       const { order_id, amount } = response.data[0];
       setOrderId(order_id);
-      console.log('amount is: ', amount)
+      console.log("amount is: ", amount);
 
       const options = {
         key: "rzp_test_kvq0flV7YLPMFu", // Enter the Key ID generated from the Dashboard
-        amount: amount, 
+        amount: amount,
         name: "Sonet Info Labs.",
         description: "Test Transaction",
-        image:"",
+        image: "",
         order_id: order_id,
         handler: async function (response) {
-            const data = {
-                orderCreationId: order_id,
-                razorpayPaymentId: response.razorpay_payment_id,
-                razorpayOrderId: response.razorpay_order_id,
-                razorpaySignature: response.razorpay_signature,
-            };
+          const data = {
+            orderCreationId: order_id,
+            razorpayPaymentId: response.razorpay_payment_id,
+            razorpayOrderId: response.razorpay_order_id,
+            razorpaySignature: response.razorpay_signature,
+          };
 
-            const result = await axios.post("http://127.0.0.1:8080/api/razor/success", data);
+          const result = await axios.post(
+            "http://127.0.0.1:8080/api/razor/success",
+            data
+          );
 
-            alert(result.data.message);
+          alert(result.data.message);
         },
         prefill: {
-            name: "Soumya Dey",
-            email: "SoumyaDey@example.com",
-            contact: "9999999999",
+          name: "Soumya Dey",
+          email: "SoumyaDey@example.com",
+          contact: "9999999999",
         },
         notes: {
-            address: "Soumya Dey Corporate Office",
+          address: "Soumya Dey Corporate Office",
         },
         theme: {
-            color: "#61dafb",
+          color: "#61dafb",
         },
-    };
+      };
 
-    const paymentObject = new window.Razorpay(options);
-    paymentObject.open();
+      const paymentObject = new window.Razorpay(options);
+      paymentObject.open();
     } catch (error) {
       return Promise.reject(error);
     }
@@ -339,6 +341,19 @@ const BookingForm = ({ children }) => {
                 <p>&nbsp;</p>
               )}
 
+              <SelectTurf
+                wid80={"w100"}
+                options={[]}
+                title={"Select Turf"}
+                onChange={(e) => handleturfChange(e)}
+                defValue={""}
+              />
+              {errors.turf_error !== "" ? (
+                <p className="errmsg ">{errors.turf_error}</p>
+              ) : (
+                <p>&nbsp;</p>
+              )}
+
               <div>
                 <TextField
                   className="w100"
@@ -415,30 +430,6 @@ const BookingForm = ({ children }) => {
                   <p className="errmsg">{errors.hrs_error}</p>
                 ) : (
                   <p style={{ marginBottom: "30px" }}> </p>
-                )}
-
-                <SelectTurf
-                  wid80={"w100"}
-                  options={[
-                    {
-                      label: "Turf 1",
-                      value: "turf1 name goes here",
-                      icon: <GrassOutlinedIcon style={{ color: "green" }} />,
-                    },
-                    {
-                      label: "Turf 2",
-                      value: "turf2 name goes here",
-                      icon: <GrassOutlinedIcon style={{ color: "green" }} />,
-                    },
-                  ]}
-                  title={"Select Turf"}
-                  onChange={(e) => handleturfChange(e)}
-                  defValue={""}
-                />
-                {errors.turf_error !== "" ? (
-                  <p className="errmsg ">{errors.turf_error}</p>
-                ) : (
-                  <p>&nbsp;</p>
                 )}
               </div>
             </div>
