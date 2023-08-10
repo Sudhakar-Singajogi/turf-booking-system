@@ -2,13 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 import DiamondIcon from '@mui/icons-material/Diamond';
 
-function Header() {
+function Header({logo}) {
   return (
     <header className="top-nav-bar">
       <nav className="top-nav">
         <div className="logo">
-          <Link to="/"> 
-          <DiamondIcon/ >
+          <Link to="/" style={{color:"#fff", textDecoration: "none"}}> 
+           Sonet Info
           </Link>
         </div>
         <ul className="nav-links">

@@ -32,8 +32,8 @@ const Cart = () => {
   const navigate = useNavigate(); 
 
   if (
-    slot.game !== "" ||
-    slot.turf !== "" ||
+    slot.game !== 0 ||
+    slot.turf !== 0 ||
     slot.hrs > 0 ||
     slot.timeslot !== "" ||
     slot.bookeddate !== ""
@@ -42,7 +42,8 @@ const Cart = () => {
   }
 
   let duration = "";
-  if (slot.hrs > 0) {
+  if (slot.hrs > 0 && slot.timeslot !== "") {
+
     duration = getExactToTime(slot.timeslot, slot.hrs*60);
   }
 
@@ -61,7 +62,9 @@ const Cart = () => {
       e.preventDefault();
     }
 
-    if (slot.game.trim() === "") {
+    console.log('slot are:', slot)
+
+    if (slot.game === 0) {
       hasError = true;
       form_errors.game_error = "Please select a game";
     }
@@ -80,7 +83,7 @@ const Cart = () => {
       form_errors.timeslot_error = "";
     }
 
-    if (slot.turf.trim() === "") {
+    if (slot.turf === 0) {
       hasError = true;
       form_errors.turf_error = "Please select a turf";
     } else {
@@ -139,8 +142,12 @@ const Cart = () => {
           </div>
           <div class="footer-middle flex-right">
             <div class="total-hours">
-              {slot.hrs > 0 && <TimelapseIcon />}
-              {slot.hrs > 0
+
+
+
+              {slot.hrs > 0 && slot.timeslot !== "" && <TimelapseIcon />}
+
+              { (slot.hrs > 0 && slot.timeslot !== "")
                 ? slot.hrs > 1
                   ? `${slot.hrs} hrs`
                   : `${slot.hrs} hr`
@@ -148,7 +155,13 @@ const Cart = () => {
             </div>
             <div style={{ marginLeft: "20px" }}> </div>
             <div class="total-cost">
-              {slot.hrs > 0 && <CurrencyRupeeIcon />}
+              {
+                slot.timeslot !== "" ? (slot.hrs > 0 && <CurrencyRupeeIcon />) : ""
+              }
+              {
+                slot.timeslot !== "" ? (slot.hrs > 0 && data.bookingamount.toFixed(2)) : ""
+              }
+              
             </div>
           </div>
           <div class="footer-icon">

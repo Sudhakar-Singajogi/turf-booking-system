@@ -1,4 +1,5 @@
 import logo from './logo.svg';
+import sonetlogo from "./assets/SonetLogo.png"
 import "./App.css";
 
 function App() {

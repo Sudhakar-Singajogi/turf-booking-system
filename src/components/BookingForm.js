@@ -3,19 +3,13 @@ import "./BookingForm.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
   changeDate,
-  changeTimeSlot,
-  changeTurf,
-  changeGame,
-  getTurfs,
+  changeTimeSlot, 
 } from "../Redux/Slices/BokingSliceReducer";
 
-import SportsCricketIcon from "@mui/icons-material/SportsCricket";
-import SportsSoccerIcon from "@mui/icons-material/SportsSoccer";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import { InputAdornment, TextField } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import GrassOutlinedIcon from "@mui/icons-material/GrassOutlined";
-import { convertDateDYM, getTimeformDateTime } from "../Utils";
+ import { convertDateDYM, getTimeformDateTime } from "../Utils";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -28,7 +22,7 @@ import { validateBookingForm } from "../Redux/Slices/BookingFormValidatorReducer
 import CleaningServicesIcon from "@mui/icons-material/CleaningServices";
 import { clearErrors } from "../Redux/Slices/BookingFormValidatorReducer";
 import MUIModal from "./MUI/MUIModal";
-import axios from "axios";
+import axios from "axios"; 
 
 function loadScript(src) {
   return new Promise((resolve) => {
@@ -53,7 +47,7 @@ const BookingForm = ({ children }) => {
   const [showVisibilityForm, setShowVisibilityForm] = useState(false);
   const [showPaymentPage, setShowPaymentPage] = useState(false);
   const [orderId, setOrderId] = useState("");
-
+  
   const handleModalClose = () => {
     setModalOpen(false);
     setShowOTP(false);
@@ -96,17 +90,7 @@ const BookingForm = ({ children }) => {
     if (TimeRef.current) {
       TimeRef.current.setOpen(true);
     }
-  };
-
-  const handleGameChange = (value) => {
-    // console.log(value);
-    dispatch(changeGame(value));
-    let ers = {
-      ...errors,
-      game_error: "",
-    };
-    dispatch(validateBookingForm(ers));
-  };
+  }; 
 
   const handleDateChange = (date) => {
     // console.log(convertDateDYM(date));
@@ -131,17 +115,7 @@ const BookingForm = ({ children }) => {
       timeslot_error: "",
     };
     dispatch(validateBookingForm(ers));
-  };
-
-  const handleturfChange = (value) => {
-    dispatch(changeTurf(value));
-    console.log({ ...errors });
-    let ers = {
-      ...errors,
-      turf_error: "",
-    };
-    dispatch(validateBookingForm(ers));
-  };
+  }; 
 
   const getTimeClassName = (time) => {
     const hours = time.getHours();
@@ -301,55 +275,46 @@ const BookingForm = ({ children }) => {
           <div className="form-container">
             <div>
               <h1 className="font-bold text-md text-xl text-typography pos-rel">
-                Box Cricket Information
+                {data.venuedetails?.arena_name}
                 <CleaningServicesIcon
                   className="clear-form-fields"
                   onClick={() => {
                     dispatch(clearErrors());
                   }}
                 />
-                <CleaningServicesIcon
+                {/* <CleaningServicesIcon
                   onClick={() => {
                     setModalOpen(true);
                   }}
-                />
+                /> */}
               </h1>
-              <h6 style={{ fontWeight: "bold", color: "#999" }}>Location</h6>
+              <h6 style={{ fontWeight: "bold", color: "#999" }}>{data.venuedetails?.arena_location}</h6>
             </div>
             {/* Your form fields go here */}
             <div className="form-fields mar-tp30">
-              <SelectGame
-                options={[
-                  {
-                    label: "Cricket",
-                    value: "cricket",
-                    icon: <SportsCricketIcon style={{ color: "blue" }} />,
-                  },
-                  {
-                    label: "Soccer",
-                    value: "soccer",
-                    icon: <SportsSoccerIcon style={{ color: "blue" }} />,
-                  },
-                ]}
-                title={"Select Game"}
-                onChange={(e) => handleGameChange(e)}
-                defValue={data.game}
-              />
-              {errors.game_error !== "" ? (
-                <p className="errmsg">{errors.game_error}</p>
-              ) : (
-                <p>&nbsp;</p>
-              )}
-
               <SelectTurf
                 wid80={"w100"}
                 options={[]}
                 title={"Select Turf"}
-                onChange={(e) => handleturfChange(e)}
+                onChange={(e) => {}}
                 defValue={""}
               />
               {errors.turf_error !== "" ? (
                 <p className="errmsg ">{errors.turf_error}</p>
+              ) : (
+                <p>&nbsp;</p>
+              )}
+
+              <SelectGame
+                options={[
+                  
+                ]}
+                title={"Select Game"}
+                onChange={(e) => {} }
+                defValue={data.game}
+              />
+              {errors.game_error !== "" ? (
+                <p className="errmsg">{errors.game_error}</p>
               ) : (
                 <p>&nbsp;</p>
               )}

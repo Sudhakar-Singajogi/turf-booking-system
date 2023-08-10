@@ -5,7 +5,7 @@ import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import TimelapseIcon from "@mui/icons-material/Timelapse";
 import SILFieldSetComp from "./CustomComp/SILFieldSetComp";
-import { changeHrs } from "../Redux/Slices/BokingSliceReducer";
+import { calculateBookingCost, changeHrs } from "../Redux/Slices/BokingSliceReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { validateBookingForm } from "../Redux/Slices/BookingFormValidatorReducer";
 
@@ -16,11 +16,11 @@ const DurationComp = ({ onDecrement, onIncrement }) => {
   const hours = data.hrs;
 
   // console.log(onIncrement)
-  const [hrs, setHrs] = useState(0);
+  const [hrs, setHrs] = useState(1);
 
   const setHours = (type) => {
     if (data.timeslot !== "") {
-      if (hours >= 3) {
+      if (hours >= 3 & type === "inc") {
         let ers = {
           ...errors,
           hrs_error: "Not allowed to book for more than 3 hours",
@@ -48,6 +48,7 @@ const DurationComp = ({ onDecrement, onIncrement }) => {
           }
         }
       }
+      dispatch(calculateBookingCost())
     } else {
       let ers = {
         ...errors,
