@@ -22,7 +22,7 @@ function SelectTurf({ wid80, title, options, onChange, defValue }) {
   const turf = data.turf; 
 
   useEffect(() => {
-    dispatch(getTurfs());
+    // dispatch(getTurfs());
     console.log("turfs are", data.turfs);
   }, []);
 

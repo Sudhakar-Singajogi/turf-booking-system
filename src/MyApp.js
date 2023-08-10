@@ -44,7 +44,10 @@ function MyApp() {
       </BrowserRouter>
 
       {/* Footer */}
+      <div className="dnt-show-mble">
       <Footer />
+
+      </div>
     </div>
   );
 }

@@ -1,4 +1,9 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {
+  createAction,
+  createAsyncThunk,
+  createReducer,
+  createSlice,
+} from "@reduxjs/toolkit";
 import { clearErrors } from "./BookingFormValidatorReducer";
 
 export const STATUSES = Object.freeze({
@@ -7,11 +12,20 @@ export const STATUSES = Object.freeze({
   ERROR: "error",
 });
 
-function getTurfCost(turf) {
-  const currentDate = new Date();
+function getTurfCost(turf, bookeddate) {
+  console.log("bookeddate: ", bookeddate);
+  let currentDate = new Date();
+  if (bookeddate !== "") {
+    const [day, month, year] = bookeddate.split("/").map(Number);
+    const jsDate = new Date(year, month - 1, day);
+    currentDate = new Date(jsDate);
+  }
+
   const dayOfWeek = currentDate.getDay();
 
   const isweekend = dayOfWeek === 0 || dayOfWeek === 6;
+
+  console.log("isweekend: ", isweekend);
 
   let turfCost = turf.weekdays_cost;
   if (isweekend) {
@@ -27,10 +41,10 @@ export const bookingSlice = createSlice({
     data: {
       game: 0,
       bookeddate: "",
-      timeslot: "", 
-      turfcost:0,
+      timeslot: "",
+      turfcost: 0,
       hrs: 1,
-      bookingamount:0,
+      bookingamount: 0,
       turf: 0,
       turfs: [],
       sports: [],
@@ -43,11 +57,12 @@ export const bookingSlice = createSlice({
       state.data.game = action.payload;
     },
     changeTurf: (state, action) => {
-      console.log('pay is: ', action.payload);
+      console.log("pay is: ", action.payload);
       state.data.turf = action.payload.turfId;
       state.data.turfcost = action.payload.turfCost;
     },
-    changeDate: (state, action) => {
+    setDate: (state, action) => {
+      console.log("payload is:", action.payload);
       state.data.bookeddate = action.payload;
     },
     changeTimeSlot: (state, action) => {
@@ -56,9 +71,8 @@ export const bookingSlice = createSlice({
     changeHrs: (state, action) => {
       state.data.hrs = action.payload;
     },
-    calculateBookingCost: (state, action) => { 
+    calculateBookingCost: (state, action) => {
       state.data.bookingamount = state.data.hrs * state.data.turfcost;
-      
     },
   },
   extraReducers: (builder) => {
@@ -70,8 +84,8 @@ export const bookingSlice = createSlice({
           timeslot: "",
           hrs: 1,
           turf: 0,
-          turfcost:0,
-          bookingamount:0,
+          turfcost: 0,
+          bookingamount: 0,
           turfs: state.data.turfs,
           sports: state.data.sports,
           venuedetails: state.data.venuedetails,
@@ -82,11 +96,12 @@ export const bookingSlice = createSlice({
         state.data.turfs = [];
       })
       .addCase(getTurfs.fulfilled, (state, action) => {
+        console.log("initially turfs are: ", action.payload.data);
         const turfs = action.payload.data.map((turf) => ({
           label: turf.turf_name,
           value: turf.turfId,
           hasIcon: true,
-          turfcost:Number(getTurfCost(turf)).toFixed(2)
+          turfcost: Number(getTurfCost(turf, state.data.bookeddate)).toFixed(2),
         }));
 
         state.data.turfs = turfs;
@@ -130,22 +145,51 @@ export const bookingSlice = createSlice({
         state.data.venuedetails = {
           arena_name: venue.arena_name,
           arena_location: venue.arena_location,
+          arena_id: "r434edd09765457698asd",
         };
       })
       .addCase(getVenuDetails.rejected, (state, action) => {
         state.data.venuedetails = {};
+      })
+      .addCase(changeDate.pending, (state, action) => {
+        state.data.turfs = [];
+      })
+      .addCase(changeDate.fulfilled, (state, action) => {
+        console.log("turfs are:", action.payload.data);
+        const turfs = action.payload.data.map((turf) => ({
+          label: turf.turf_name,
+          value: turf.turfId,
+          hasIcon: true,
+          turfcost: Number(getTurfCost(turf, state.data.bookeddate)).toFixed(2),
+        }));
+
+        state.data.turfs = turfs;
+        state.data.sports = [];
+        state.data.bookingamount = 0;
+        state.data.turfcost = 0;
+        state.data.turf = 0;
+        state.data.game = 0;
+      })
+      .addCase(changeDate.rejected, (state, action) => {
+        state.data.turfs = [];
       });
   },
 });
 
-export const { changeDate, changeTimeSlot, changeGame, changeTurf, changeHrs, calculateBookingCost } =
-  bookingSlice.actions;
+export const {
+  setDate,
+  changeTimeSlot,
+  changeGame,
+  changeTurf,
+  changeHrs,
+  calculateBookingCost,
+} = bookingSlice.actions;
 
 export const getTurfs = createAsyncThunk(
   "booking/getTurfs",
   async (arena_id = "r434edd09765457698asd") => {
     try {
-      const resp = await fetch("http://127.0.0.1:8080/api/turf/byareana", {
+      const resp = await fetch("http://192.168.0.111:8080/api/turf/byareana", {
         method: "POST",
         body: JSON.stringify({
           arena_id: arena_id,
@@ -170,7 +214,7 @@ export const getSportsByTurf = createAsyncThunk(
   "booking/getSportsByTurf",
   async (turfid) => {
     try {
-      const resp = await fetch("http://127.0.0.1:8080/api/turf/sports", {
+      const resp = await fetch("http://192.168.0.111:8080/api/turf/sports", {
         method: "POST",
         body: JSON.stringify({
           arena_id: "r434edd09765457698asd",
@@ -196,7 +240,7 @@ export const getVenuDetails = createAsyncThunk(
   "booking/venuedetails",
   async (arena_id = "r434edd09765457698asd") => {
     try {
-      const resp = await fetch("http://127.0.0.1:8080/api/venue/details", {
+      const resp = await fetch("http://192.168.0.111:8080/api/venue/details", {
         method: "POST",
         body: JSON.stringify({
           arena_id: arena_id,
@@ -209,6 +253,33 @@ export const getVenuDetails = createAsyncThunk(
         throw new Error("Failed to get response, contact admin");
       }
       const data = await resp.json();
+      console.log("resp data: ", resp);
+      return data;
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
+);
+
+export const changeDate = createAsyncThunk(
+  "booking/getTurfsbydate",
+  async ({ date, arena_id }, { dispatch }) => {
+    try {
+      const resp = await fetch("http://192.168.0.111:8080/api/turf/byareana", {
+        method: "POST",
+        body: JSON.stringify({
+          arena_id: arena_id,
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+      if (!resp.result === "OK") {
+        throw new Error("Failed to get response, contact admin");
+      }
+      const data = await resp.json();
+      dispatch(setDate(date));
+
       console.log("resp data: ", resp);
       return data;
     } catch (error) {

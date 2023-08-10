@@ -19,6 +19,28 @@ import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantity
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import useGetExactToTime from "../CustomHooks/useGetExactToTime";
 
+
+function getTurfName(turfs, turfId) {
+  if(turfId > 0 ) {
+    const turf = turfs.filter((i) => i.value === turfId)
+    if(turf.length>0) {
+      return turf[0].label;
+    } 
+  }
+}
+
+function getGameName(games, gameId) {
+  if(gameId > 0) {
+    const sport = games.filter((i) => i.value === gameId)
+    if(sport.length>0) {
+      return sport[0].label
+    } else {
+      return "";
+    }
+
+  }
+}
+
 const Cart = () => {
   // Your cart items state and handlers go here
   const dispatch = useDispatch();
@@ -30,11 +52,14 @@ const Cart = () => {
   const slot = data;
   let showCart = false;
   const navigate = useNavigate(); 
+  const turfs = data.turfs;
+  const sports = data.sports;
+  const bookingAmount = data.bookingamount;
 
   if (
     slot.game !== 0 ||
     slot.turf !== 0 ||
-    slot.hrs > 0 ||
+    slot.hrs > 1 ||
     slot.timeslot !== "" ||
     slot.bookeddate !== ""
   ) {
@@ -136,7 +161,7 @@ const Cart = () => {
   return (
     <>
       <div className="show-mble">
-        <div class="footer">
+        {/* <div class="footer">
           <div class="footer-icon">
             <ProductionQuantityLimitsIcon style={{ fontSize: "2rem" }} />
           </div>
@@ -173,7 +198,7 @@ const Cart = () => {
               <ArrowCircleRightIcon className="proceed-icon" />{" "}
             </Link>
           </div>
-        </div>
+        </div> */}
       </div>
 
       <div className="cart mx-10 dnt-show-mble">
@@ -210,7 +235,7 @@ const Cart = () => {
                         <div className="w- text-xs font-medium md:text-sm md:mt-0.5 pointer">
                           <SportsEsportsIcon style={{ color: "orange" }} />
                           <span className="cart-label">
-                            {slot.game !== "" ? slot.game : "Nill"}
+                            {slot.game !== "" ? getGameName(sports, slot.game) : "Nill"}
                           </span>
                         </div>
                       </div>
@@ -222,7 +247,7 @@ const Cart = () => {
                               className="flex-col-items"
                             />
                             <span className="cart-label ">
-                              {slot.turf !== "" ? slot.turf : "Nill"}
+                              {slot.turf !== "" ? getTurfName(turfs,slot.turf) : "Nill"}
                             </span>
                           </div>
                         </div>
@@ -280,7 +305,7 @@ const Cart = () => {
                               style={{ color: "orange" }}
                               className="flex-col-items"
                             />
-                            <span className="cart-label ">3000</span>
+                            <span className="cart-label ">{bookingAmount}</span>
                           </div>
                         </div>
                       </div>
@@ -289,7 +314,7 @@ const Cart = () => {
                 </div>
 
                 <div className="cart-footer">
-                  <Link to="/confirm-cart" onClick={(e) => ProceedToPolicy(e)}>
+                  <Link to="/confirm-slot" onClick={(e) => ProceedToPolicy(e)}>
                     <button className="proceed-btn btn-block">
                       Proceed To Pay
                     </button>

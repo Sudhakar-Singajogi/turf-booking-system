@@ -1,7 +1,5 @@
-.container {
-  height: 100vh; /* Set the container height to the full height of the viewport */
-  overflow-y: auto;
-}
+
+
 .content-wrapper {
   display: flex;
   flex-wrap: wrap;
@@ -411,7 +409,7 @@ button {
 }
 
 .flex-col-items {
-  display: flex;
+  display: flex; 
 }
 
 .book-icon {
@@ -444,7 +442,7 @@ button {
 
 /* Styles for the sticky footer */
 .footer {
-  position: fixed;
+  /* position: fixed; */
   bottom: 0;
   left: 0;
   width: 100%;
@@ -519,7 +517,7 @@ button {
 /* Styles for Div A and Div B to be side by side */
 .containers > .div-a,
 .div-b {
-  flex-basis: calc(50% - 16px);
+  flex-basis: calc(50% - 50px);
 }
 
 .game-venue-details .flex-col-right {
@@ -550,7 +548,7 @@ button {
 .booking-form-container {
   display: flex;
   justify-content: space-between;
-  margin: 0 10%; /* 10% spacing on left and right */
+  /* margin: 0 10%; */
   height: 100%;
   width: 100%;
 }
@@ -741,6 +739,26 @@ input {
   font-size: 16px;
 }
 
+.display-grid {  
+  padding:10px !important
+}
+
+.display-grid-1{
+margin-right:0% !important
+}
+
+.venue-detail-items {
+  padding: 5px !important;
+}
+
+.pos-rel {
+  position: relative !important;
+}
+.pos-abs {
+  position: absolute;
+  right: 0rem !important;
+}
+
 /* Keyframes for fadeIn animation */
 @keyframes fadeIn {
   from {
@@ -782,7 +800,7 @@ input {
     flex-basis: 100%;
   }
   .dnt-show-at-765 {
-    display: none;
+    display: none !important;
   }
   .policy-bullet-points {
     font-size: 13px !important;
@@ -841,7 +859,7 @@ input {
     display: none;
   }
   .show-mble {
-    display: none;
+    display: none !important;
   }
 
   .sil-field-set-comp {

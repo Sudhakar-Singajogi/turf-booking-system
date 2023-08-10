@@ -1,15 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./BookingForm.css";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  changeDate,
-  changeTimeSlot, 
-} from "../Redux/Slices/BokingSliceReducer";
+import { changeDate, changeTimeSlot } from "../Redux/Slices/BokingSliceReducer";
 
- import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import { InputAdornment, TextField } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
- import { convertDateDYM, getTimeformDateTime } from "../Utils";
+import { convertDateDYM, getTimeformDateTime } from "../Utils";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -22,7 +19,14 @@ import { validateBookingForm } from "../Redux/Slices/BookingFormValidatorReducer
 import CleaningServicesIcon from "@mui/icons-material/CleaningServices";
 import { clearErrors } from "../Redux/Slices/BookingFormValidatorReducer";
 import MUIModal from "./MUI/MUIModal";
-import axios from "axios"; 
+import axios from "axios";
+
+import AutoStoriesIcon from "@mui/icons-material/AutoStories";
+import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
+import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
+import TimelapseIcon from "@mui/icons-material/Timelapse";
+import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
+import { Link } from "react-router-dom";
 
 function loadScript(src) {
   return new Promise((resolve) => {
@@ -47,7 +51,7 @@ const BookingForm = ({ children }) => {
   const [showVisibilityForm, setShowVisibilityForm] = useState(false);
   const [showPaymentPage, setShowPaymentPage] = useState(false);
   const [orderId, setOrderId] = useState("");
-  
+
   const handleModalClose = () => {
     setModalOpen(false);
     setShowOTP(false);
@@ -90,11 +94,16 @@ const BookingForm = ({ children }) => {
     if (TimeRef.current) {
       TimeRef.current.setOpen(true);
     }
-  }; 
+  };
 
   const handleDateChange = (date) => {
     // console.log(convertDateDYM(date));
-    dispatch(changeDate(convertDateDYM(date)));
+    dispatch(
+      changeDate({
+        date: convertDateDYM(date),
+        arena_id: data.venuedetails.arena_id,
+      })
+    );
     let ers = {
       ...errors,
       bookeddate_error: "",
@@ -115,7 +124,7 @@ const BookingForm = ({ children }) => {
       timeslot_error: "",
     };
     dispatch(validateBookingForm(ers));
-  }; 
+  };
 
   const getTimeClassName = (time) => {
     const hours = time.getHours();
@@ -288,37 +297,12 @@ const BookingForm = ({ children }) => {
                   }}
                 /> */}
               </h1>
-              <h6 style={{ fontWeight: "bold", color: "#999" }}>{data.venuedetails?.arena_location}</h6>
+              <h6 style={{ fontWeight: "bold", color: "#999" }}>
+                {data.venuedetails?.arena_location}
+              </h6>
             </div>
             {/* Your form fields go here */}
             <div className="form-fields mar-tp30">
-              <SelectTurf
-                wid80={"w100"}
-                options={[]}
-                title={"Select Turf"}
-                onChange={(e) => {}}
-                defValue={""}
-              />
-              {errors.turf_error !== "" ? (
-                <p className="errmsg ">{errors.turf_error}</p>
-              ) : (
-                <p>&nbsp;</p>
-              )}
-
-              <SelectGame
-                options={[
-                  
-                ]}
-                title={"Select Game"}
-                onChange={(e) => {} }
-                defValue={data.game}
-              />
-              {errors.game_error !== "" ? (
-                <p className="errmsg">{errors.game_error}</p>
-              ) : (
-                <p>&nbsp;</p>
-              )}
-
               <div>
                 <TextField
                   className="w100"
@@ -397,15 +381,72 @@ const BookingForm = ({ children }) => {
                   <p style={{ marginBottom: "30px" }}> </p>
                 )}
               </div>
+
+              <SelectTurf
+                wid80={"w100"}
+                options={[]}
+                title={"Select Turf"}
+                onChange={(e) => {}}
+                defValue={""}
+              />
+              {errors.turf_error !== "" ? (
+                <p className="errmsg ">{errors.turf_error}</p>
+              ) : (
+                <p>&nbsp;</p>
+              )}
+
+              <SelectGame
+                options={[]}
+                title={"Select Game"}
+                onChange={(e) => {}}
+                defValue={data.game}
+              />
+              {errors.game_error !== "" ? (
+                <p className="errmsg">{errors.game_error}</p>
+              ) : (
+                <p>&nbsp;</p>
+              )}
+            </div>
+            <div class="footer show-mble">
+              <div class="footer-icon">
+                <ProductionQuantityLimitsIcon style={{ fontSize: "2rem" }} />
+              </div>
+              <div class="footer-middle flex-right">
+                <div class="total-hours">
+                  {data.hrs > 0 && data.timedata !== "" && <TimelapseIcon />}
+
+                  {data.hrs > 0 && data.timeslot !== ""
+                    ? data.hrs > 1
+                      ? `${data.hrs} hrs`
+                      : `${data.hrs} hr`
+                    : ""}
+                </div>
+                <div style={{ marginLeft: "20px" }}> </div>
+                <div class="total-cost">
+                  {data.timeslot !== ""
+                    ? data.hrs > 0 && <CurrencyRupeeIcon />
+                    : ""}
+                  {data.timeslot !== ""
+                    ? data.hrs > 0 && data.bookingamount.toFixed(2)
+                    : ""}
+                </div>
+              </div>
+              <div class="footer-icon">
+                <Link
+                  to="/confirm-slot"
+                  onClick={(e) => {}}
+                  style={{ color: "#fff" }}
+                >
+                  <ArrowCircleRightIcon className="proceed-icon" />{" "}
+                </Link>
+              </div>
             </div>
           </div>
         </div>
         <div class="div-b">
           <Cart />
         </div>
-        <div class="show-mble">
-          <Cart />
-        </div>
+        <div class="show-mble">{/* <Cart />  */}</div>
 
         {/* </div> */}
       </div>

@@ -37,7 +37,7 @@ const DurationComp = ({ onDecrement, onIncrement }) => {
           };
           dispatch(validateBookingForm(ers));
         } else {
-          if (hrs > 0) {
+          if (hrs > 1) {
             setHrs((prevHrs) => prevHrs - 1);
             dispatch(changeHrs(hrs - 1));
             let ers = {
@@ -62,8 +62,7 @@ const DurationComp = ({ onDecrement, onIncrement }) => {
     <>
       <div className="incDec duration-comp">
         <RemoveCircleIcon
-          style={{ color: "#003f84e0" }}
-          className="dec"
+          style={{ color: (`${hours === 1 ? "#999" : "#003f84e0"}`) }} 
           onClick={(e) => {
             setHours("dec");
           }}

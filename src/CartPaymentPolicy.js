@@ -19,22 +19,40 @@ import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import useGetExactToTime from "./CustomHooks/useGetExactToTime";
 
+function getTurfName(turfs, turfId) {
+  if (turfId > 0) {
+    const turf = turfs.filter((i) => i.value === turfId);
+    return turf[0].label;
+  }
+}
 
+function getGameName(games, gameId) {
+  if (gameId > 0) {
+    const sport = games.filter((i) => i.value === gameId);
+    return sport[0].label;
+  }
+}
 
 function CartPaymentPolicy() {
-  
   const { data: slot } = useSelector((state) => state.booking);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { getExactToTime } = useGetExactToTime();
- if (
-    slot.game !== "" ||
-    slot.turf !== "" ||
-    slot.hrs === 0 ||
-    slot.timeslot !== "" ||
-    slot.bookeddate !== ""
+
+  console.log("slot is: ", slot);
+  const turfs = slot.turfs;
+  const sports = slot.sports;
+  const bookingAmount = slot.bookingamount;
+
+  if (
+    slot.game === 0 ||
+    slot.turf === 0 ||
+    slot.timeslot === "" ||
+    slot.bookeddate === ""
   ) {
+    dispatch(clearErrors());
     navigate("/");
+    return false;
   }
 
   let hours = slot.hrs;
@@ -48,7 +66,7 @@ function CartPaymentPolicy() {
   const game_venue_details = [
     [
       {
-        value: slot.game,
+        value: getGameName(sports, slot.game),
         icon_comp: <SportsEsportsIcon style={{ color: "orange" }} />,
         css_class: "",
       },
@@ -58,7 +76,7 @@ function CartPaymentPolicy() {
         css_class: "flex-col-right",
       },
       {
-        value: disptimings,
+        value: disptimings.replace(" pm ", " - ").replace(" am ", " - "),
         extraparam: "",
         icon_comp: <AccessTimeIcon style={{ color: "orange" }} />,
         css_class: "txt-lower-case",
@@ -66,12 +84,12 @@ function CartPaymentPolicy() {
     ],
     [
       {
-        value: slot.turf,
+        value: getTurfName(turfs, slot.turf),
         icon_comp: <GrassIcon style={{ color: "green" }} />,
         css_class: "flex-col-right",
       },
       {
-        value: 3000,
+        value: bookingAmount,
         icon_comp: <CurrencyRupeeIcon style={{ color: "orange" }} />,
         css_class: "",
       },
@@ -89,11 +107,10 @@ function CartPaymentPolicy() {
   ];
 
   const handlePaymentProcess = (e) => {
-console.log('hey')
-    // setModalOpen(true);    
+    console.log("hey");
+    // setModalOpen(true);
     e.preventDefault();
-
-  }
+  };
 
   return (
     <>
@@ -111,30 +128,47 @@ console.log('hey')
               >
                 <div className="flex-item">
                   <h5 style={{ fontWeight: "bold", fontSize: "18px" }}>
-                    Ground Name
+                    {slot.venuedetails?.arena_name}
                   </h5>
                 </div>
                 <div className="flex-item text-right">
-                  <h5 style={{ fontWeight: "bold", fontSize: "18px" }}>Game</h5>
+                  <h5
+                    style={{
+                      fontWeight: "bold",
+                      fontSize: "18px",
+                      position: "relative",
+                    }}
+                  >
+                    <DeleteIcon
+                      style={{
+                        position: "absolute",
+                        right: "1rem",
+                        top: "0rem",
+                      }}
+                      onClick={() => {
+                        dispatch(clearErrors());
+                        navigate("/");
+                      }}
+                      className="trash-icon"
+                    />
+                  </h5>
                 </div>
               </div>
             </div>
             <div className="cart-items">
               <div style={{ position: "relative" }}>
-                <h6 style={{ fontWeight: "bold", paddingLeft: "10px" }}>
-                  Game and Venue Details
-                </h6>
-                <DeleteIcon
-                  style={{ position: "absolute", right: "1rem", top: "0rem" }}
-                  onClick={() => {
-                    dispatch(clearErrors());
-                    navigate("/");
+                <h6
+                  style={{
+                    fontSize: "1rem",
+                    fontWeight: "bold",
+                    paddingLeft: "10px",
                   }}
-                  className="trash-icon"
-                />
+                >
+                  Game & Scheule Details
+                </h6>
               </div>
               {game_venue_details.map((items) => (
-                <div className="cart-item m-y-10">
+                <div className="cart-item m-y-10 dnt-show-at-765">
                   <div className="flex flex-row  justify-start col-span-5 space-x-1 w100">
                     {items.map((item) => (
                       <div className="flex-col">
@@ -149,6 +183,31 @@ console.log('hey')
                   </div>
                 </div>
               ))}
+              <div className="cart-item flex flex-row  show-mble pos-rel">
+                {game_venue_details.map((items, index) => (
+                  <>
+                    <div className={` ${index === 0 ? "flex-col" : " pos-abs"}`} >
+                      {items.map((item) => (
+                        <>
+                          <div className="venue-detail-items">
+                            <div className="w- text-xs font-medium md:text-sm md:mt-0.5 pointer ">
+                              {item.icon_comp}
+                              <span
+                                className={`cart-label  ${item.css_class} `}
+                              >
+                                {item.value !== "" ? item.value : "Nill"}
+                              </span>
+                            </div>
+                          </div>
+                        </>
+                      ))}
+                    </div>
+                    {
+                      (index === 0) ? <div style={{margin:'1.1rem',}}> </div>:null
+                    }
+                  </>
+                ))}
+              </div>
             </div>
             <hr />
             <div className="dnt-show-at-765">
@@ -217,7 +276,7 @@ console.log('hey')
                 }}
               >
                 <div className="flex-item">
-                  <h5 style={{ fontWeight: "bold", fontSize: "18px" }}>
+                  <h5 style={{ fontSize: "1rem", fontWeight: "bold" }}>
                     Price Details
                   </h5>
                 </div>
@@ -233,13 +292,16 @@ console.log('hey')
                 }}
               >
                 <div className="flex-item">
-                  <h6 style={{ fontWeight: "bold" }}>
+                  <h6 style={{ fontWeight: "bold", fontSize: "0.987rem" }}>
                     <GrassIcon style={{ color: "green" }} /> Turf Cost:{" "}
                   </h6>
                 </div>
                 <div className="flex-item text-center">
+                  <CurrencyRupeeIcon
+                    style={{ color: "black", fontSize: "0.9rem" }}
+                  />
                   <span style={{ fontWeight: "bold", fontSize: "15px" }}>
-                    3000
+                    {bookingAmount}
                   </span>
                 </div>
               </div>
@@ -263,7 +325,7 @@ console.log('hey')
             </div>
 
             <div>
-              <h6 style={{ fontWeight: "bold" }}>
+              <h6 style={{ fontWeight: "bold", fontSize: "1rem" }}>
                 <CardGiftcardIcon style={{ color: "orange" }} /> Apply Coupon:
               </h6>
               <div
@@ -285,44 +347,57 @@ console.log('hey')
               </div>
             </div>
             <hr />
-            <div className="price-section dnt-show-at-765">
-              <div className="flex-item dnt-show-at-765">
-                <h6 style={{ fontWeight: "bold" }}>
-                  <CurrencyRupeeIcon style={{ color: "black" }} /> Total Price:{" "}
+            <div className="price-section ">
+              <div className="flex-item ">
+                <h6 style={{ fontWeight: "bold", fontSize: "1rem" }}>
+                  <CurrencyRupeeIcon
+                    style={{ color: "black", fontSize: "1.3rem" }}
+                  />{" "}
+                  Total Price:{" "}
                 </h6>
               </div>
-              <div className="flex-item text-center dnt-show-at-765">
+              <div className="flex-item text-center ">
                 <span style={{ fontWeight: "bold", fontSize: "15px" }}>
                   <CurrencyRupeeIcon style={{ fontSize: "15px" }} />
-                  3000
+                  {bookingAmount}
                 </span>
               </div>
             </div>
 
-            <ul className="fancy-bullets dnt-show-at-765">
+            <ul className="fancy-bullets ">
               <li>
                 <strong style={{ fontSize: "11px" }}>
                   Advance to pay:{" "}
                   <CurrencyRupeeIcon style={{ fontSize: "15px" }} />
-                  1200
+                  {bookingAmount * 0.3}
                 </strong>
               </li>
               <li>
                 <strong style={{ fontSize: "11px" }}>
                   Amount to be paid at venue:{" "}
                   <CurrencyRupeeIcon style={{ fontSize: "15px" }} />
-                  1800
+                  {bookingAmount - bookingAmount * 0.3}
                 </strong>
               </li>
             </ul>
-            <div className="cart-footer dnt-show-at-765">
-              <button className="proceed-btn btn-block" onClick={(e) => { handlePaymentProcess(e)}}>Proceed To Pay</button>
+            <div className="cart-footer">
+              <button
+                className="proceed-btn btn-block"
+                onClick={(e) => {
+                  handlePaymentProcess(e);
+                }}
+              >
+                Proceed To Pay
+              </button>
             </div>
           </div>
         </div>
         <div class="div-c policy-terms show-at-765">
           <div>
-            <h6 className="dnt-show-at-765" style={{ fontWeight: "bold" }}>
+            <h6
+              className="dnt-show-at-765"
+              style={{ fontWeight: "bold", fontSize: "1rem" }}
+            >
               Reschedule Policy:
             </h6>
             <h6 className="show-at-765" style={{ fontWeight: "bold" }}>
@@ -376,7 +451,7 @@ console.log('hey')
           </div>
         </div>
       </div>
-      <div className="show-at-765">
+      {/* <div className="show-at-765">
         <div class="footer">
           <div class="footer-icon">
             <ProductionQuantityLimitsIcon style={{ fontSize: "2rem" }} />
@@ -392,21 +467,25 @@ console.log('hey')
             </div>
             <div style={{ marginLeft: "20px" }}> </div>
             <div class="total-cost">
-              <CurrencyRupeeIcon /> 3000
+              Advance: <CurrencyRupeeIcon /> {bookingAmount * 0.3}
+               <span style={{marginLeft:'1rem'}}>
+                  Pay @ venue: <CurrencyRupeeIcon /> {bookingAmount - (bookingAmount * 0.3)}
+                </span>
             </div>
           </div>
           <div class="footer-icon">
             <Link
               to="/confirm-cart"
-              onClick={(e) => { handlePaymentProcess(e)}}
+              onClick={(e) => {
+                handlePaymentProcess(e);
+              }}
               style={{ color: "#fff" }}
             >
               <ArrowCircleRightIcon className="proceed-icon" />{" "}
             </Link>
           </div>
         </div>
-      </div>
-      
+      </div> */}
     </>
   );
 }
