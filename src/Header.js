@@ -1,6 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import DiamondIcon from '@mui/icons-material/Diamond';
+import { Link } from "react-router-dom"; 
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 function Header({logo}) {
   return (
@@ -11,18 +11,9 @@ function Header({logo}) {
            Sonet Info
           </Link>
         </div>
-        <ul className="nav-links">
-          {/* <li>
-            <a href="#">Sign Up</a>
-          </li> */}
-          {/* <li>
-            <a href="#">Sign In</a>
-          </li> */}
+        <ul className="nav-links"> 
           <li>
-            <a href="#">Contact Us</a>
-          </li>
-          <li>
-            <a href="#">Logout</a>
+            <AccountCircleIcon style={{color:"#fff", fontSize:"1.6rem"}} />
           </li>
         </ul>
       </nav>

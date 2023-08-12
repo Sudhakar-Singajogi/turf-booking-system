@@ -20,13 +20,9 @@ import CleaningServicesIcon from "@mui/icons-material/CleaningServices";
 import { clearErrors } from "../Redux/Slices/BookingFormValidatorReducer";
 import MUIModal from "./MUI/MUIModal";
 import axios from "axios";
+import CartFooter from "./CartFooter";
 
-import AutoStoriesIcon from "@mui/icons-material/AutoStories";
-import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
-import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
-import TimelapseIcon from "@mui/icons-material/Timelapse";
-import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
-import { Link } from "react-router-dom";
+
 
 function loadScript(src) {
   return new Promise((resolve) => {
@@ -407,40 +403,7 @@ const BookingForm = ({ children }) => {
                 <p>&nbsp;</p>
               )}
             </div>
-            <div class="footer show-mble">
-              <div class="footer-icon">
-                <ProductionQuantityLimitsIcon style={{ fontSize: "2rem" }} />
-              </div>
-              <div class="footer-middle flex-right">
-                <div class="total-hours">
-                  {data.hrs > 0 && data.timedata !== "" && <TimelapseIcon />}
-
-                  {data.hrs > 0 && data.timeslot !== ""
-                    ? data.hrs > 1
-                      ? `${data.hrs} hrs`
-                      : `${data.hrs} hr`
-                    : ""}
-                </div>
-                <div style={{ marginLeft: "20px" }}> </div>
-                <div class="total-cost">
-                  {data.timeslot !== ""
-                    ? data.hrs > 0 && <CurrencyRupeeIcon />
-                    : ""}
-                  {data.timeslot !== ""
-                    ? data.hrs > 0 && data.bookingamount.toFixed(2)
-                    : ""}
-                </div>
-              </div>
-              <div class="footer-icon">
-                <Link
-                  to="/confirm-slot"
-                  onClick={(e) => {}}
-                  style={{ color: "#fff" }}
-                >
-                  <ArrowCircleRightIcon className="proceed-icon" />{" "}
-                </Link>
-              </div>
-            </div>
+            <CartFooter />
           </div>
         </div>
         <div class="div-b">

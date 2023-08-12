@@ -18,28 +18,9 @@ import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import useGetExactToTime from "../CustomHooks/useGetExactToTime";
-
-
-function getTurfName(turfs, turfId) {
-  if(turfId > 0 ) {
-    const turf = turfs.filter((i) => i.value === turfId)
-    if(turf.length>0) {
-      return turf[0].label;
-    } 
-  }
-}
-
-function getGameName(games, gameId) {
-  if(gameId > 0) {
-    const sport = games.filter((i) => i.value === gameId)
-    if(sport.length>0) {
-      return sport[0].label
-    } else {
-      return "";
-    }
-
-  }
-}
+import useValidateBooking from "../CustomHooks/useValidateBooking";
+import useGetGame from "../CustomHooks/useGetGame";
+import useGetTurf from "../CustomHooks/useGetTurf";
 
 const Cart = () => {
   // Your cart items state and handlers go here
@@ -47,11 +28,15 @@ const Cart = () => {
   const { data } = useSelector((state) => state.booking);
   const isAvailable = useSelector((state) => state.validateForm.isAvailable);
   const errors = useSelector((state) => state.validateForm.errors);
-  const { getExactToTime } = useGetExactToTime();  
+  const { getExactToTime } = useGetExactToTime();
+  const { getGameName } = useGetGame();
+  const { getTurfName } = useGetTurf();
+
+  const { validateBooking, CheckAvailability } = useValidateBooking();
 
   const slot = data;
   let showCart = false;
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const turfs = data.turfs;
   const sports = data.sports;
   const bookingAmount = data.bookingamount;
@@ -68,82 +53,29 @@ const Cart = () => {
 
   let duration = "";
   if (slot.hrs > 0 && slot.timeslot !== "") {
-
-    duration = getExactToTime(slot.timeslot, slot.hrs*60);
+    duration = getExactToTime(slot.timeslot, slot.hrs * 60);
   }
 
-  let hasError = false;
+  // const ProceedToPolicy = async (e = null) => {
+  //   e.preventDefault();
+  //   const hasErros = await validateBooking();
+  //   if (!hasErros) {
+  //     await CheckAvailability();
+  //   }
+  // };
 
-  const ProceedToPolicy = (e = null) => {
-    let form_errors = {
-      game_error: "",
-      bookeddate_error: "",
-      timeslot_error: "",
-      hrs_error: 0,
-      turf_error: "",
-    };
-
-    if (e) {
-      e.preventDefault();
-    }
-
-    console.log('slot are:', slot)
-
-    if (slot.game === 0) {
-      hasError = true;
-      form_errors.game_error = "Please select a game";
-    }
-
-    if (slot.bookeddate.trim() === "") {
-      hasError = true;
-      form_errors.bookeddate_error = "Please select a date";
-    } else {
-      form_errors.bookeddate_error = "";
-    }
-
-    if (slot.timeslot.trim() === "") {
-      hasError = true;
-      form_errors.timeslot_error = "Please select a time slot";
-    } else {
-      form_errors.timeslot_error = "";
-    }
-
-    if (slot.turf === 0) {
-      hasError = true;
-      form_errors.turf_error = "Please select a turf";
-    } else {
-      form_errors.turf_error = "";
-    }
-
-    console.log("hours:", slot.hrs);
-
-    if (slot.hrs > 0) {
-      form_errors.hrs_error = "";
-    } else {
-      if (slot.timeslot.trim() !== "") {
-        hasError = true;
-        form_errors.hrs_error = "Please select duration";
-      } else {
-        form_errors.hrs_error = "";
+  const ProceedToPolicy = (e) => {
+    e.preventDefault();
+    validateBooking().then((hasErrors) => {
+      if (!hasErrors) {
+        CheckAvailability();
       }
-    }
-
-    /**
-     * check whether the turf is free on that time or not
-     * Has to do a api call to check if the turf is free
-     * */
-    if (hasError) {
-      dispatch(validateBookingForm(form_errors));
-      console.log("form_errors", form_errors);
-    } else {
-      dispatch(checkTurfAvailability({}));
-      if (isAvailable === false) {
-        form_errors.turf_error = "Turf is not available during this time slot";
-        dispatch(validateBookingForm(form_errors));
-      }
-    }
+    });
   };
+  
 
+
+  /*
   useEffect(() => {
     let form_errors = { ...errors };
     console.log("use effect ran");
@@ -157,6 +89,8 @@ const Cart = () => {
     }
     dispatch(validateBookingForm(form_errors));
   }, [isAvailable]);
+
+  */
 
   return (
     <>
@@ -235,7 +169,9 @@ const Cart = () => {
                         <div className="w- text-xs font-medium md:text-sm md:mt-0.5 pointer">
                           <SportsEsportsIcon style={{ color: "orange" }} />
                           <span className="cart-label">
-                            {slot.game !== "" ? getGameName(sports, slot.game) : "Nill"}
+                            {slot.game !== ""
+                              ? getGameName(sports, slot.game)
+                              : "Nill"}
                           </span>
                         </div>
                       </div>
@@ -247,7 +183,9 @@ const Cart = () => {
                               className="flex-col-items"
                             />
                             <span className="cart-label ">
-                              {slot.turf !== "" ? getTurfName(turfs,slot.turf) : "Nill"}
+                              {slot.turf !== ""
+                                ? getTurfName(turfs, slot.turf)
+                                : "Nill"}
                             </span>
                           </div>
                         </div>
@@ -289,12 +227,11 @@ const Cart = () => {
                         <div className="w- text-xs font-medium md:text-sm md:mt-0.5 pointer">
                           <TimelapseIcon style={{ color: "orange" }} />
                           <span className="cart-label">
-                             
                             {slot.hrs > 0
-                          ? slot.hrs > 1
-                            ? `${slot.hrs} hrs`
-                            : `${slot.hrs} hr`
-                          : "Nill"}
+                              ? slot.hrs > 1
+                                ? `${slot.hrs} hrs`
+                                : `${slot.hrs} hr`
+                              : "Nill"}
                           </span>
                         </div>
                       </div>

@@ -189,7 +189,7 @@ export const getTurfs = createAsyncThunk(
   "booking/getTurfs",
   async (arena_id = "r434edd09765457698asd") => {
     try {
-      const resp = await fetch("http://192.168.0.111:8080/api/turf/byareana", {
+      const resp = await fetch("http://127.0.0.1:8080/api/turf/byareana", {
         method: "POST",
         body: JSON.stringify({
           arena_id: arena_id,
@@ -214,7 +214,7 @@ export const getSportsByTurf = createAsyncThunk(
   "booking/getSportsByTurf",
   async (turfid) => {
     try {
-      const resp = await fetch("http://192.168.0.111:8080/api/turf/sports", {
+      const resp = await fetch("http://127.0.0.1:8080/api/turf/sports", {
         method: "POST",
         body: JSON.stringify({
           arena_id: "r434edd09765457698asd",
@@ -240,7 +240,7 @@ export const getVenuDetails = createAsyncThunk(
   "booking/venuedetails",
   async (arena_id = "r434edd09765457698asd") => {
     try {
-      const resp = await fetch("http://192.168.0.111:8080/api/venue/details", {
+      const resp = await fetch("http://127.0.0.1:8080/api/venue/details", {
         method: "POST",
         body: JSON.stringify({
           arena_id: arena_id,
@@ -265,7 +265,8 @@ export const changeDate = createAsyncThunk(
   "booking/getTurfsbydate",
   async ({ date, arena_id }, { dispatch }) => {
     try {
-      const resp = await fetch("http://192.168.0.111:8080/api/turf/byareana", {
+      // const resp = await fetch("http://127.0.0.1:8080/api/turf/byareana", {
+        const resp = await fetch("http://127.0.0.1:8080/api/turf/byareana", {
         method: "POST",
         body: JSON.stringify({
           arena_id: arena_id,
