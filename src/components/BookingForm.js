@@ -21,7 +21,8 @@ import { clearErrors } from "../Redux/Slices/BookingFormValidatorReducer";
 import MUIModal from "./MUI/MUIModal";
 import axios from "axios";
 import CartFooter from "./CartFooter";
-
+import { auth } from "./firebase-config";
+import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 
 
 function loadScript(src) {
@@ -195,16 +196,16 @@ const BookingForm = ({ children }) => {
   const LoginComponent = () => {
     return (
       <>
-        <div class="modal-overlay">
-          <div class="modal-content">
-            <div class="left-section">
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <div className="left-section">
               <img
                 src="https://c7.alamy.com/comp/2F4TF5W/four-happy-kids-playing-characters-2F4TF5W.jpg"
                 alt="Graphic"
-                class="graphic-image"
+                className="graphic-image"
               />
             </div>
-            <div class="right-section">
+            <div className="right-section">
               <form style={{ marginTop: "1rem" }}>
                 {!showOTP ? (
                   <>
@@ -213,7 +214,7 @@ const BookingForm = ({ children }) => {
                     {/* <h5 style={{ textAlign: "center", margin: "1rem" }}>Or </h5>
                     <input type="text" placeholder="Enter email id" /> */}
                     <button
-                      class="send-otp-btn"
+                      className="send-otp-btn"
                       onClick={(e) => {
                         setShowOTP(true);
                         setShowVisibilityForm(true);
@@ -253,7 +254,7 @@ const BookingForm = ({ children }) => {
                       )}
 
                       <button
-                        class="validate-otp"
+                        className="validate-otp"
                         onClick={(e) => {
                           setShowOTP(true);
                           initiatePayment();
@@ -276,7 +277,7 @@ const BookingForm = ({ children }) => {
   return (
     <>
       <div className="booking-form-container ">
-        <div class="div-a ">
+        <div className="div-a ">
           <div className="form-container">
             <div>
               <h1 className="font-bold text-md text-xl text-typography pos-rel">
@@ -406,10 +407,10 @@ const BookingForm = ({ children }) => {
             <CartFooter />
           </div>
         </div>
-        <div class="div-b">
+        <div className="div-b">
           <Cart />
         </div>
-        <div class="show-mble">{/* <Cart />  */}</div>
+        <div className="show-mble">{/* <Cart />  */}</div>
 
         {/* </div> */}
       </div>

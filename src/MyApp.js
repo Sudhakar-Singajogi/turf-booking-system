@@ -5,48 +5,49 @@ import SlideShow from "./components/SlideShow";
 import BookingForm from "./components/BookingForm";
 import Cart from "./components/Cart";
 import Footer from "./components/Footer";
-import Header from "./Header"; 
+import Header from "./Header";
 import CartPaymentPolicy from "./CartPaymentPolicy";
 import { useDispatch } from "react-redux";
 import { getVenuDetails } from "./Redux/Slices/BokingSliceReducer";
 
-import sonetlogo from "./assets/SonetLogo.png"
-
+import sonetlogo from "./assets/SonetLogo.png";
+import LoginComponent from "./components/LoginComponent";
 
 function MyApp() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getVenuDetails())
-  }, [])
+    dispatch(getVenuDetails());
+  }, []);
   return (
     <div className="App">
       <BrowserRouter>
-      <Header logo={sonetlogo}  />
-      {/* Header Navigation */}
+        <Header logo={sonetlogo} />
+        {/* Header Navigation */}
 
-      {/* Main Content */}
-      <main>
-        <div className="container">
-          <div className="content-wrapper"> 
+        {/* Main Content */}
+        <main>
+          <div className="container">
+            <div className="content-wrapper">
               {/* <SlideShow /> */}
-            <div className="booking-cart-wrapper column right-column">
-            <Routes>
-              <Route path="/" exact element={<BookingForm /> } />
-              <Route path="/confirm-slot" exact element={<CartPaymentPolicy /> } />
-              
-              </Routes>
-              
+              <div className="booking-cart-wrapper column right-column">
+                <Routes>
+                  <Route path="/" exact element={<LoginComponent />} />
+                  <Route
+                    path="/confirm-slot"
+                    exact
+                    element={<CartPaymentPolicy />}
+                  />
+                </Routes>
+              </div>
             </div>
           </div>
-        </div>
-      </main>
+        </main>
       </BrowserRouter>
 
       {/* Footer */}
       <div className="dnt-show-mble">
-      <Footer />
-
+        <Footer />
       </div>
     </div>
   );

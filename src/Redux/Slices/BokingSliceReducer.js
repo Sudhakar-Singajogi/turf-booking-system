@@ -49,6 +49,8 @@ export const bookingSlice = createSlice({
       turfs: [],
       sports: [],
       venuedetails: {},
+      captain:{},
+      isCaptainExists:"",
     },
     status: STATUSES.IDLE,
   },
@@ -89,6 +91,8 @@ export const bookingSlice = createSlice({
           turfs: state.data.turfs,
           sports: state.data.sports,
           venuedetails: state.data.venuedetails,
+          captain:state.data.captain,
+          isCaptainExists:"",
         };
         state.isAvailable = "";
       })
@@ -172,6 +176,30 @@ export const bookingSlice = createSlice({
       })
       .addCase(changeDate.rejected, (state, action) => {
         state.data.turfs = [];
+      })
+      .addCase(getUserInfo.pending, (state, action) => {
+        state.data.captain = {};
+      })
+      .addCase(getUserInfo.fulfilled, (state, action) => {
+        console.log("turfs are:", action.payload.data);
+        console.log("turfs are:", action.payload.totalRows);
+        state.data.captain = action.payload.totalRows > 0 ? action.payload.data : state.data.captain
+        state.data.isCaptainExists = action.payload.totalRows === 0 ? false : true
+      })
+      .addCase(getUserInfo.rejected, (state, action) => {
+        state.data.captain = {};
+      })
+      .addCase(createNewCaptain.pending, (state, action) => {
+        state.data.captain = {};
+      })
+      .addCase(createNewCaptain.fulfilled, (state, action) => {
+        console.log("turfs are:", action.payload.data);
+        console.log("turfs are:", action.payload.totalRows);
+        state.data.captain = action.payload.totalRows > 0 ? action.payload.data : state.data.captain
+        state.data.isCaptainExists = action.payload.totalRows === 0 ? false : true
+      })
+      .addCase(createNewCaptain.rejected, (state, action) => {
+        state.data.captain = {};
       });
   },
 });
@@ -288,5 +316,57 @@ export const changeDate = createAsyncThunk(
     }
   }
 );
+
+export const getUserInfo = createAsyncThunk("booking/get-user-info",
+async (captain_contact) => {
+  console.log('captain_contact: ', captain_contact)
+  try {
+    // const resp = await fetch("http://127.0.0.1:8080/api/turf/byareana", {
+      const resp = await fetch("http://127.0.0.1:8080/api/captain/details", {
+      method: "POST",
+      body: JSON.stringify({
+        captain_contact: captain_contact,
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    });
+    if (!resp.result === "OK") {
+      throw new Error("Failed to get response, contact admin");
+    }
+    const data = await resp.json(); 
+
+    console.log("resp data: ", resp);
+    return data;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+})
+
+export const createNewCaptain = createAsyncThunk("booking/create-new-captain",
+async (captainObj, { dispatch }) => {
+  console.log('new captain is: ', captainObj)
+  try {
+    // const resp = await fetch("http://127.0.0.1:8080/api/turf/byareana", {
+      const resp = await fetch("http://127.0.0.1:8080/api/captain/create", {
+      method: "POST",
+      body: JSON.stringify(captainObj),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    });
+    if (!resp.result === "OK") {
+      throw new Error("Failed to get response, contact admin");
+    }
+    const data = await resp.json(); 
+    dispatch(getUserInfo(captainObj.captain_contact))
+
+    console.log("resp data: ", resp);
+    return data;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+})
+
 
 export default bookingSlice.reducer;

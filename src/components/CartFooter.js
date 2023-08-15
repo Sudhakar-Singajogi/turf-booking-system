@@ -41,12 +41,12 @@ function CartFooter() {
 
 
   return (
-    <div class="footer show-mble">
-              <div class="footer-icon">
+    <div className="footer show-mble">
+              <div className="footer-icon">
                 <ProductionQuantityLimitsIcon style={{ fontSize: "2rem" }} />
               </div>
-              <div class="footer-middle flex-right">
-                <div class="total-hours">
+              <div className="footer-middle flex-right">
+                <div className="total-hours">
                   {data.hrs > 0 && data.timedata !== "" && <TimelapseIcon />}
 
                   {data.hrs > 0 && data.timeslot !== ""
@@ -56,7 +56,7 @@ function CartFooter() {
                     : ""}
                 </div>
                 <div style={{ marginLeft: "20px" }}> </div>
-                <div class="total-cost">
+                <div className="total-cost">
                   {data.timeslot !== ""
                     ? data.hrs > 0 && <CurrencyRupeeIcon />
                     : ""}
@@ -65,7 +65,7 @@ function CartFooter() {
                     : ""}
                 </div>
               </div>
-              <div class="footer-icon">
+              <div className="footer-icon">
                 <Link
                   to="/confirm-slot"
                   onClick={(e) => ProceedToPolicy(e)}

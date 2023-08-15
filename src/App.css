@@ -542,7 +542,7 @@ button {
   position: absolute;
   top: 33px;
   right: 0px !important;
-  z-index: 999999999999;
+  z-index: 9;
 }
 
 .booking-form-container {

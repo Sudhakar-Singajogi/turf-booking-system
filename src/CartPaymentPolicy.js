@@ -18,6 +18,9 @@ import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantity
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import useGetExactToTime from "./CustomHooks/useGetExactToTime";
+import MUIModal from "./components/MUI/MUIModal";
+import LoginComponent from "./components/LoginComponent";
+
 
 function getTurfName(turfs, turfId) {
   if (turfId > 0) {
@@ -35,6 +38,8 @@ function getGameName(games, gameId) {
 
 function CartPaymentPolicy() {
   const { data: slot } = useSelector((state) => state.booking);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [showOTP, setShowOTP] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { getExactToTime } = useGetExactToTime();
@@ -107,15 +112,20 @@ function CartPaymentPolicy() {
   ];
 
   const handlePaymentProcess = (e) => {
-    console.log("hey");
+    console.log("hey"); 
     // setModalOpen(true);
     e.preventDefault();
   };
 
+  const handleModalClose = () => {
+    setModalOpen(false);
+    setShowOTP(false);
+  };
+
   return (
     <>
-      <div class="containers">
-        <div class="div-a game-venue-details">
+      <div className="containers">
+        <div className="div-a game-venue-details">
           <div className="policy-container ">
             <div className="cart-header">
               <div
@@ -265,7 +275,7 @@ function CartPaymentPolicy() {
             </div>
           </div>
         </div>
-        <div class="div-b pricing-details ">
+        <div className="div-b pricing-details ">
           <div className="policy-container">
             <div>
               <div
@@ -326,7 +336,7 @@ function CartPaymentPolicy() {
 
             <div>
               <h6 style={{ fontWeight: "bold", fontSize: "1rem" }}>
-                <CardGiftcardIcon style={{ color: "orange" }} /> Apply Coupon:
+                <CardGiftcardIcon style={{ color: "orange" }}  /> Apply Coupon:
               </h6>
               <div
                 style={{
@@ -340,6 +350,7 @@ function CartPaymentPolicy() {
                     <CheckCircleIcon
                       className="apply-coupon-btn"
                       style={{ color: "orange", cursor: "pointer" }}
+                      onClick={() => console.log('hey')}
                     />{" "}
                   </div>
                   <TextFieldWithIcon />{" "}
@@ -384,7 +395,7 @@ function CartPaymentPolicy() {
               <button
                 className="proceed-btn btn-block"
                 onClick={(e) => {
-                  handlePaymentProcess(e);
+                  setModalOpen(true);
                 }}
               >
                 Proceed To Pay
@@ -392,7 +403,7 @@ function CartPaymentPolicy() {
             </div>
           </div>
         </div>
-        <div class="div-c policy-terms show-at-765">
+        <div className="div-c policy-terms show-at-765">
           <div>
             <h6
               className="dnt-show-at-765"
@@ -450,14 +461,25 @@ function CartPaymentPolicy() {
             </ul>
           </div>
         </div>
+        <MUIModal
+        params={{
+          open: modalOpen,
+          handleClose: handleModalClose,
+          modalTitle: "Login",
+          component: LoginComponent,
+          width: 1000,
+          adjustTop: "30%",
+          showTitle: "yes",
+        }}
+      />
       </div>
       {/* <div className="show-at-765">
-        <div class="footer">
-          <div class="footer-icon">
+        <div className="footer">
+          <div className="footer-icon">
             <ProductionQuantityLimitsIcon style={{ fontSize: "2rem" }} />
           </div>
-          <div class="footer-middle flex-right">
-            <div class="total-hours">
+          <div className="footer-middle flex-right">
+            <div className="total-hours">
               <TimelapseIcon />:{" "}
               {slot.hrs > 0
                 ? slot.hrs > 1
@@ -466,14 +488,14 @@ function CartPaymentPolicy() {
                 : "Nill"}
             </div>
             <div style={{ marginLeft: "20px" }}> </div>
-            <div class="total-cost">
+            <div className="total-cost">
               Advance: <CurrencyRupeeIcon /> {bookingAmount * 0.3}
                <span style={{marginLeft:'1rem'}}>
                   Pay @ venue: <CurrencyRupeeIcon /> {bookingAmount - (bookingAmount * 0.3)}
                 </span>
             </div>
           </div>
-          <div class="footer-icon">
+          <div className="footer-icon">
             <Link
               to="/confirm-cart"
               onClick={(e) => {

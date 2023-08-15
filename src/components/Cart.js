@@ -95,12 +95,12 @@ const Cart = () => {
   return (
     <>
       <div className="show-mble">
-        {/* <div class="footer">
-          <div class="footer-icon">
+        {/* <div className="footer">
+          <div className="footer-icon">
             <ProductionQuantityLimitsIcon style={{ fontSize: "2rem" }} />
           </div>
-          <div class="footer-middle flex-right">
-            <div class="total-hours">
+          <div className="footer-middle flex-right">
+            <div className="total-hours">
 
 
 
@@ -113,7 +113,7 @@ const Cart = () => {
                 : ""}
             </div>
             <div style={{ marginLeft: "20px" }}> </div>
-            <div class="total-cost">
+            <div className="total-cost">
               {
                 slot.timeslot !== "" ? (slot.hrs > 0 && <CurrencyRupeeIcon />) : ""
               }
@@ -123,7 +123,7 @@ const Cart = () => {
               
             </div>
           </div>
-          <div class="footer-icon">
+          <div className="footer-icon">
             <Link
               to="/confirm-cart"
               onClick={(e) => ProceedToPolicy(e)}
