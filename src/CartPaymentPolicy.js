@@ -19,6 +19,7 @@ import useGetExactToTime from "./CustomHooks/useGetExactToTime";
 import MUIModal from "./components/MUI/MUIModal";
 import LoginComponent from "./components/LoginComponent";
 import RazorPayment from "./CustomHooks/RazorPayment";
+import { checkIsWeekEnd } from "./CustomLogics/customLogics"; 
 
 function getTurfName(turfs, turfId) {
   if (turfId > 0) {
@@ -41,7 +42,7 @@ function CartPaymentPolicy() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { getExactToTime } = useGetExactToTime();
-  const {initiatePayment} = RazorPayment();
+  const { initiatePayment } = RazorPayment();
 
   console.log("slot is: ", slot);
   const turfs = slot.turfs;
@@ -335,8 +336,8 @@ function CartPaymentPolicy() {
               </ul>
               <hr />
             </div>
-
-            <div>
+            {/** has to uncomment when coupon module is ready */}
+            {/* <div>
               <h6 style={{ fontWeight: "bold", fontSize: "1rem" }}>
                 <CardGiftcardIcon style={{ color: "orange" }} /> Apply Coupon:
               </h6>
@@ -358,7 +359,8 @@ function CartPaymentPolicy() {
                   <TextFieldWithIcon />{" "}
                 </div>
               </div>
-            </div>
+            </div> */}
+
             <hr />
             <div className="price-section ">
               <div className="flex-item ">
@@ -372,17 +374,32 @@ function CartPaymentPolicy() {
               <div className="flex-item text-center ">
                 <span style={{ fontWeight: "bold", fontSize: "15px" }}>
                   <CurrencyRupeeIcon style={{ fontSize: "15px" }} />
-                  {bookingAmount}
+                  
+                  { 
+                    bookingAmount 
+                  }
                 </span>
               </div>
             </div>
 
             <ul className="fancy-bullets ">
+              {
+               !checkIsWeekEnd(slot.bookeddate) ? (<>
+               <li>
+                <strong style={{ fontSize: "11px" }}>
+                  Coupon Applied:{" "}
+                  <CurrencyRupeeIcon style={{ fontSize: "15px" }} />
+                  {Math.ceil(bookingAmount + bookingAmount*0.05)}
+                </strong>
+              </li>
+              </>):""
+              }
+              
               <li>
                 <strong style={{ fontSize: "11px" }}>
                   Advance to pay:{" "}
                   <CurrencyRupeeIcon style={{ fontSize: "15px" }} />
-                  {bookingAmount * 0.3}
+                  {bookingAmount *0.3}
                 </strong>
               </li>
               <li>
@@ -397,8 +414,10 @@ function CartPaymentPolicy() {
               {slot.captain.captainId ? (
                 <>
                   <button
-                    className="proceed-btn btn-block" 
-                    onClick={(e)=> { handlePaymentProcess(e) }}
+                    className="proceed-btn btn-block"
+                    onClick={(e) => {
+                      handlePaymentProcess(e);
+                    }}
                   >
                     Proceed To Pay
                   </button>
@@ -488,6 +507,7 @@ function CartPaymentPolicy() {
           }}
         />
       </div>
+
       {/* <div className="show-at-765">
         <div className="footer">
           <div className="footer-icon">

@@ -36,7 +36,7 @@ function RazorPayment() {
         alert("Razorpay SDK failed to load. Are you online?");
         return;
       }
-      const resp = await fetch("http://127.0.0.1:8080/api/order/create-order", {
+      const resp = await fetch("http://192.168.0.111:8080/api/order/create-order", {
         method: "POST",
         body: JSON.stringify({ ...getBookingInfo() }),
         headers: {
@@ -73,7 +73,7 @@ function RazorPayment() {
           };
 
           const result = await axios.post(
-            "http://127.0.0.1:8080/api/order/success",
+            "http://192.168.0.111:8080/api/order/success",
             data
           );
           

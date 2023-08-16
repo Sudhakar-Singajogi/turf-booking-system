@@ -13,18 +13,28 @@ import Tooltip from "@mui/material/Tooltip";
 import PersonAdd from "@mui/icons-material/PersonAdd";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
-import LoginIcon from '@mui/icons-material/Login';
+import LoginIcon from "@mui/icons-material/Login";
+import MUIModal from "./components/MUI/MUIModal";
+import LoginComponent from "./components/LoginComponent";
 
 function Header({ logo }) {
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state.booking);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [showOTP, setShowOTP] = useState(false);
+
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleModalClose = () => {
+    setModalOpen(false);
+    setShowOTP(false);
   };
 
   return (
@@ -65,7 +75,7 @@ function Header({ logo }) {
                   sx: {
                     overflow: "visible",
                     filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-                    mt: 0.5, 
+                    mt: 0.5,
                     "& .MuiAvatar-root": {
                       width: 32,
                       height: 32,
@@ -92,7 +102,7 @@ function Header({ logo }) {
                 <MenuItem onClick={handleClose}>
                   <Avatar /> Profile
                 </MenuItem>
-                 
+
                 <MenuItem onClick={handleClose}>
                   <ListItemIcon>
                     <Logout fontSize="small" />
@@ -102,13 +112,30 @@ function Header({ logo }) {
               </Menu>
             </li>
           ) : (
-            <Tooltip title="Sign In" style={{ color: "#fff", fontSize: "1.6rem", cursor:'pointer' }} >
-            <LoginIcon 
-            />
+            <Tooltip
+              title="Sign In"
+              style={{ color: "#fff", fontSize: "1.6rem", cursor: "pointer" }}
+            >
+              <LoginIcon
+                onClick={(e) => {
+                  setModalOpen(true);
+                }}
+              />
             </Tooltip>
           )}
         </ul>
       </nav>
+      <MUIModal
+        params={{
+          open: modalOpen,
+          handleClose: handleModalClose,
+          modalTitle: "Login",
+          component: LoginComponent,
+          width: 1000,
+          adjustTop: "30%",
+          showTitle: "yes",
+        }}
+      />
     </header>
   );
 }

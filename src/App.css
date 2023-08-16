@@ -759,6 +759,10 @@ margin-right:0% !important
   right: 0rem !important;
 }
 
+.MuiAlert-action.css-ki1hdl-MuiAlert-action {
+  margin-right:-40px !important;
+}
+
 /* Keyframes for fadeIn animation */
 @keyframes fadeIn {
   from {
@@ -933,6 +937,10 @@ margin-right:0% !important
 
   .sil-field-set-comp {
     width: 55% !important;
+  }
+  .css-1pxa9xg-MuiAlert-message {
+    font-size: 0.6rem !important;
+    padding-top: 0.8rem !important;;
   }
 }
 

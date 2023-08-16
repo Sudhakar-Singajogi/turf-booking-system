@@ -11,7 +11,7 @@ export const validateFormSlice = createSlice({
       turf_error: "",
     },
     isAvailable: "",
-    bookingSuccess:""
+    bookingSuccess:true
   },
   reducers: {
     validateBookingForm: (state, action) => {
@@ -28,10 +28,15 @@ export const validateFormSlice = createSlice({
         turf_error: "",
       };
       state.isAvailable = "";
+      state.bookingSuccess = "";
     },
     turfbookedsuccessfully: (state, action) => {
       state.bookingSuccess = action.payload
+    },
+    closeSuccessMsg: (state, action) => {
+      state.bookingSuccess = ""
     }
+
   },
 
   extraReducers: (builder) => {
@@ -54,7 +59,7 @@ export const checkTurfAvailability = createAsyncThunk(
     const reqBody = data;
     console.log('requested body is:', reqBody)
     try {
-      const resp = await fetch("http://127.0.0.1:8080/api/turf/exists", {
+      const resp = await fetch("http://192.168.0.111:8080/api/turf/exists", {
         method: "POST",
         body: JSON.stringify({
           ...reqBody,
@@ -79,5 +84,5 @@ export const checkTurfAvailability = createAsyncThunk(
   }
 );
 
-export const { validateBookingForm, clearErrors, turfbookedsuccessfully } = validateFormSlice.actions;
+export const { validateBookingForm, clearErrors, turfbookedsuccessfully, closeSuccessMsg } = validateFormSlice.actions;
 export default validateFormSlice.reducer;

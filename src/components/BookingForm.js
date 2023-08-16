@@ -15,7 +15,7 @@ import IncrementDecrement from "./IncrementDecrement";
 import Cart from "./Cart";
 import SelectGame from "./CustomComp/SelectGame";
 import SelectTurf from "./CustomComp/SelectTurf";
-import { validateBookingForm } from "../Redux/Slices/BookingFormValidatorReducer";
+import { closeSuccessMsg, validateBookingForm } from "../Redux/Slices/BookingFormValidatorReducer";
 import CleaningServicesIcon from "@mui/icons-material/CleaningServices";
 import { clearErrors } from "../Redux/Slices/BookingFormValidatorReducer";
 
@@ -115,7 +115,7 @@ const BookingForm = ({ children }) => {
               bookingSuccess === true ? (
                 <>
                   <Alert
-                    onClose={() => {}}
+                    onClose={() => {dispatch(closeSuccessMsg())}}
                     sx={{ width: "100%", fontWeight: "bold" }}
                     severity="success"
                   >
