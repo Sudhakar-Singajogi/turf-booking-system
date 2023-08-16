@@ -4,7 +4,8 @@ import {
   createReducer,
   createSlice,
 } from "@reduxjs/toolkit";
-import { clearErrors } from "./BookingFormValidatorReducer";
+import { clearErrors } from "./BookingFormValidatorReducer"; 
+import {checkIsWeekEnd} from "../../CustomLogics/customLogics"
 
 export const STATUSES = Object.freeze({
   IDLE: "idle",
@@ -12,19 +13,12 @@ export const STATUSES = Object.freeze({
   ERROR: "error",
 });
 
+
+
 function getTurfCost(turf, bookeddate) {
-  console.log("bookeddate: ", bookeddate);
-  let currentDate = new Date();
-  if (bookeddate !== "") {
-    const [day, month, year] = bookeddate.split("/").map(Number);
-    const jsDate = new Date(year, month - 1, day);
-    currentDate = new Date(jsDate);
-  }
+  console.log("bookeddate: ", bookeddate);  
 
-  const dayOfWeek = currentDate.getDay();
-
-  const isweekend = dayOfWeek === 0 || dayOfWeek === 6;
-
+  const isweekend = checkIsWeekEnd(bookeddate);
   console.log("isweekend: ", isweekend);
 
   let turfCost = turf.weekdays_cost;
@@ -76,6 +70,24 @@ export const bookingSlice = createSlice({
     calculateBookingCost: (state, action) => {
       state.data.bookingamount = state.data.hrs * state.data.turfcost;
     },
+    clearTurf: (state, action) => {
+      state.data = {
+        game: 0,
+        bookeddate: "",
+        timeslot: "",
+        hrs: 1,
+        turf: 0,
+        turfcost: 0,
+        bookingamount: 0,
+        turfs: state.data.turfs,
+        sports: [],
+        venuedetails: state.data.venuedetails,
+        captain:state.data.captain,
+        isCaptainExists:"",
+      };
+      state.isAvailable = "";
+    }
+    
   },
   extraReducers: (builder) => {
     builder
@@ -96,6 +108,7 @@ export const bookingSlice = createSlice({
         };
         state.isAvailable = "";
       })
+      
       .addCase(getTurfs.pending, (state, action) => {
         state.data.turfs = [];
       })
@@ -211,6 +224,7 @@ export const {
   changeTurf,
   changeHrs,
   calculateBookingCost,
+  clearTurf
 } = bookingSlice.actions;
 
 export const getTurfs = createAsyncThunk(

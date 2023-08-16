@@ -196,7 +196,8 @@ import {
   getUserInfo,
 } from "../Redux/Slices/BokingSliceReducer";
 
-const LoginComponent = () => {
+const LoginComponent = (props) => {
+  console.log('props are: ', props )
   const [otp, setOtp] = useState("");
   const [ph, setPh] = useState("");
   const [loading, setLoading] = useState(false);
@@ -236,15 +237,10 @@ const LoginComponent = () => {
     setLoading(true);
     onCaptchVerify();
 
-    // dispatch(getUserInfo(ph));
-
-    // setLoading(false);
-    // setShowOTP(true);
-
     const appVerifier = window.recaptchaVerifier;
 
-    const formatPh = "+919849620841";
-
+    const formatPh = "+" + ph; 
+    
     signInWithPhoneNumber(auth, formatPh, appVerifier)
       .then((confirmationResult) => {
         window.confirmationResult = confirmationResult;
@@ -255,9 +251,10 @@ const LoginComponent = () => {
         dispatch(getUserInfo(ph));
       })
       .catch((error) => {
+        dispatch(getUserInfo(ph));
         console.log(error);
         setLoading(false);
-      });
+      }); 
   };
 
   function onOTPVerify() {
@@ -283,6 +280,7 @@ const LoginComponent = () => {
 
         setUser(data.captain);
         setLoading(false);
+        props.params.handleClose();
       })
       .catch((err) => {
         console.log(err);
@@ -300,10 +298,7 @@ const LoginComponent = () => {
             👍Login Success
           </h2>
         ) : (
-          <div className="w-80 flex flex-col gap-4 rounded-lg p-4">
-            <h1 className="text-center leading-normal text-white font-medium text-3xl mb-6">
-              Welcome to <br /> CODE A PROGRAM
-            </h1>
+          <div className="w-80 flex flex-col gap-4 rounded-lg p-4 mar-tp30">
             {showOTP ? (
               <>
                 <label htmlFor="otp" className="font-bold text-xl">
@@ -352,7 +347,7 @@ const LoginComponent = () => {
               </>
             ) : (
               <>
-                <div className="bg-white text-emerald-500 w-fit mx-auto p-4 rounded-full">
+                {/* <div className="bg-white text-emerald-500 w-fit mx-auto p-4 rounded-full">
                   <BsTelephoneFill size={30} />
                 </div>
                 <label
@@ -360,7 +355,7 @@ const LoginComponent = () => {
                   className="font-bold text-xl text-white text-center"
                 >
                   Verify your phone number
-                </label>
+                </label> */}
                 <PhoneInput country={"in"} value={ph} onChange={setPh} />
                 <button
                   onClick={() => OnSignup("+" + ph)}

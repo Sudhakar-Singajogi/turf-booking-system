@@ -11,6 +11,7 @@ export const validateFormSlice = createSlice({
       turf_error: "",
     },
     isAvailable: "",
+    bookingSuccess:""
   },
   reducers: {
     validateBookingForm: (state, action) => {
@@ -28,6 +29,9 @@ export const validateFormSlice = createSlice({
       };
       state.isAvailable = "";
     },
+    turfbookedsuccessfully: (state, action) => {
+      state.bookingSuccess = action.payload
+    }
   },
 
   extraReducers: (builder) => {
@@ -75,5 +79,5 @@ export const checkTurfAvailability = createAsyncThunk(
   }
 );
 
-export const { validateBookingForm, clearErrors } = validateFormSlice.actions;
+export const { validateBookingForm, clearErrors, turfbookedsuccessfully } = validateFormSlice.actions;
 export default validateFormSlice.reducer;

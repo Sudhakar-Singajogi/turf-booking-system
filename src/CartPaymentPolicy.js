@@ -14,13 +14,11 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { clearErrors } from "./Redux/Slices/BookingFormValidatorReducer";
-import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
-import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import useGetExactToTime from "./CustomHooks/useGetExactToTime";
 import MUIModal from "./components/MUI/MUIModal";
 import LoginComponent from "./components/LoginComponent";
-
+import RazorPayment from "./CustomHooks/RazorPayment";
 
 function getTurfName(turfs, turfId) {
   if (turfId > 0) {
@@ -43,6 +41,7 @@ function CartPaymentPolicy() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { getExactToTime } = useGetExactToTime();
+  const {initiatePayment} = RazorPayment();
 
   console.log("slot is: ", slot);
   const turfs = slot.turfs;
@@ -112,9 +111,10 @@ function CartPaymentPolicy() {
   ];
 
   const handlePaymentProcess = (e) => {
-    console.log("hey"); 
+    console.log("hey");
     // setModalOpen(true);
     e.preventDefault();
+    initiatePayment();
   };
 
   const handleModalClose = () => {
@@ -196,7 +196,9 @@ function CartPaymentPolicy() {
               <div className="cart-item flex flex-row  show-mble pos-rel">
                 {game_venue_details.map((items, index) => (
                   <>
-                    <div className={` ${index === 0 ? "flex-col" : " pos-abs"}`} >
+                    <div
+                      className={` ${index === 0 ? "flex-col" : " pos-abs"}`}
+                    >
                       {items.map((item) => (
                         <>
                           <div className="venue-detail-items">
@@ -212,9 +214,9 @@ function CartPaymentPolicy() {
                         </>
                       ))}
                     </div>
-                    {
-                      (index === 0) ? <div style={{margin:'1.1rem',}}> </div>:null
-                    }
+                    {index === 0 ? (
+                      <div style={{ margin: "1.1rem" }}> </div>
+                    ) : null}
                   </>
                 ))}
               </div>
@@ -336,7 +338,7 @@ function CartPaymentPolicy() {
 
             <div>
               <h6 style={{ fontWeight: "bold", fontSize: "1rem" }}>
-                <CardGiftcardIcon style={{ color: "orange" }}  /> Apply Coupon:
+                <CardGiftcardIcon style={{ color: "orange" }} /> Apply Coupon:
               </h6>
               <div
                 style={{
@@ -350,7 +352,7 @@ function CartPaymentPolicy() {
                     <CheckCircleIcon
                       className="apply-coupon-btn"
                       style={{ color: "orange", cursor: "pointer" }}
-                      onClick={() => console.log('hey')}
+                      onClick={() => console.log("hey")}
                     />{" "}
                   </div>
                   <TextFieldWithIcon />{" "}
@@ -392,14 +394,27 @@ function CartPaymentPolicy() {
               </li>
             </ul>
             <div className="cart-footer">
-              <button
-                className="proceed-btn btn-block"
-                onClick={(e) => {
-                  setModalOpen(true);
-                }}
-              >
-                Proceed To Pay
-              </button>
+              {slot.captain.captainId ? (
+                <>
+                  <button
+                    className="proceed-btn btn-block" 
+                    onClick={(e)=> { handlePaymentProcess(e) }}
+                  >
+                    Proceed To Pay
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    className="proceed-btn btn-block"
+                    onClick={(e) => {
+                      setModalOpen(true);
+                    }}
+                  >
+                    Sign To Pay
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -462,16 +477,16 @@ function CartPaymentPolicy() {
           </div>
         </div>
         <MUIModal
-        params={{
-          open: modalOpen,
-          handleClose: handleModalClose,
-          modalTitle: "Login",
-          component: LoginComponent,
-          width: 1000,
-          adjustTop: "30%",
-          showTitle: "yes",
-        }}
-      />
+          params={{
+            open: modalOpen,
+            handleClose: handleModalClose,
+            modalTitle: "Login",
+            component: LoginComponent,
+            width: 1000,
+            adjustTop: "30%",
+            showTitle: "yes",
+          }}
+        />
       </div>
       {/* <div className="show-at-765">
         <div className="footer">

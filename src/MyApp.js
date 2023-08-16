@@ -32,7 +32,7 @@ function MyApp() {
               {/* <SlideShow /> */}
               <div className="booking-cart-wrapper column right-column">
                 <Routes>
-                  <Route path="/" exact element={<LoginComponent />} />
+                  <Route path="/" exact element={<BookingForm />} />
                   <Route
                     path="/confirm-slot"
                     exact

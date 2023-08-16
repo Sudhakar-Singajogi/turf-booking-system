@@ -39,7 +39,9 @@ function useDateTimeRealated() {
 
     return formattedTime;
   };
-  return { convertDateTimeToMillSec, convertDateYmd, addHoursToTimeSlot };
+
+  
+  return { convertDateTimeToMillSec, convertDateYmd, addHoursToTimeSlot};
 }
 
 export default useDateTimeRealated;
