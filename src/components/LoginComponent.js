@@ -12,8 +12,7 @@ import {
   getUserInfo,
 } from "../Redux/Slices/BokingSliceReducer";
 
-const LoginComponent = (props) => {
-  console.log("props are: ", props);
+const LoginComponent = (props) => { 
   const [otp, setOtp] = useState("");
   const [ph, setPh] = useState("");
   const [loading, setLoading] = useState(false);
@@ -73,7 +72,7 @@ const LoginComponent = (props) => {
         dispatch(getUserInfo(ph));
 
         console.log(error);
-        toast.success("Failed to send OTP");
+        // toast.success("Failed to send OTP");
         setLoading(false);
       });
   };

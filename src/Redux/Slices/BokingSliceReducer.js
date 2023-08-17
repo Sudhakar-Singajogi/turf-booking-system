@@ -21,7 +21,7 @@ function getTurfCost(turf, bookeddate) {
   const isweekend = checkIsWeekEnd(bookeddate);
   console.log("isweekend: ", isweekend);
 
-  let turfCost = turf.weekdays_cost - (turf.weekdays_cost*0.05);
+  let turfCost = (turf.weekdays_cost);
   if (isweekend) {
     turfCost = turf.weekends_cost;
   }
@@ -86,6 +86,9 @@ export const bookingSlice = createSlice({
         isCaptainExists:"",
       };
       state.isAvailable = "";
+    },
+    applyCouponCost: (state, action) => {
+      state.data.bookingamount = (state.data.hrs * state.data.turfcost) - ((state.data.hrs * state.data.turfcost) * action.payload);
     }
     
   },
@@ -224,7 +227,8 @@ export const {
   changeTurf,
   changeHrs,
   calculateBookingCost,
-  clearTurf
+  clearTurf,
+  applyCouponCost
 } = bookingSlice.actions;
 
 export const getTurfs = createAsyncThunk(

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "./App.css";
 import "./policy.css";
 
@@ -20,6 +20,7 @@ import MUIModal from "./components/MUI/MUIModal";
 import LoginComponent from "./components/LoginComponent";
 import RazorPayment from "./CustomHooks/RazorPayment";
 import { checkIsWeekEnd } from "./CustomLogics/customLogics"; 
+import { applyCouponCost } from "./Redux/Slices/BokingSliceReducer";
 
 function getTurfName(turfs, turfId) {
   if (turfId > 0) {
@@ -43,11 +44,22 @@ function CartPaymentPolicy() {
   const navigate = useNavigate();
   const { getExactToTime } = useGetExactToTime();
   const { initiatePayment } = RazorPayment();
+  const couponCost = 0.05
 
   console.log("slot is: ", slot);
   const turfs = slot.turfs;
   const sports = slot.sports;
   const bookingAmount = slot.bookingamount;
+
+
+  useEffect(() => {
+    console.log('booked date is:', slot.bookeddate);
+    console.log('is weekend: ', checkIsWeekEnd(slot.bookeddate));
+    
+    if(!checkIsWeekEnd(slot.bookeddate)) {
+      dispatch(applyCouponCost(couponCost));
+    }
+  }, [couponCost])
 
   if (
     slot.game === 0 ||
@@ -94,7 +106,7 @@ function CartPaymentPolicy() {
         css_class: "flex-col-right",
       },
       {
-        value: bookingAmount,
+        value: slot.turfcost,
         icon_comp: <CurrencyRupeeIcon style={{ color: "orange" }} />,
         css_class: "",
       },
@@ -314,7 +326,7 @@ function CartPaymentPolicy() {
                     style={{ color: "black", fontSize: "0.9rem" }}
                   />
                   <span style={{ fontWeight: "bold", fontSize: "15px" }}>
-                    {bookingAmount}
+                    {slot.turfcost*slot.hrs}
                   </span>
                 </div>
               </div>
@@ -376,7 +388,7 @@ function CartPaymentPolicy() {
                   <CurrencyRupeeIcon style={{ fontSize: "15px" }} />
                   
                   { 
-                    bookingAmount 
+                    bookingAmount
                   }
                 </span>
               </div>
@@ -389,7 +401,7 @@ function CartPaymentPolicy() {
                 <strong style={{ fontSize: "11px" }}>
                   Coupon Applied:{" "}
                   <CurrencyRupeeIcon style={{ fontSize: "15px" }} />
-                  {Math.ceil(bookingAmount + bookingAmount*0.05)}
+                  { slot.turfcost*slot.hrs - bookingAmount}
                 </strong>
               </li>
               </>):""

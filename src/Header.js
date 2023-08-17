@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useSelector, useDispatch } from "react-redux/";
@@ -32,10 +32,10 @@ function Header({ logo }) {
     setAnchorEl(null);
   };
 
-  const handleModalClose = () => {
+  const handleModalClose = useCallback(() => {
     setModalOpen(false);
     setShowOTP(false);
-  };
+  }, []);
 
   return (
     <header className="top-nav-bar">

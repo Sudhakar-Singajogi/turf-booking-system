@@ -15,7 +15,10 @@ import IncrementDecrement from "./IncrementDecrement";
 import Cart from "./Cart";
 import SelectGame from "./CustomComp/SelectGame";
 import SelectTurf from "./CustomComp/SelectTurf";
-import { closeSuccessMsg, validateBookingForm } from "../Redux/Slices/BookingFormValidatorReducer";
+import {
+  closeSuccessMsg,
+  validateBookingForm,
+} from "../Redux/Slices/BookingFormValidatorReducer";
 import CleaningServicesIcon from "@mui/icons-material/CleaningServices";
 import { clearErrors } from "../Redux/Slices/BookingFormValidatorReducer";
 
@@ -31,6 +34,43 @@ const BookingForm = ({ children }) => {
   const bookingSuccess = useSelector(
     (state) => state.validateForm.bookingSuccess
   );
+  
+  let currentTime = new Date();
+  
+  const minTime = currentTime; //new Date(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate(), 9, 0);
+  const maxTime = new Date(
+    currentTime.getFullYear(),
+    currentTime.getMonth(),
+    currentTime.getDate(),
+    23,
+    30
+  );
+
+  console.log("maxTime is: ", maxTime);
+
+  const bookedSlots = [
+    {
+      start: new Date().setHours(15, 0, 0),
+      end: new Date().setHours(17, 0, 0),
+    },
+    {
+      start: new Date().setHours(19, 0, 0),
+      end: new Date().setHours(23, 59, 59),
+    },
+    // Add more booked slots as needed
+  ];
+
+  const disabledTimes = bookedSlots.map((slot) => ({
+    start: new Date(slot.start),
+    end: new Date(slot.end),
+  }));
+
+  console.log("disabledTimes is: ", disabledTimes);
+
+  const disabledIntervals = [
+    { start: new Date().setHours(15, 0, 0), end: new Date().setHours(16, 59, 59) },
+    { start: new Date().setHours(19, 0, 0), end: new Date().setHours(23, 59, 59) },
+  ];
 
   const calenderRef = useRef();
   const TimeRef = useRef();
@@ -115,7 +155,9 @@ const BookingForm = ({ children }) => {
               bookingSuccess === true ? (
                 <>
                   <Alert
-                    onClose={() => {dispatch(closeSuccessMsg())}}
+                    onClose={() => {
+                      dispatch(closeSuccessMsg());
+                    }}
                     sx={{ width: "100%", fontWeight: "bold" }}
                     severity="success"
                   >
@@ -123,8 +165,7 @@ const BookingForm = ({ children }) => {
                   </Alert>
                 </>
               ) : (
-                <>
-                </>
+                <></>
               )
             ) : (
               ""
@@ -196,9 +237,23 @@ const BookingForm = ({ children }) => {
                           onChange={handleTimeChange}
                           showTimeSelect // Show the time picker
                           showTimeSelectOnly // Show only the time picker, hiding the date picker
-                          timeIntervals={30} // Set time intervals (in minutes)
+                          timeIntervals={15} // Set time intervals (in minutes)
                           timeCaption="Time"
+                          timeFormat="hh:mm aa"
+                          dateFormat="MMMM d, yyyy h:mm aa"
+
                           timeClassName={getTimeClassName} // Apply custom classes to time picker options
+                          minTime={minTime}
+                          excludeTimes={disabledTimes.map(slot => slot.start)}
+                          filterTime={(time) => {
+                            for (const interval of disabledIntervals) {
+                              if (time >= interval.start && time <= interval.end) {
+                                return false;
+                              }
+                            }
+                            return true;
+                          }}
+                          maxTime={maxTime}
                           customInput={<CustomTimePickerInput />}
                         />
                       </InputAdornment>

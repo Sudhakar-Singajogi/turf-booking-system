@@ -11,7 +11,7 @@ export const validateFormSlice = createSlice({
       turf_error: "",
     },
     isAvailable: "",
-    bookingSuccess:true
+    bookingSuccess:""
   },
   reducers: {
     validateBookingForm: (state, action) => {
@@ -28,7 +28,6 @@ export const validateFormSlice = createSlice({
         turf_error: "",
       };
       state.isAvailable = "";
-      state.bookingSuccess = "";
     },
     turfbookedsuccessfully: (state, action) => {
       state.bookingSuccess = action.payload
