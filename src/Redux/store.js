@@ -1,13 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { bookingSlice } from "./Slices/BokingSliceReducer";
-import {validateFormSlice} from "./Slices/BookingFormValidatorReducer";
+
+import rootReducer from "./CombineReducers";
 
 const store = configureStore({
-    reducer: {
-        booking: bookingSlice.reducer,
-        validateForm: validateFormSlice.reducer
-    },
-
+    reducer: rootReducer,
 })
+
 
 export default store;

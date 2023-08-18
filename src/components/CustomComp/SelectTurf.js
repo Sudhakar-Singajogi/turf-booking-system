@@ -20,12 +20,7 @@ function SelectTurf({ wid80, title, options, onChange, defValue }) {
   const { data } = useSelector((state) => state.booking);
   const errors = useSelector((state) => state.validateForm.errors);
   const turf = data.turf; 
-
-  useEffect(() => {
-    // dispatch(getTurfs());
-    console.log("turfs are", data.turfs);
-  }, []);
-
+  
   const handleturfChange = (value) => { 
     const cost = data.turfs.filter((i) => i.value === value)
     const turfCost = cost[0].turfcost || 0.00;

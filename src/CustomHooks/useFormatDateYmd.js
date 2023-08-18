@@ -9,6 +9,7 @@ function useFormatDateYmd() {
     )}-${dateParts[0].padStart(2, "0")}`;
     return formattedDate
   };
+  
 
   return {convertDateYmd}
 }

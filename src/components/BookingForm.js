@@ -24,19 +24,51 @@ import { clearErrors } from "../Redux/Slices/BookingFormValidatorReducer";
 
 import CartFooter from "./CartFooter";
 import Alert from "@mui/material/Alert";
-import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 
+import useBooking from "../CustomHooks/useBooking";
+import useFormatDateYmd from "../CustomHooks/useFormatDateYmd";
+
 const BookingForm = ({ children }) => {
+  const baseURL = process.env.REACT_APP_apibaseURL;
+  console.log(`base uris is: ${baseURL}`);
+
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state.booking);
   const errors = useSelector((state) => state.validateForm.errors);
+  const { disabledIntervals, disabledTimes } = useSelector(
+    (state) => state.venue.bookedSlots
+  );
+  console.log("disabledTimes: ", disabledTimes);
+  console.log("disabledIntervals: ", disabledIntervals);
   const bookingSuccess = useSelector(
     (state) => state.validateForm.bookingSuccess
   );
-  
-  let currentTime = new Date();
-  
+
+  const { convertDateYmd } = useFormatDateYmd();
+  const {  useCurrentBookedDate } = useBooking();
+
+  var tday = "";
+
+  if (data.bookeddate === "") {
+    let newDtd = new Date();
+    const day = newDtd.getDate();
+    const month = newDtd.getMonth() + 1; // Month is 0-based, so add 1
+    const year = newDtd.getFullYear();
+
+    tday = `${day}/${month}/${year}`;
+  } else if (data.bookeddate !== "") {
+    console.log("data.bookeddate:", data.bookeddate);
+    let newDtd = new Date(convertDateYmd(data.bookeddate));
+    const day = newDtd.getDate();
+    const month = newDtd.getMonth() + 1; // Month is 0-based, so add 1
+    const year = newDtd.getFullYear();
+
+    tday = `${day}/${month}/${year}`;
+  }
+
+  let currentTime = useCurrentBookedDate(tday);
+
   const minTime = currentTime; //new Date(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate(), 9, 0);
   const maxTime = new Date(
     currentTime.getFullYear(),
@@ -45,33 +77,7 @@ const BookingForm = ({ children }) => {
     23,
     30
   );
-
-  console.log("maxTime is: ", maxTime);
-
-  const bookedSlots = [
-    {
-      start: new Date().setHours(15, 0, 0),
-      end: new Date().setHours(17, 0, 0),
-    },
-    {
-      start: new Date().setHours(19, 0, 0),
-      end: new Date().setHours(23, 59, 59),
-    },
-    // Add more booked slots as needed
-  ];
-
-  const disabledTimes = bookedSlots.map((slot) => ({
-    start: new Date(slot.start),
-    end: new Date(slot.end),
-  }));
-
-  console.log("disabledTimes is: ", disabledTimes);
-
-  const disabledIntervals = [
-    { start: new Date().setHours(15, 0, 0), end: new Date().setHours(16, 59, 59) },
-    { start: new Date().setHours(19, 0, 0), end: new Date().setHours(23, 59, 59) },
-  ];
-
+ 
   const calenderRef = useRef();
   const TimeRef = useRef();
   const datePickerRef = useRef(null);
@@ -111,19 +117,18 @@ const BookingForm = ({ children }) => {
     }
   };
 
-  const handleDateChange = (date) => {
+  const HandleDateChange = async (date) => {
     // console.log(convertDateDYM(date));
-    dispatch(
+    await dispatch(
       changeDate({
         date: convertDateDYM(date),
-        arena_id: data.venuedetails.arena_id,
       })
     );
     let ers = {
       ...errors,
       bookeddate_error: "",
     };
-    dispatch(validateBookingForm(ers));
+    dispatch(validateBookingForm(ers)); 
   };
 
   const handleTimeChange = (time) => {
@@ -202,7 +207,7 @@ const BookingForm = ({ children }) => {
                       <InputAdornment position="start" sx={{ width: "0%" }}>
                         <DatePicker
                           ref={datePickerRef}
-                          onChange={handleDateChange}
+                          onChange={HandleDateChange}
                           dateFormat="dd/MM/yyyy"
                           minDate={today} // Set the minimum selectable date to today
                           customInput={<CustomDatePickerInput />}
@@ -218,6 +223,19 @@ const BookingForm = ({ children }) => {
                 />
                 {errors.bookeddate_error !== "" ? (
                   <p className="errmsg ">{errors.bookeddate_error}</p>
+                ) : (
+                  <p>&nbsp;</p>
+                )}
+
+                <SelectTurf
+                  wid80={"w100"}
+                  options={[]}
+                  title={"Select Turf"}
+                  onChange={(e) => {}}
+                  defValue={""}
+                />
+                {errors.turf_error !== "" ? (
+                  <p className="errmsg ">{errors.turf_error}</p>
                 ) : (
                   <p>&nbsp;</p>
                 )}
@@ -241,14 +259,18 @@ const BookingForm = ({ children }) => {
                           timeCaption="Time"
                           timeFormat="hh:mm aa"
                           dateFormat="MMMM d, yyyy h:mm aa"
-
                           timeClassName={getTimeClassName} // Apply custom classes to time picker options
                           minTime={minTime}
-                          excludeTimes={disabledTimes.map(slot => slot.start)}
+                          excludeTimes={disabledTimes.map((slot) => slot.start)}
                           filterTime={(time) => {
-                            for (const interval of disabledIntervals) {
-                              if (time >= interval.start && time <= interval.end) {
+                            for (const interval of disabledTimes) {
+                              if (
+                                time >= interval.start &&
+                                time <= interval.end
+                              ) {
                                 return false;
+                              } else {
+                                console.log("timeis:", time);
                               }
                             }
                             return true;
@@ -271,6 +293,18 @@ const BookingForm = ({ children }) => {
                   <p>&nbsp;</p>
                 )}
 
+                <SelectGame
+                  options={[]}
+                  title={"Select Game"}
+                  onChange={(e) => {}}
+                  defValue={data.game}
+                />
+                {errors.game_error !== "" ? (
+                  <p className="errmsg">{errors.game_error}</p>
+                ) : (
+                  <p>&nbsp;</p>
+                )}
+
                 <IncrementDecrement
                   onDecrement={() => {}}
                   onIncrement={() => {}}
@@ -281,31 +315,6 @@ const BookingForm = ({ children }) => {
                   <p style={{ marginBottom: "30px" }}> </p>
                 )}
               </div>
-
-              <SelectTurf
-                wid80={"w100"}
-                options={[]}
-                title={"Select Turf"}
-                onChange={(e) => {}}
-                defValue={""}
-              />
-              {errors.turf_error !== "" ? (
-                <p className="errmsg ">{errors.turf_error}</p>
-              ) : (
-                <p>&nbsp;</p>
-              )}
-
-              <SelectGame
-                options={[]}
-                title={"Select Game"}
-                onChange={(e) => {}}
-                defValue={data.game}
-              />
-              {errors.game_error !== "" ? (
-                <p className="errmsg">{errors.game_error}</p>
-              ) : (
-                <p>&nbsp;</p>
-              )}
             </div>
             <CartFooter />
           </div>

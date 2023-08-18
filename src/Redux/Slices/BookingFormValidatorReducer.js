@@ -1,5 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
+
+const baseURL = process.env.REACT_APP_apibaseURL;
+
 export const validateFormSlice = createSlice({
   name: "validateForm",
   initialState: {
@@ -58,7 +61,7 @@ export const checkTurfAvailability = createAsyncThunk(
     const reqBody = data;
     console.log('requested body is:', reqBody)
     try {
-      const resp = await fetch("http://192.168.0.111:8080/api/turf/exists", {
+      const resp = await fetch(`${baseURL}turf/exists`, {
         method: "POST",
         body: JSON.stringify({
           ...reqBody,

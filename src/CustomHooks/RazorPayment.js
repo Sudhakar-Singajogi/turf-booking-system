@@ -6,6 +6,8 @@ import { turfbookedsuccessfully } from "../Redux/Slices/BookingFormValidatorRedu
 import { useNavigate } from "react-router-dom";
 import { clearTurf } from "../Redux/Slices/BokingSliceReducer";
 
+const baseURL = process.env.REACT_APP_apibaseURL;
+
 function loadScript(src) {
   return new Promise((resolve) => {
     const script = document.createElement("script");
@@ -36,7 +38,7 @@ function RazorPayment() {
         alert("Razorpay SDK failed to load. Are you online?");
         return;
       }
-      const resp = await fetch("http://192.168.0.111:8080/api/order/create-order", {
+      const resp = await fetch(`${baseURL}order/create-order`, {
         method: "POST",
         body: JSON.stringify({ ...getBookingInfo() }),
         headers: {
@@ -73,7 +75,7 @@ function RazorPayment() {
           };
 
           const result = await axios.post(
-            "http://192.168.0.111:8080/api/order/success",
+            `${baseURL}order/success`,
             data
           );
           
