@@ -10,9 +10,6 @@
   margin-bottom: 2rem;
 }
 
-button {
-  min-width: 80px;
-}
 
 .column {
   flex: 1;
@@ -35,7 +32,7 @@ button {
 }
 
 .top-nav-bar {
-  padding: 20px;
+  padding: 5px;
   border-bottom: 1px solid #eee;
 }
 
@@ -547,10 +544,11 @@ button {
 
 .booking-form-container {
   display: flex;
+  margin: 0 auto !important;
   justify-content: space-between;
   /* margin: 0 10%; */
   height: 100%;
-  width: 100%;
+  /* width: 100%; */
 }
 
 .booking-form-container.div-a,
@@ -561,11 +559,12 @@ button {
 
 /* Styles for divA and divB */
 .booking-form-container .div-a {
-  flex-basis: 60%;
+  flex-basis: 100%;
   border: 2px solid #ebebeb;
   margin: 10px;
   padding: 20px;
   border-radius: 5px;
+  padding-top:0px !important
 }
 
 .booking-form-container .div-b {

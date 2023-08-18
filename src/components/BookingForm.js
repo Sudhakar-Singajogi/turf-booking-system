@@ -319,9 +319,9 @@ const BookingForm = ({ children }) => {
             <CartFooter />
           </div>
         </div>
-        <div className="div-b">
+        {/* <div className="div-b">
           <Cart />
-        </div>
+        </div> */}
         <div className="show-mble">{/* <Cart />  */}</div>
 
         {/* </div> */}

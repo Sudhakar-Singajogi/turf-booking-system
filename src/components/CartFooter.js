@@ -41,7 +41,7 @@ function CartFooter() {
 
 
   return (
-    <div className="footer show-mble">
+    <div className="footer">
               <div className="footer-icon">
                 <ProductionQuantityLimitsIcon style={{ fontSize: "2rem" }} />
               </div>
