@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -15,28 +15,35 @@ import {
 
 import GrassOutlinedIcon from "@mui/icons-material/GrassOutlined";
 import { validateBookingForm } from "../../Redux/Slices/BookingFormValidatorReducer";
+
+import { context } from "../../contexts/context";
+
 function SelectTurf({ wid80, title, options, onChange, defValue }) {
+
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state.booking);
   const errors = useSelector((state) => state.validateForm.errors);
   const turf = data.turf; 
+  const { setLoader } = useContext(context);
   
-  const handleturfChange = (value) => { 
+  const handleturfChange = async (value) => { 
     const cost = data.turfs.filter((i) => i.value === value)
     const turfCost = cost[0].turfcost || 0.00;
+    setLoader(true);
 
-    dispatch(changeTurf({"turfId": value, "turfCost": turfCost}))
+    await dispatch(changeTurf({"turfId": value, "turfCost": turfCost}))
 
       if(data.hrs > 0) {
-        dispatch(calculateBookingCost());
+        await dispatch(calculateBookingCost());
       } 
       
-      dispatch(getSportsByTurf(value));
+      await dispatch(getSportsByTurf(value));
       let ers = {
         ...errors,
         turf_error: "",
       };
-      dispatch(validateBookingForm(ers));
+      await dispatch(validateBookingForm(ers));
+      setLoader(false);
      
   };
 

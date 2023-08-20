@@ -19,7 +19,7 @@ function CartFooter() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-    const ProceedToPolicy = (e) => {
+    const ProceedToPolicy = async (e) => {
         e.preventDefault();
         validateBooking();
         // checkTurfAvailability();

@@ -19,7 +19,7 @@ import useGetExactToTime from "./CustomHooks/useGetExactToTime";
 import MUIModal from "./components/MUI/MUIModal";
 import LoginComponent from "./components/LoginComponent";
 import RazorPayment from "./CustomHooks/RazorPayment";
-import { checkIsWeekEnd } from "./CustomLogics/customLogics"; 
+import { checkIsWeekEnd } from "./CustomLogics/customLogics";
 import { applyCouponCost } from "./Redux/Slices/BokingSliceReducer";
 
 function getTurfName(turfs, turfId) {
@@ -44,22 +44,21 @@ function CartPaymentPolicy() {
   const navigate = useNavigate();
   const { getExactToTime } = useGetExactToTime();
   const { initiatePayment } = RazorPayment();
-  const couponCost = 0.05
+  const couponCost = 0.05;
 
   console.log("slot is: ", slot);
   const turfs = slot.turfs;
   const sports = slot.sports;
   const bookingAmount = slot.bookingamount;
 
-
   useEffect(() => {
-    console.log('booked date is:', slot.bookeddate);
-    console.log('is weekend: ', checkIsWeekEnd(slot.bookeddate));
-    
-    if(!checkIsWeekEnd(slot.bookeddate)) {
+    console.log("booked date is:", slot.bookeddate);
+    console.log("is weekend: ", checkIsWeekEnd(slot.bookeddate));
+
+    if (!checkIsWeekEnd(slot.bookeddate)) {
       dispatch(applyCouponCost(couponCost));
     }
-  }, [couponCost])
+  }, [couponCost]);
 
   if (
     slot.game === 0 ||
@@ -134,6 +133,8 @@ function CartPaymentPolicy() {
     setModalOpen(false);
     setShowOTP(false);
   };
+  const advPay = slot.bookingamount * 0.3;
+  const advPayRoundOff = Math.floor(advPay);
 
   return (
     <>
@@ -326,7 +327,7 @@ function CartPaymentPolicy() {
                     style={{ color: "black", fontSize: "0.9rem" }}
                   />
                   <span style={{ fontWeight: "bold", fontSize: "15px" }}>
-                    {slot.turfcost*slot.hrs}
+                    {slot.turfcost * slot.hrs}
                   </span>
                 </div>
               </div>
@@ -386,39 +387,44 @@ function CartPaymentPolicy() {
               <div className="flex-item text-center ">
                 <span style={{ fontWeight: "bold", fontSize: "15px" }}>
                   <CurrencyRupeeIcon style={{ fontSize: "15px" }} />
-                  
-                  { 
-                    bookingAmount
-                  }
+
+                  {bookingAmount}
                 </span>
               </div>
             </div>
 
             <ul className="fancy-bullets ">
-              {
-               !checkIsWeekEnd(slot.bookeddate) ? (<>
-               <li>
-                <strong style={{ fontSize: "11px" }}>
-                  Coupon Applied:{" "}
-                  <CurrencyRupeeIcon style={{ fontSize: "15px" }} />
-                  { slot.turfcost*slot.hrs - bookingAmount}
-                </strong>
-              </li>
-              </>):""
-              }
-              
+              {!checkIsWeekEnd(slot.bookeddate) ? (
+                <>
+                  <li>
+                    <strong style={{ fontSize: "11px" }}>
+                      Coupon Applied:{" "}
+                      <CurrencyRupeeIcon style={{ fontSize: "15px" }} />
+                      {slot.turfcost * slot.hrs - bookingAmount}
+                    </strong>
+                  </li>
+                </>
+              ) : (
+                ""
+              )}
+
               <li>
                 <strong style={{ fontSize: "11px" }}>
                   Advance to pay:{" "}
                   <CurrencyRupeeIcon style={{ fontSize: "15px" }} />
-                  {bookingAmount *0.3}
+                  {
+                    advPayRoundOff
+                  }
                 </strong>
               </li>
               <li>
                 <strong style={{ fontSize: "11px" }}>
                   Amount to be paid at venue:{" "}
                   <CurrencyRupeeIcon style={{ fontSize: "15px" }} />
-                  {bookingAmount - bookingAmount * 0.3}
+                  {
+
+                  (bookingAmount - bookingAmount * 0.3) +(advPay - advPayRoundOff)
+                  }
                 </strong>
               </li>
             </ul>

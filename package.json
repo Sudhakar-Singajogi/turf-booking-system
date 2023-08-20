@@ -19,6 +19,7 @@
     "axios": "^1.4.0",
     "bootstrap": "^5.3.1",
     "crypto": "^1.0.1",
+    "crypto-js": "^4.1.1",
     "date-fns": "^2.30.0",
     "dayjs": "^1.11.9",
     "dotenv": "^16.3.1",
@@ -68,5 +69,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "browser": {
+    "crypto": false
   }
 }

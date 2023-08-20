@@ -1,0 +1,22 @@
+.notFoundContainer {
+    display: flex;
+    justify-content: center; 
+    
+    height: 80vh;
+  }
+  
+  .title {
+    font-size: 5rem;
+    padding-top:10rem;
+    color: #dc3545;
+  }
+  
+  .description { 
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .homeButton {
+    font-size: 1.2rem;
+  }
+  

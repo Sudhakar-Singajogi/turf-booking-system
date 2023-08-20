@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   checkTurfAvailability,
@@ -6,9 +6,11 @@ import {
 } from "../Redux/Slices/BookingFormValidatorReducer";
 import { useNavigate } from "react-router-dom";
 import useDateTimeRealated from "./useDateTimeRealated";
+import { context } from "../contexts/context";
 
 function useValidateBooking() {
   const dispatch = useDispatch();
+  const { setLoader } = useContext(context);
   const { data } = useSelector((state) => state.booking);
   const isAvailable = useSelector((state) => state.validateForm.isAvailable);
   const errors = useSelector((state) => state.validateForm.errors);
@@ -73,11 +75,13 @@ function useValidateBooking() {
      * check whether the turf is free on that time or not
      * Has to do a api call to check if the turf is free
      * */
+    setLoader(true);
     if (hasError) {
-      dispatch(validateBookingForm(form_errors));
+      await dispatch(validateBookingForm(form_errors));
       console.log("form_errors", form_errors);
       return true;
     } else {
+      /*
       const bookedAt = convertDateTimeToMillSec(
         convertDateYmd(slot.bookeddate) + " " + slot.timeslot
       );
@@ -95,16 +99,19 @@ function useValidateBooking() {
         arena_id: slot.venuedetails.arena_id,
       };
 
-      dispatch(checkTurfAvailability(reqBody));
+      await dispatch(checkTurfAvailability(reqBody));
       if (isAvailable === false) {
         form_errors.turf_error = "Turf is not available during this time slot";
         dispatch(validateBookingForm(form_errors));
         return true;
       }
+      */
+      navigate("/confirm-slot");
     }
+    setLoader(false);
   };
 
-  const CheckAvailability = useCallback(() => {
+  const CheckAvailability = useCallback(async () => {
     let form_errors = { ...errors };
     console.log("use effect ran");
 
@@ -115,8 +122,11 @@ function useValidateBooking() {
     } else {
       navigate("/confirm-slot");
     }
-    dispatch(validateBookingForm(form_errors));
+    setLoader(true);
+    await dispatch(validateBookingForm(form_errors));
+    setLoader(false);
   }, [isAvailable]);
+
 
   return { validateBooking, CheckAvailability };
 }

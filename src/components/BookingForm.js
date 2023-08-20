@@ -1,7 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import "./BookingForm.css";
 import { useDispatch, useSelector } from "react-redux";
-import { changeDate, changeTimeSlot } from "../Redux/Slices/BokingSliceReducer";
+import {
+  changeDate,
+  changeTimeSlot,
+  getVenuDetails,
+} from "../Redux/Slices/BokingSliceReducer";
 
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import { InputAdornment, TextField } from "@mui/material";
@@ -28,8 +32,16 @@ import Stack from "@mui/material/Stack";
 
 import useBooking from "../CustomHooks/useBooking";
 import useFormatDateYmd from "../CustomHooks/useFormatDateYmd";
+import { context } from "../contexts/context";
+import { useLocation } from "react-router-dom";
+import NotFound from "./NotFound";
 
 const BookingForm = ({ children }) => {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const venueId = searchParams.get("venueid");
+
+  console.log("venueId:", venueId);
   const baseURL = process.env.REACT_APP_apibaseURL;
   console.log(`base uris is: ${baseURL}`);
 
@@ -39,14 +51,26 @@ const BookingForm = ({ children }) => {
   const { disabledIntervals, disabledTimes } = useSelector(
     (state) => state.venue.bookedSlots
   );
-  console.log("disabledTimes: ", disabledTimes);
-  console.log("disabledIntervals: ", disabledIntervals);
+  const { isLoading, setLoader } = useContext(context);
+
+  useEffect(() => {
+    setLoader(true);
+    const getVenue = async () => {
+      console.log("get venue details");
+      await dispatch(getVenuDetails(venueId));
+      setLoader(false);
+      console.log("got venue details");
+    };
+
+    getVenue();
+  }, []);
+
   const bookingSuccess = useSelector(
     (state) => state.validateForm.bookingSuccess
   );
 
   const { convertDateYmd } = useFormatDateYmd();
-  const {  useCurrentBookedDate } = useBooking();
+  const { useCurrentBookedDate } = useBooking();
 
   var tday = "";
 
@@ -77,7 +101,7 @@ const BookingForm = ({ children }) => {
     23,
     30
   );
- 
+
   const calenderRef = useRef();
   const TimeRef = useRef();
   const datePickerRef = useRef(null);
@@ -118,23 +142,24 @@ const BookingForm = ({ children }) => {
   };
 
   const HandleDateChange = async (date) => {
-    // console.log(convertDateDYM(date));
+    setLoader(true);
     await dispatch(
       changeDate({
         date: convertDateDYM(date),
       })
     );
+    setLoader(false);
     let ers = {
       ...errors,
       bookeddate_error: "",
     };
-    dispatch(validateBookingForm(ers)); 
+    dispatch(validateBookingForm(ers));
   };
 
-  const handleTimeChange = (time) => {
+  const handleTimeChange = async (time) => {
     let am_pm = getTimeformDateTime(time).split(" ");
     let timeSlot = getTimeformDateTime(time).split(":");
-    dispatch(
+    await dispatch(
       changeTimeSlot(
         timeSlot[0] + ":" + timeSlot[1] + " " + am_pm[1].toLowerCase()
       )
@@ -153,179 +178,192 @@ const BookingForm = ({ children }) => {
 
   return (
     <>
-      <div className="booking-form-container ">
+      {data.venuedetails.hasOwnProperty("arena_id") === false ? (
+        <div className="booking-form-container ">
         <div className="div-a ">
-          <Stack sx={{ width: "100%", marginBottom: "1rem" }} spacing={2}>
-            {bookingSuccess !== "" ? (
-              bookingSuccess === true ? (
-                <>
-                  <Alert
-                    onClose={() => {
-                      dispatch(closeSuccessMsg());
-                    }}
-                    sx={{ width: "100%", fontWeight: "bold" }}
-                    severity="success"
-                  >
-                    Your slot has been successfully allocated
-                  </Alert>
-                </>
-              ) : (
-                <></>
-              )
-            ) : (
-              ""
-            )}
-          </Stack>
-
-          <div className="form-container">
-            <div>
-              <h1 className="font-bold text-md text-xl text-typography pos-rel">
-                {data.venuedetails?.arena_name}
-                <CleaningServicesIcon
-                  className="clear-form-fields"
-                  onClick={() => {
-                    dispatch(clearErrors());
-                  }}
-                />
-              </h1>
-              <h6 style={{ fontWeight: "bold", color: "#999" }}>
-                {data.venuedetails?.arena_location}
-              </h6>
-            </div>
-            {/* Your form fields go here */}
-            <div className="form-fields mar-tp30">
-              <div>
-                <TextField
-                  className="w100"
-                  label="Select Date"
-                  id="outlined-start-adornment"
-                  ref={calenderRef}
-                  value={data.bookeddate}
-                  onFocus={() => showCalender()}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start" sx={{ width: "0%" }}>
-                        <DatePicker
-                          ref={datePickerRef}
-                          onChange={HandleDateChange}
-                          dateFormat="dd/MM/yyyy"
-                          minDate={today} // Set the minimum selectable date to today
-                          customInput={<CustomDatePickerInput />}
-                        />
-                      </InputAdornment>
-                    ),
-                    endAdornment: (
-                      <InputAdornment position="start">
-                        <CalendarMonthIcon />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-                {errors.bookeddate_error !== "" ? (
-                  <p className="errmsg ">{errors.bookeddate_error}</p>
-                ) : (
-                  <p>&nbsp;</p>
-                )}
-
-                <SelectTurf
-                  wid80={"w100"}
-                  options={[]}
-                  title={"Select Turf"}
-                  onChange={(e) => {}}
-                  defValue={""}
-                />
-                {errors.turf_error !== "" ? (
-                  <p className="errmsg ">{errors.turf_error}</p>
-                ) : (
-                  <p>&nbsp;</p>
-                )}
-
-                <TextField
-                  className="w100"
-                  label="Start Time"
-                  id="outlined-start-adornment"
-                  ref={calenderRef}
-                  value={data.timeslot}
-                  onFocus={() => showTimer()}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start" sx={{ width: "0%" }}>
-                        <DatePicker
-                          ref={TimeRef}
-                          onChange={handleTimeChange}
-                          showTimeSelect // Show the time picker
-                          showTimeSelectOnly // Show only the time picker, hiding the date picker
-                          timeIntervals={15} // Set time intervals (in minutes)
-                          timeCaption="Time"
-                          timeFormat="hh:mm aa"
-                          dateFormat="MMMM d, yyyy h:mm aa"
-                          timeClassName={getTimeClassName} // Apply custom classes to time picker options
-                          minTime={minTime}
-                          excludeTimes={disabledTimes.map((slot) => slot.start)}
-                          filterTime={(time) => {
-                            for (const interval of disabledTimes) {
-                              if (
-                                time >= interval.start &&
-                                time <= interval.end
-                              ) {
-                                return false;
-                              } else {
-                                console.log("timeis:", time);
-                              }
-                            }
-                            return true;
-                          }}
-                          maxTime={maxTime}
-                          customInput={<CustomTimePickerInput />}
-                        />
-                      </InputAdornment>
-                    ),
-                    endAdornment: (
-                      <InputAdornment position="start">
-                        <AccessTimeIcon />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-                {errors.timeslot_error !== "" ? (
-                  <p className="errmsg">{errors.timeslot_error}</p>
-                ) : (
-                  <p>&nbsp;</p>
-                )}
-
-                <SelectGame
-                  options={[]}
-                  title={"Select Game"}
-                  onChange={(e) => {}}
-                  defValue={data.game}
-                />
-                {errors.game_error !== "" ? (
-                  <p className="errmsg">{errors.game_error}</p>
-                ) : (
-                  <p>&nbsp;</p>
-                )}
-
-                <IncrementDecrement
-                  onDecrement={() => {}}
-                  onIncrement={() => {}}
-                />
-                {errors.hrs_error !== 0 ? (
-                  <p className="errmsg">{errors.hrs_error}</p>
-                ) : (
-                  <p style={{ marginBottom: "30px" }}> </p>
-                )}
-              </div>
-            </div>
-            <CartFooter />
+          <NotFound message="Oops! The venue  does not exist." />
           </div>
-        </div>
-        {/* <div className="div-b">
-          <Cart />
-        </div> */}
-        <div className="show-mble">{/* <Cart />  */}</div>
+          </div>
 
-        {/* </div> */}
-      </div>
+      ) : (
+        <div className="booking-form-container ">
+          <div className="div-a ">
+            <Stack sx={{ width: "100%", marginBottom: "1rem" }} spacing={2}>
+              {bookingSuccess !== "" ? (
+                bookingSuccess === true ? (
+                  <>
+                    <Alert
+                      onClose={() => {
+                        dispatch(closeSuccessMsg());
+                      }}
+                      sx={{ width: "100%", fontWeight: "bold" }}
+                      severity="success"
+                    >
+                      Your slot has been successfully allocated
+                    </Alert>
+                  </>
+                ) : (
+                  <></>
+                )
+              ) : (
+                ""
+              )}
+            </Stack>
+
+            <div className="form-container">
+              <div>
+                <h1 className="font-bold text-md text-xl text-typography pos-rel">
+                  {data.venuedetails?.arena_name}
+                  {!isLoading ? (
+                    <CleaningServicesIcon
+                      className="clear-form-fields"
+                      onClick={() => {
+                        dispatch(clearErrors());
+                      }}
+                    />
+                  ) : null}
+                </h1>
+                <h6 style={{ fontWeight: "bold", color: "#999" }}>
+                  {data.venuedetails?.arena_location}
+                </h6>
+              </div>
+              {/* Your form fields go here */}
+              <div className="form-fields mar-tp30">
+                <div>
+                  <TextField
+                    className="w100"
+                    label="Select Date"
+                    id="outlined-start-adornment"
+                    ref={calenderRef}
+                    value={data.bookeddate}
+                    onFocus={() => showCalender()}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start" sx={{ width: "0%" }}>
+                          <DatePicker
+                            ref={datePickerRef}
+                            onChange={HandleDateChange}
+                            dateFormat="dd/MM/yyyy"
+                            minDate={today} // Set the minimum selectable date to today
+                            customInput={<CustomDatePickerInput />}
+                          />
+                        </InputAdornment>
+                      ),
+                      endAdornment: (
+                        <InputAdornment position="start">
+                          <CalendarMonthIcon />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                  {errors.bookeddate_error !== "" ? (
+                    <p className="errmsg ">{errors.bookeddate_error}</p>
+                  ) : (
+                    <p>&nbsp;</p>
+                  )}
+
+                  <SelectTurf
+                    wid80={"w100"}
+                    options={[]}
+                    title={"Select Turf"}
+                    onChange={(e) => {}}
+                    defValue={""}
+                  />
+                  {errors.turf_error !== "" ? (
+                    <p className="errmsg ">{errors.turf_error}</p>
+                  ) : (
+                    <p>&nbsp;</p>
+                  )}
+
+                  <TextField
+                    className="w100"
+                    label="Start Time"
+                    id="outlined-start-adornment"
+                    ref={calenderRef}
+                    value={data.timeslot}
+                    onFocus={() => showTimer()}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start" sx={{ width: "0%" }}>
+                          <DatePicker
+                            ref={TimeRef}
+                            onChange={handleTimeChange}
+                            showTimeSelect // Show the time picker
+                            showTimeSelectOnly // Show only the time picker, hiding the date picker
+                            timeIntervals={15} // Set time intervals (in minutes)
+                            timeCaption="Time"
+                            timeFormat="hh:mm aa"
+                            dateFormat="MMMM d, yyyy h:mm aa"
+                            timeClassName={getTimeClassName} // Apply custom classes to time picker options
+                            minTime={minTime}
+                            excludeTimes={disabledTimes.map(
+                              (slot) => slot.start
+                            )}
+                            filterTime={(time) => {
+                              for (const interval of disabledTimes) {
+                                if (
+                                  time >= interval.start &&
+                                  time <= interval.end
+                                ) {
+                                  return false;
+                                } else {
+                                  console.log("timeis:", time);
+                                }
+                              }
+                              return true;
+                            }}
+                            maxTime={maxTime}
+                            customInput={<CustomTimePickerInput />}
+                          />
+                        </InputAdornment>
+                      ),
+                      endAdornment: (
+                        <InputAdornment position="start">
+                          <AccessTimeIcon />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                  {errors.timeslot_error !== "" ? (
+                    <p className="errmsg">{errors.timeslot_error}</p>
+                  ) : (
+                    <p>&nbsp;</p>
+                  )}
+
+                  <SelectGame
+                    options={[]}
+                    title={"Select Game"}
+                    onChange={(e) => {}}
+                    defValue={data.game}
+                  />
+                  {errors.game_error !== "" ? (
+                    <p className="errmsg">{errors.game_error}</p>
+                  ) : (
+                    <p>&nbsp;</p>
+                  )}
+
+                  <IncrementDecrement
+                    onDecrement={() => {}}
+                    onIncrement={() => {}}
+                  />
+                  {errors.hrs_error !== 0 ? (
+                    <p className="errmsg">{errors.hrs_error}</p>
+                  ) : (
+                    <p style={{ marginBottom: "30px" }}> </p>
+                  )}
+                </div>
+              </div>
+              <CartFooter />
+            </div>
+          </div>
+          {/* <div className="div-b">
+            <Cart />
+          </div> */}
+          <div className="show-mble">{/* <Cart />  */}</div>
+
+          {/* </div> */}
+        </div>
+      )}
     </>
   );
 };

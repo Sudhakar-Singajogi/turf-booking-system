@@ -162,13 +162,16 @@ export const bookingSlice = createSlice({
         state.data.venuedetails = {};
       })
       .addCase(getVenuDetails.fulfilled, (state, action) => {
-        console.log("venue details are: ", action.payload.data);
-        const venue = action.payload.data[0];
-        state.data.venuedetails = {
-          arena_name: venue.arena_name,
-          arena_location: venue.arena_location,
-          arena_id: "r434edd09765457698asd",
-        };
+        if (action.payload.resultTotal === 1) {
+          console.log("venue details are: ", action.payload.data);
+
+          const venue = action.payload.data[0];
+          state.data.venuedetails = {
+            arena_name: venue.arena_name,
+            arena_location: venue.arena_location,
+            arena_id: venue.arena_id,
+          };
+        }
       })
       .addCase(getVenuDetails.rejected, (state, action) => {
         state.data.venuedetails = {};
@@ -298,7 +301,7 @@ export const getSportsByTurf = createAsyncThunk(
         throw new Error("Failed to get response, contact admin");
       }
       const data = await resp.json();
-      
+
       console.log("req object is:: ", obj);
       await dispatch(textExtraRed(obj));
 
@@ -311,7 +314,7 @@ export const getSportsByTurf = createAsyncThunk(
 
 export const getVenuDetails = createAsyncThunk(
   "booking/venuedetails",
-  async (arena_id = "r434edd09765457698asd") => {
+  async (arena_id) => {
     try {
       const endpoint = `${baseURL}venue/details`;
       const resp = await fetch(`${baseURL}venue/details`, {

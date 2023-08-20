@@ -8,7 +8,11 @@ function useBooking() {
   const { convertDateYmd } = useFormatDateYmd();
 
   const getBookingInfo = () => {
-    return {
+
+    const advPay = data.bookingamount * 0.3;
+    const advPayRoundOff = Math.floor(advPay);
+
+    const obj = {
       arena_id: data.venuedetails.arena_id,
       turfid: data.turf,
       gameid: data.game,
@@ -18,10 +22,12 @@ function useBooking() {
       total_hrs: data.hrs,
       is_weekend: checkIsWeekEnd(data.bookeddate) ? "1" : "0",
       booking_cost: data.bookingamount,
-      advance_payment: data.bookingamount * 0.3,
-      balance_amount: data.bookingamount - data.bookingamount * 0.3,
-      status: 0,
+      advance_payment: advPayRoundOff,
+      balance_amount: (data.bookingamount - data.bookingamount * 0.3) + (advPay-advPayRoundOff),
+      status: '0',
     };
+    console.log('booking object is: ', obj)
+     return obj
   };
   const getCaptainInfo = (fullInfo = false) => {
     let captain = data.captain;
