@@ -7,9 +7,7 @@ import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 import GrassIcon from "@mui/icons-material/Grass";
 import TimelapseIcon from "@mui/icons-material/Timelapse";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
-import TextFieldWithIcon from "./components/MUI/TextFieldWithIcon";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
+
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";

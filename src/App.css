@@ -766,6 +766,18 @@ margin-right:0% !important
   display: none !important;
 }
 
+.ml-2rem {
+  margin-left: 2rem;
+}
+
+.ml-1rem {
+  margin-left: 1rem;
+}
+
+
+.ml-0-5rem {
+  margin-left: 0.5rem;
+}
 /* Keyframes for fadeIn animation */
 @keyframes fadeIn {
   from {
@@ -876,6 +888,8 @@ margin-right:0% !important
     display: none !important;
   }
 }
+
+
 
 /* Media Query for Tablets and Desktops */
 

@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import useBooking from "./useBooking";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { turfbookedsuccessfully } from "../Redux/Slices/BookingFormValidatorReducer";
 import { useNavigate } from "react-router-dom";
 import { clearTurf } from "../Redux/Slices/BokingSliceReducer";
@@ -27,6 +27,8 @@ function RazorPayment() {
   const { getBookingInfo, getCaptainInfo } = useBooking();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const {data:bookingData} = useSelector((state) => state.booking)
 
   const initiatePayment = async () => {
     try {
@@ -81,7 +83,7 @@ function RazorPayment() {
           
           dispatch(turfbookedsuccessfully(true))
           dispatch(clearTurf());
-          navigate("/");
+          navigate("/booking?venueid="+bookingData.venuedetails.arena_id);
         },
         prefill: { ...getCaptainInfo(false) },
         // prefill: userInfo,
