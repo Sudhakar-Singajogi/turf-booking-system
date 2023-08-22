@@ -65,7 +65,11 @@ function CartPaymentPolicy() {
     slot.bookeddate === ""
   ) {
     dispatch(clearErrors());
-    navigate("/");
+    if(slot.venuedetails.arena_id === '') {
+      navigate("/");
+    } else {
+      navigate("/booking?venueid="+slot.venuedetails.arena_id);
+    }
     return false;
   }
 

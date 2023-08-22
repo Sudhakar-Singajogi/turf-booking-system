@@ -120,7 +120,7 @@ function useValidateBooking() {
       form_errors.turf_error = "Turf is not available during this time slot";
       dispatch(validateBookingForm(form_errors));
     } else {
-      navigate("/confirm-slot");
+      // navigate("/confirm-slot");
     }
     setLoader(true);
     await dispatch(validateBookingForm(form_errors));

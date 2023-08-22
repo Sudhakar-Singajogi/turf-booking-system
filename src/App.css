@@ -1,10 +1,5 @@
 
 
-.content-wrapper {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
 
 #navigation {
   margin-bottom: 2rem;
@@ -444,12 +439,13 @@
   left: 0;
   width: 100%;
   background-color: orange; /* Customize background color if needed */
-  padding: 10px;
+  padding: 5px;
   color: #fff;
   display: flex;
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for separation */
+  border-radius:5px;
 }
 
 .footer-icon svg {
@@ -549,6 +545,7 @@
   /* margin: 0 10%; */
   height: 100%;
   /* width: 100%; */
+   padding: 20px;
 }
 
 .booking-form-container.div-a,
@@ -562,7 +559,7 @@
   flex-basis: 100%;
   border: 2px solid #ebebeb;
   margin: 10px;
-  padding: 20px;
+   
   border-radius: 5px;
   padding-top:0px !important
 }
@@ -572,6 +569,11 @@
   border: 2px solid #ebebeb;
   margin: 10px;
   border-radius: 5px;
+}
+
+.form-container {
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 .mar-tp30 {
@@ -759,7 +761,7 @@ margin-right:0% !important
 }
 
 .MuiAlert-action.css-ki1hdl-MuiAlert-action {
-  margin-right:-40px !important;
+  /* margin-right:-40px !important; */
 }
 
 .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item--disabled{

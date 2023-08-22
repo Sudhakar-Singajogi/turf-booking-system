@@ -28,7 +28,8 @@ function RazorPayment() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const {data:bookingData} = useSelector((state) => state.booking)
+  const {data:bookingData} = useSelector((state) => state.booking);
+  console.log('bookingData: ', bookingData)
 
   const initiatePayment = async () => {
     try {
@@ -83,6 +84,10 @@ function RazorPayment() {
           
           dispatch(turfbookedsuccessfully(true))
           dispatch(clearTurf());
+          console.log('redirecting fro here: ', bookingData.venuedetails.arena_id);
+
+          
+
           navigate("/booking?venueid="+bookingData.venuedetails.arena_id);
         },
         prefill: { ...getCaptainInfo(false) },

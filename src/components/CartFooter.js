@@ -35,7 +35,7 @@ function CartFooter() {
       form_errors.turf_error = "Turf is not available during this time slot";
       dispatch(validateBookingForm(form_errors));
     } else {
-      navigate("/confirm-slot");
+      // navigate("/confirm-slot");
     }
     dispatch(validateBookingForm(form_errors));
   }, [isAvailable]);

@@ -68,7 +68,7 @@ const Cart = () => {
     e.preventDefault();
     validateBooking().then((hasErrors) => {
       if (!hasErrors) {
-        CheckAvailability();
+        // CheckAvailability();
       }
     });
   };

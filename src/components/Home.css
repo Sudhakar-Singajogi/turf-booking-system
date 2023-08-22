@@ -9,7 +9,7 @@ li {
   padding: 0;
 }
 
-header.scrolled {
+.header.scrolled {
   background-color: rgba(0, 0, 0, 0.8);
   box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
 }
@@ -73,7 +73,7 @@ header.scrolled {
 .hero {
   background-image: url("../assets/home-slider.jpg");
   background-size: cover;
-  background-position: center top; /* Move the image to the top */
+  background-position: center bottom; /* Move the image to the top */
   color: #fff;
   text-align: center;
   padding: 100px 0;
@@ -221,7 +221,7 @@ footer {
 }
 
 /* Header styles */
-header {
+.header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -232,12 +232,12 @@ header {
   transition: background-color 0.3s;
 }
 
-header.scrolled {
+.header.scrolled {
   background-color: rgba(245, 245, 245, 1);
   box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
 }
-header.bgblack,
-header.bgblack a {
+.header.bgblack,
+.header.bgblack a {
   color: #fff !important;
 }
 
@@ -303,8 +303,7 @@ header.bgblack a {
   display: flex;
   flex-wrap: wrap;
   margin-left: 3rem;
-  margin-top:1.5rem;
-  justify-content: space-between;
+  margin-top:1.5rem; 
   gap: 20px;
 }
 
@@ -378,9 +377,9 @@ header.bgblack a {
 
 .venues-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 0px;
 }
 
 .venue-card {
@@ -468,7 +467,7 @@ header.bgblack a {
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
     z-index: 1001;
   }
-  header {
+  .header {
     margin-top: -19px !important;
   }
 }
@@ -552,9 +551,15 @@ header.bgblack a {
   }
 
   .hero h1 {
-    padding: 10px;
+
+    padding: 15px;
     font-size: 1.5rem;
   }
+
+  .hero p { 
+    font-size: 0.6rem; 
+  }
+  
   .usp {
     padding: 10px;
     width: 100%;

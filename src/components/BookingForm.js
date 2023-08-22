@@ -188,27 +188,29 @@ const BookingForm = ({ children }) => {
         ) : (
           <div className="booking-form-container ">
             <div className="div-a ">
-              <Stack sx={{ width: "100%", marginBottom: "1rem" }} spacing={2}>
-                {bookingSuccess !== "" ? (
-                  bookingSuccess === true ? (
-                    <>
-                      <Alert
-                        onClose={() => {
-                          dispatch(closeSuccessMsg());
-                        }}
-                        sx={{ width: "100%", fontWeight: "bold" }}
-                        severity="success"
-                      >
-                        Your slot has been successfully allocated
-                      </Alert>
-                    </>
+              <div className="w100">
+                <Stack sx={{ marginBottom: "1rem" }} spacing={2}>
+                  {bookingSuccess !== "" ? (
+                    bookingSuccess === true ? (
+                      <>
+                        <Alert
+                          onClose={() => {
+                            dispatch(closeSuccessMsg());
+                          }}
+                          sx={{ fontWeight: "bold" }}
+                          severity="success"
+                        >
+                          Your slot has been successfully allocated
+                        </Alert>
+                      </>
+                    ) : (
+                      <></>
+                    )
                   ) : (
-                    <></>
-                  )
-                ) : (
-                  ""
-                )}
-              </Stack>
+                    ""
+                  )}
+                </Stack>
+              </div>
 
               <div className="form-container">
                 <div>
@@ -353,8 +355,8 @@ const BookingForm = ({ children }) => {
                     )}
                   </div>
                 </div>
-                <CartFooter />
               </div>
+                <CartFooter />
             </div>
             {/* <div className="div-b">
             <Cart />

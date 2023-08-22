@@ -28,7 +28,7 @@ function MyApp() {
           {/* Main Content */}
           <main>
             <div className={container}>
-              <div className="content-wrapper">
+              {/* <div className="content-wrapper"> */}
                 {/* <SlideShow /> */}
                 <div className="w100">
                   <Routes>
@@ -42,7 +42,7 @@ function MyApp() {
                   </Routes>
                 </div>
               </div>
-            </div>
+            {/* </div> */}
           </main>
         </BrowserRouter> 
       {/* Footer */}
