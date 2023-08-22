@@ -35,7 +35,7 @@ function CartFooter() {
       form_errors.turf_error = "Turf is not available during this time slot";
       dispatch(validateBookingForm(form_errors));
     } else {
-      // navigate("/confirm-slot");
+      // navigate("/booking/confirm");
     }
     dispatch(validateBookingForm(form_errors));
   }, [isAvailable]);
@@ -65,7 +65,7 @@ function CartFooter() {
       </div>
       <div className="footer-icon">
         <Link
-          to="/confirm-slot"
+          to="/booking/confirm"
           onClick={(e) => ProceedToPolicy(e)}
           style={{ color: "#fff" }}
         >

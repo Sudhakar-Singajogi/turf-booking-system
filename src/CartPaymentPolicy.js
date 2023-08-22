@@ -140,7 +140,7 @@ function CartPaymentPolicy() {
 
   return (
     <>
-      <div className="containers">
+      <div className="containers" style={{marginTop:'2rem'}}>
         <div className="div-a game-venue-details">
           <div className="policy-container ">
             <div className="cart-header">

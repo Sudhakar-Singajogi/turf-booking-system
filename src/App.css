@@ -1,10 +1,6 @@
-
-
-
 #navigation {
   margin-bottom: 2rem;
 }
-
 
 .column {
   flex: 1;
@@ -401,7 +397,7 @@
 }
 
 .flex-col-items {
-  display: flex; 
+  display: flex;
 }
 
 .book-icon {
@@ -445,7 +441,7 @@
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for separation */
-  border-radius:5px;
+  border-radius: 5px;
 }
 
 .footer-icon svg {
@@ -545,7 +541,7 @@
   /* margin: 0 10%; */
   height: 100%;
   /* width: 100%; */
-   padding: 20px;
+  padding: 20px;
 }
 
 .booking-form-container.div-a,
@@ -559,9 +555,9 @@
   flex-basis: 100%;
   border: 2px solid #ebebeb;
   margin: 10px;
-   
+
   border-radius: 5px;
-  padding-top:0px !important
+  padding-top: 0px !important;
 }
 
 .booking-form-container .div-b {
@@ -607,7 +603,7 @@
 }
 
 .modal-body {
-  padding: 0px !important; 
+  padding: 0px !important;
 }
 
 /* css rules for modal popup content */
@@ -686,10 +682,10 @@ input {
   margin: 5px;
   display: flex;
   flex-direction: column;
-  margin-top:0px !important
+  margin-top: 0px !important;
 }
 
-.register-user .form-control{
+.register-user .form-control {
   margin-top: 10px !important;
   margin-bottom: 10px !important;
 }
@@ -700,7 +696,6 @@ input {
 .register-user input {
   font-size: 13px;
 }
-
 
 /* .payment-container {
   display: flex;
@@ -740,12 +735,12 @@ input {
   font-size: 16px;
 }
 
-.display-grid {  
-  padding:10px !important
+.display-grid {
+  padding: 10px !important;
 }
 
-.display-grid-1{
-margin-right:0% !important
+.display-grid-1 {
+  margin-right: 0% !important;
 }
 
 .venue-detail-items {
@@ -764,7 +759,11 @@ margin-right:0% !important
   /* margin-right:-40px !important; */
 }
 
-.react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item--disabled{
+.react-datepicker__time-container
+  .react-datepicker__time
+  .react-datepicker__time-box
+  ul.react-datepicker__time-list
+  li.react-datepicker__time-list-item--disabled {
   display: none !important;
 }
 
@@ -775,7 +774,6 @@ margin-right:0% !important
 .ml-1rem {
   margin-left: 1rem;
 }
-
 
 .ml-0-5rem {
   margin-left: 0.5rem;
@@ -789,6 +787,97 @@ margin-right:0% !important
     opacity: 1;
   }
 }
+
+.drawer-component {
+  width: 530px !important;
+}
+
+.css-1160xiw-MuiPaper-root-MuiDrawer-paper {
+  /* height: 60% !important; */
+  /* margin-right:1rem;
+  margin-top:1rem */
+  background-color: #fff !important;
+  opacity: 0.98 !important;
+}
+
+.login-content {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 5px;
+  /* box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); */
+  text-align: center;
+}
+
+.login-content h2 {
+  /* margin-bottom: 15px; */
+}
+
+.login-content label {
+  display: block;
+  margin-bottom: 5px;
+  text-align: left;
+}
+
+.login-content input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.login-content button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.login-content button:hover {
+  background-color: #0056b3;
+}
+
+.login-links {
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-links a {
+  color: #007bff;
+  text-decoration: none;
+  margin: 0 10px;
+}
+
+.login-links span {
+  font-weight: bold;
+}
+
+.drawer-close-btn {
+  padding: 10px; 
+  cursor:pointer
+}
+
+
+.css-ittuaa-MuiInputAdornment-root {
+  position: absolute;
+  right: 0px !important;
+}
+
+.login-header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding:8px;
+  color:#fff;
+  background-color: #333;
+  
+}
+
 
 /* Media query for mobile devices */
 @media (max-width: 767px) {
@@ -812,7 +901,7 @@ margin-right:0% !important
   }
   .containers .div-b {
     padding-top: 0px !important;
- 
+
     padding-bottom: 0px !important;
   }
 
@@ -844,10 +933,6 @@ margin-right:0% !important
   }
 }
 
-.css-ittuaa-MuiInputAdornment-root {
-  position: absolute;
-  right: 0px !important;
-}
 
 /** write a media query for min width 300 and max of 767 **/
 @media (min-width: 300px) and (max-width: 767px) {
@@ -870,7 +955,7 @@ margin-right:0% !important
     display: block !important;
   }
   .left-section {
-    display:none !important;
+    display: none !important;
   }
 }
 
@@ -890,8 +975,6 @@ margin-right:0% !important
     display: none !important;
   }
 }
-
-
 
 /* Media Query for Tablets and Desktops */
 
@@ -959,7 +1042,7 @@ margin-right:0% !important
   }
   .css-1pxa9xg-MuiAlert-message {
     font-size: 0.6rem !important;
-    padding-top: 0.8rem !important;;
+    padding-top: 0.8rem !important;
   }
 }
 
@@ -1006,9 +1089,47 @@ margin-right:0% !important
   }
 }
 
+@media (min-width: 300px) and (max-width: 400px) {
+  .drawer-component {
+    width: 300px !important;
+  }
+
+  .css-1160xiw-MuiPaper-root-MuiDrawer-paper {
+    /* height: 48% !important; */
+  }
+}
+
+@media (min-width: 401px) and (max-width: 450px) {
+  .drawer-component {
+    width: 320px !important;
+  }
+}
+
+@media (min-width: 451px) and (max-width: 500px) {
+  .drawer-component {
+    width: 400px !important;
+  }
+}
+
+@media (min-width: 501px) and (max-width: 600px) {
+  .drawer-component {
+    width: 420px !important;
+  }
+}
+
+@media (min-width: 601px) and (max-width: 768px) {
+  .drawer-component {
+    width: 500px !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .drawer-component {
+    width: 530px !important;
+  }
+}
 
 /** 
 rzp_test_kvq0flV7YLPMFu
 Au4ih494g0lYoWZuXhGB3nfS
  */
-

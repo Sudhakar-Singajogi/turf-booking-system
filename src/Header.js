@@ -39,9 +39,15 @@ function Header({ logo }) {
     setShowOTP(false);
   }, []);
 
+  console.log('currentPath: ', currentPath);
+
+  const showNavBar = [
+    "/", "/arena-login", "/arena-register"
+  ]
+
   return (
     <>
-      {currentPath !== "/" ? (
+      { !showNavBar.includes(currentPath) ? (
         <>
           <header className="top-nav-bar">
             <nav className="top-nav">

@@ -107,7 +107,7 @@ function useValidateBooking() {
         return true;
       }
       */
-      navigate("/confirm-slot");
+      navigate("/booking/confirm");
     }
     setLoader(false);
   };
@@ -121,7 +121,7 @@ function useValidateBooking() {
       form_errors.turf_error = "Turf is not available during this time slot";
       dispatch(validateBookingForm(form_errors));
     } else {
-      // navigate("/confirm-slot");
+      // navigate("/booking/confirm");
     }
     setLoader(true);
     await dispatch(validateBookingForm(form_errors));

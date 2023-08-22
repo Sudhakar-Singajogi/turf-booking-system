@@ -85,7 +85,7 @@ const Cart = () => {
       form_errors.turf_error = "Turf is not available during this time slot";
       dispatch(validateBookingForm(form_errors));
     } else {
-      navigate("/confirm-slot");
+      navigate("/booking/confirm");
     }
     dispatch(validateBookingForm(form_errors));
   }, [isAvailable]);
@@ -251,7 +251,7 @@ const Cart = () => {
                 </div>
 
                 <div className="cart-footer">
-                  <Link to="/confirm-slot" onClick={(e) => ProceedToPolicy(e)}>
+                  <Link to="/booking/confirm" onClick={(e) => ProceedToPolicy(e)}>
                     <button className="proceed-btn btn-block">
                       Proceed To Pay
                     </button>

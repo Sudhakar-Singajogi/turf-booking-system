@@ -14,9 +14,14 @@ import sonetlogo from "./assets/SonetLogo.png";
 import Loader from "./components/Loader";
 import { context } from "./contexts/context"; 
 import Home from "./components/Home";
+import AreanaLogin from "./components/Areana/AreanaLogin";
 
-function MyApp() {  
-  const container  = (window. location. href === "http://localhost:3000/") ? "" : "container";
+function MyApp() { 
+  
+  const containerDivURLS = ["http://localhost:3000/", "http://localhost:3000/arena-login", "http://localhost:3000/arena-register"]; 
+  const currentUrl = window.location.href;
+  
+  const container  = (containerDivURLS.includes(currentUrl)) ? "fluid-container" : "container";
    return (
     <div className="App">
   
@@ -35,10 +40,12 @@ function MyApp() {
                     <Route path="/" exact element={<Home />} />
                     <Route path="/booking" exact element={<BookingForm />} />
                     <Route
-                      path="/confirm-slot"
+                      path="/booking/confirm"
                       exact
                       element={<CartPaymentPolicy />}
                     />
+                    <Route path="/arena-login" element={<Home />} />
+                    <Route path="/arena-register" element={<Home />} />
                   </Routes>
                 </div>
               </div>
@@ -46,8 +53,9 @@ function MyApp() {
           </main>
         </BrowserRouter> 
       {/* Footer */}
-      <div className="dnt-show-mble">
-        <Footer />
+      <div className="dnt-show-mble" style={{marginTop:'1.7rem'}}>
+        { currentUrl !== "http://localhost:3000/arena/login" ? <Footer /> : null}
+        
       </div>
     </div>
   );
