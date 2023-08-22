@@ -55,6 +55,14 @@ const LoginComponent = (props) => {
     const appVerifier = window.recaptchaVerifier;
 
     const formatPh = "+" + ph;
+    
+    // remove the below two line once your testing with existing phone number in the database. and uncomment the signInWithPhoneNumber section
+
+    dispatch(getUserInfo(ph));
+    props.params.handleClose();
+
+
+    /*
 
     signInWithPhoneNumber(auth, formatPh, appVerifier)
       .then((confirmationResult) => {
@@ -68,13 +76,14 @@ const LoginComponent = (props) => {
         }
       })
       .catch((error) => {
-        /** below dispatch has to remove, as of now kept for debugging */
+        //below dispatch has to remove, as of now kept for debugging 
         dispatch(getUserInfo(ph));
 
         console.log(error);
         // toast.success("Failed to send OTP");
         setLoading(false);
       });
+      */
   };
 
   function onOTPVerify() {

@@ -79,6 +79,7 @@ function useValidateBooking() {
     if (hasError) {
       await dispatch(validateBookingForm(form_errors));
       console.log("form_errors", form_errors);
+      setLoader(false);
       return true;
     } else {
       /*
