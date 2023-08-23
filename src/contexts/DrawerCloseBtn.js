@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { context } from "./context";
+import React, { createContext, useContext, useState } from "react";
+export const context = createContext();
 
 const DrawerCloseBtnProvider = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,4 +15,5 @@ const DrawerCloseBtnProvider = ({ children }) => {
   );
 }; 
 
+export const useDrawerCloseContext = () => useContext(context);
 export default DrawerCloseBtnProvider;

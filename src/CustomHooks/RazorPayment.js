@@ -23,7 +23,6 @@ function loadScript(src) {
 }
 
 function RazorPayment() {
-  const [orderId, setOrderId] = useState("");
   const { getBookingInfo, getCaptainInfo } = useBooking();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -54,9 +53,7 @@ function RazorPayment() {
       const response = await resp.json();
       console.log("resp data: ", response.data[0]);
 
-      const { order_id, amount, bookingid, orderId } = response.data[0];
-      
-      setOrderId(order_id);
+      const { order_id, amount, bookingid, orderId } = response.data[0]; 
 
       console.log("amount is: ", amount);
 

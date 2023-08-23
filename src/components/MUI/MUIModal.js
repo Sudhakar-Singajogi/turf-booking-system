@@ -1,7 +1,4 @@
 import React from "react";
-
-import { useState, useEffect } from "react";
-import CancelIcon from "@mui/icons-material/Cancel";
 import ClearIcon from '@mui/icons-material/Clear';
 import {
   Modal,
@@ -9,7 +6,6 @@ import {
   Fade,
   Card,
   CardContent,
-  Typography,
 } from "@mui/material";
 
 

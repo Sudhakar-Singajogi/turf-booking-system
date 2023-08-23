@@ -1,9 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { clearErrors } from "./BookingFormValidatorReducer";
 import { checkIsWeekEnd } from "../../CustomLogics/customLogics";
-// import useBooking from "../../CustomHooks/useBooking";
 import useFormatDateYmd from "../../CustomHooks/useFormatDateYmd";
-import { SetBlockedSlots, textExtraRed } from "./VenueSliceReducer";
+import { setBlockedSlots } from "./VenueSliceReducer";
 
 export const STATUSES = Object.freeze({
   IDLE: "idle",
@@ -126,6 +125,8 @@ export const bookingSlice = createSlice({
           turfcost: Number(getTurfCost(turf, state.data.bookeddate)).toFixed(2),
         }));
 
+        console.log('turfs are:', turfs)
+
         state.data.turfs = turfs;
       })
       .addCase(getTurfs.rejected, (state, action) => {
@@ -137,7 +138,7 @@ export const bookingSlice = createSlice({
       .addCase(getSportsByTurf.fulfilled, (state, action) => {
         const games = [];
 
-        action.payload.data.map((item) => {
+        action.payload.data.map(item => {
           if (item.sport === "Cricket") {
             games.push({
               label: item.sport,
@@ -151,6 +152,7 @@ export const bookingSlice = createSlice({
               hasIcon: true,
             });
           }
+          return games;
         });
 
         state.data.sports = games;
@@ -195,10 +197,6 @@ export const bookingSlice = createSlice({
         state.data.turf = 0;
         state.data.game = 0;
         state.data.timeslot = "";
-
-        // const {getBookedSlots} = useBooking();
-
-        // getBookedSlots(state.data.bookeddate);
       })
       .addCase(changeDate.rejected, (state, action) => {
         state.data.turfs = [];
@@ -240,8 +238,13 @@ export const bookingSlice = createSlice({
 
 export const getTurfs = createAsyncThunk(
   "booking/getTurfs",
-  async (arena_id = "r434edd09765457698asd") => {
+
+  async ( { dispatch, getState }) => {
+    console.log('calling turfs ')
     try {
+      const state = getState(); // Get the current state
+      const arena_id = state.booking.data.venuedetails.arena_id;
+
       const resp = await fetch(`${baseURL}turf/byareana`, {
         method: "POST",
         body: JSON.stringify({
@@ -303,7 +306,7 @@ export const getSportsByTurf = createAsyncThunk(
       const data = await resp.json();
 
       console.log("req object is:: ", obj);
-      await dispatch(textExtraRed(obj));
+      await dispatch(setBlockedSlots(obj));
 
       return data;
     } catch (error) {
@@ -314,9 +317,8 @@ export const getSportsByTurf = createAsyncThunk(
 
 export const getVenuDetails = createAsyncThunk(
   "booking/venuedetails",
-  async (arena_id) => {
+  async (arena_id, {dispatch}) => {
     try {
-      const endpoint = `${baseURL}venue/details`;
       const resp = await fetch(`${baseURL}venue/details`, {
         method: "POST",
         body: JSON.stringify({
@@ -326,13 +328,16 @@ export const getVenuDetails = createAsyncThunk(
           "Content-type": "application/json; charset=UTF-8",
         },
       });
+
       if (!resp.result === "OK") {
         throw new Error("Failed to get response, contact admin");
       }
       const data = await resp.json();
       console.log("resp data: ", resp);
+      dispatch(getTurfs())
       return data;
     } catch (error) {
+      console.log("Error got is:", error);
       return Promise.reject(error);
     }
   }
@@ -365,6 +370,12 @@ export const changeDate = createAsyncThunk(
       dispatch(setDate(date));
 
       const { convertDateYmd } = useFormatDateYmd();
+      dispatch(getTurfs());
+
+      let turfObj = {turfId:0, turfCost:0};
+
+      dispatch(changeTurf(turfObj))
+      dispatch(calculateBookingCost());
 
       const currentDate = new Date(convertDateYmd(date));
       const day = currentDate.getDate();
@@ -380,12 +391,13 @@ export const changeDate = createAsyncThunk(
 
       // Access the turf value from the state
       const turfValue = state.booking.data.turf;
+      console.log('turfValue is: ', turfValue)
 
       if (turfValue > 0) {
         obj.turf_id = state.data.turf;
       }
 
-      dispatch(textExtraRed(obj));
+      dispatch(setBlockedSlots(obj));
 
       console.log("resp data: ", resp);
       return data;
@@ -448,81 +460,9 @@ export const createNewCaptain = createAsyncThunk(
       return Promise.reject(error);
     }
   }
-);
+); 
 
-export const getBookedSlots = createAsyncThunk(
-  "booking/getBookedSlots",
-  async ({ bookeddate, arenaId, turfid }, { dispatch }) => {
-    try {
-      // const resp = await fetch("baseURLturf/byareana", {
-      const resp = await fetch(`${baseURL}booking/get-booked-slots`, {
-        method: "POST",
-        body: JSON.stringify({
-          arena_id: arenaId,
-          turf_id: turfid,
-          bookedDate: bookeddate,
-        }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      });
-      if (!resp.result === "OK") {
-        throw new Error("Failed to get response, contact admin");
-      }
-      const data = await resp.json();
-      const slotsBooked = data.data;
-      dispatch(
-        SetBlockedSlots({
-          slotsBooked: slotsBooked.data,
-          bookeddate: bookeddate,
-        })
-      );
 
-      console.log("booked slots are: ", resp);
-      return data;
-    } catch (error) {
-      return Promise.reject(error);
-    }
-  }
-);
-
-/*
-export const changeTimeSlot = createAsyncThunk(
-  "booking/chang-time-slot",
-  async ({ timeSlot}, { dispatch, getState }) => {
-    try {
-
-      let state = getState();
-      const arenaId = state.booking.data.venuedetails.arena_id;
-      const bookeddate = state.booking.data.bookeddate;
-
-      let obj = {
-        bookeddate: bookeddate,
-        arenaId: arenaId,
-      };
-
-      // Access the turf value from the state
-      const turfValue = state.data.turf;
-
-      if (turfValue > 0) {
-        obj.turfid = state.data.turf;
-      } 
-
-      dispatch(
-        textExtraRed(obj)
-      );
-
-      dispatch(setTimeSlot(timeSlot))
-      
-      
-      
-    } catch (error) {
-      return Promise.reject(error);
-    }
-  }
-);
-
-*/
 export default bookingSlice.reducer;
 
 export const {

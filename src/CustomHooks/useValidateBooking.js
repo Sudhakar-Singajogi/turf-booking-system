@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from "react";
+import React, { useCallback} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   checkTurfAvailability,
@@ -6,11 +6,12 @@ import {
 } from "../Redux/Slices/BookingFormValidatorReducer";
 import { useNavigate } from "react-router-dom";
 import useDateTimeRealated from "./useDateTimeRealated";
-import { context } from "../contexts/context";
+
+import { useLoaderContext } from "../contexts/LoaderContextProvider";
 
 function useValidateBooking() {
   const dispatch = useDispatch();
-  const { setLoader } = useContext(context);
+  const { setLoader } = useLoaderContext();
   const { data } = useSelector((state) => state.booking);
   const isAvailable = useSelector((state) => state.validateForm.isAvailable);
   const errors = useSelector((state) => state.validateForm.errors);

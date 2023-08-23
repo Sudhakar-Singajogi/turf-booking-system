@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import useFormatDateYmd from "./useFormatDateYmd";
 import { checkIsWeekEnd } from "../CustomLogics/customLogics";
-import { getBookedSlots } from "../Redux/Slices/BokingSliceReducer";
+// import { getBookedSlots } from "../Redux/Slices/BokingSliceReducer";
 function useBooking() {
   const { data } = useSelector((state) => state.booking);
   const { convertDateYmd } = useFormatDateYmd();
@@ -94,7 +94,7 @@ function useBooking() {
   return {
     getBookingInfo,
     getCaptainInfo,
-    getBookedSlots,
+    // getBookedSlots,
     useCurrentBookedDate,
   };
 }

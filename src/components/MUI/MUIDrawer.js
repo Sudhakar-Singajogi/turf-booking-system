@@ -1,9 +1,9 @@
-import React, { useContext } from "react";
-import Drawer from "@mui/material/Drawer";
-import { context } from "../../contexts/context";
+import React from "react";
+import Drawer from "@mui/material/Drawer"; 
+import { useDrawerCloseContext } from "../../contexts/DrawerCloseBtn";
 
 export default function MUIDrawer({ open, component, onClose }) {
-  const { isOpen } = useContext(context);
+  const { isOpen } = useDrawerCloseContext();
 
   return (
     <div>

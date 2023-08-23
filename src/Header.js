@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useSelector, useDispatch } from "react-redux/";
@@ -7,18 +7,13 @@ import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import Divider from "@mui/material/Divider";
-import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
-import PersonAdd from "@mui/icons-material/PersonAdd";
-import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import LoginIcon from "@mui/icons-material/Login";
 import MUIModal from "./components/MUI/MUIModal";
 import LoginComponent from "./components/LoginComponent";
 
-function Header({ logo }) {
-  const dispatch = useDispatch();
+function Header({ logo }) { 
   const { data } = useSelector((state) => state.booking);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [modalOpen, setModalOpen] = useState(false);

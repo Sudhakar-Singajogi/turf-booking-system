@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -6,17 +6,14 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  calculateBookingCost,
-  changeGame,
+  calculateBookingCost, 
   changeTurf,
-  getSportsByTurf,
-  getTurfs,
+  getSportsByTurf, 
 } from "../../Redux/Slices/BokingSliceReducer";
 
 import GrassOutlinedIcon from "@mui/icons-material/GrassOutlined";
-import { validateBookingForm } from "../../Redux/Slices/BookingFormValidatorReducer";
-
-import { context } from "../../contexts/context";
+import { validateBookingForm } from "../../Redux/Slices/BookingFormValidatorReducer"; 
+import { useLoaderContext } from "../../contexts/LoaderContextProvider";
 
 function SelectTurf({ wid80, title, options, onChange, defValue }) {
 
@@ -24,7 +21,7 @@ function SelectTurf({ wid80, title, options, onChange, defValue }) {
   const { data } = useSelector((state) => state.booking);
   const errors = useSelector((state) => state.validateForm.errors);
   const turf = data.turf; 
-  const { setLoader } = useContext(context);
+  const { setLoader } = useLoaderContext();
   
   const handleturfChange = async (value) => { 
     const cost = data.turfs.filter((i) => i.value === value)

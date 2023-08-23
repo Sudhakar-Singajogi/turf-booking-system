@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { context } from "./context";
+import React, { createContext, useContext, useState } from "react"; 
+export const context = createContext();
 
 const LoaderContextProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -16,3 +16,5 @@ const LoaderContextProvider = ({ children }) => {
   );
 };
 export default LoaderContextProvider;
+
+export const useLoaderContext = () => useContext(context);

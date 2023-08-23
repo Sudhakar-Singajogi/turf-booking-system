@@ -1,33 +1,32 @@
-import React, { useCallback, useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import MUIDrawer from "../MUI/MUIDrawer";
 import LoginDrawerComponent from "./LoginDrawerComponent";
-import { context } from "../../contexts/context";
+import { useDrawerCloseContext } from "../../contexts/DrawerCloseBtn";
 
 function PublicHeader() {
   const [mobileNavActive, setMobileNavActive] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const { closeDrawer } = useContext(context);
-  
-  let propsLoginDrawerComp = {
-    loginForm:false, 
-    forgotpwd:false, 
-    registration:false
-  }
+  const { closeDrawer } = useDrawerCloseContext();
 
   const toggleMobileNav = () => {
     setMobileNavActive(!mobileNavActive);
   };
-  const currentUrl = window.location.href 
+  const currentUrl = window.location.href;
 
   useEffect(() => {
-    if(currentUrl === 'http://localhost:3000/arena-login' || currentUrl === 'http://192.168.0.111:3000/arena-login') {
-      closeDrawer(true) 
-    } 
-    if(currentUrl === 'http://localhost:3000/arena-register' || currentUrl === 'http://192.168.0.111:3000/arena-register') {
-      closeDrawer(true) 
-    } 
-
+    if (
+      currentUrl === "http://localhost:3000/arena-login" ||
+      currentUrl === "http://192.168.0.111:3000/arena-login"
+    ) {
+      closeDrawer(true);
+    }
+    if (
+      currentUrl === "http://localhost:3000/arena-register" ||
+      currentUrl === "http://192.168.0.111:3000/arena-register"
+    ) {
+      closeDrawer(true);
+    }
 
     const parallax = document.querySelector(".hero");
     window.addEventListener("scroll", () => {
@@ -38,10 +37,6 @@ function PublicHeader() {
       }
     });
   }, []);
-
-  const showLogin = () => {
-    setModalOpen(true);
-  };
 
   return (
     <>
@@ -112,9 +107,7 @@ function PublicHeader() {
         component={<ComponentToDisplay />}
       /> */}
 
-      <MUIDrawer
-        component={<LoginDrawerComponent />}
-      />
+      <MUIDrawer component={<LoginDrawerComponent />} />
     </>
   );
 }

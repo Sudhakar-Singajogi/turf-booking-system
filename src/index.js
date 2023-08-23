@@ -15,13 +15,14 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <LoaderContextProvider>
-        <DrawerCloseBtnProvider>
-          <CssBaseline />
+      
+        <LoaderContextProvider>
+          <DrawerCloseBtnProvider>
+            <CssBaseline />
 
-          <MyApp />
-        </DrawerCloseBtnProvider>
-      </LoaderContextProvider>
+            <MyApp />
+          </DrawerCloseBtnProvider>
+        </LoaderContextProvider> 
     </Provider>
     {/* <CartPaymenyPolicy /> */}
   </React.StrictMode>

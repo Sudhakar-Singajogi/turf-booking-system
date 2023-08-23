@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React from "react";
 import "./Cart.css";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EventAvailableIcon from "@mui/icons-material/EventAvailable";
@@ -9,14 +9,10 @@ import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
 import { useDispatch, useSelector } from "react-redux";
 import { clearErrors } from "../Redux/Slices/BookingFormValidatorReducer";
-import {
-  validateBookingForm,
-  checkTurfAvailability,
-} from "../Redux/Slices/BookingFormValidatorReducer";
+
 import { Link, useNavigate } from "react-router-dom";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
-import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
-import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
+
 import useGetExactToTime from "../CustomHooks/useGetExactToTime";
 import useValidateBooking from "../CustomHooks/useValidateBooking";
 import useGetGame from "../CustomHooks/useGetGame";
@@ -93,47 +89,7 @@ const Cart = () => {
   */
 
   return (
-    <>
-      <div className="show-mble">
-        {/* <div className="footer">
-          <div className="footer-icon">
-            <ProductionQuantityLimitsIcon style={{ fontSize: "2rem" }} />
-          </div>
-          <div className="footer-middle flex-right">
-            <div className="total-hours">
-
-
-
-              {slot.hrs > 0 && slot.timeslot !== "" && <TimelapseIcon />}
-
-              { (slot.hrs > 0 && slot.timeslot !== "")
-                ? slot.hrs > 1
-                  ? `${slot.hrs} hrs`
-                  : `${slot.hrs} hr`
-                : ""}
-            </div>
-            <div style={{ marginLeft: "20px" }}> </div>
-            <div className="total-cost">
-              {
-                slot.timeslot !== "" ? (slot.hrs > 0 && <CurrencyRupeeIcon />) : ""
-              }
-              {
-                slot.timeslot !== "" ? (slot.hrs > 0 && data.bookingamount.toFixed(2)) : ""
-              }
-              
-            </div>
-          </div>
-          <div className="footer-icon">
-            <Link
-              to="/confirm-cart"
-              onClick={(e) => ProceedToPolicy(e)}
-              style={{ color: "#fff" }}
-            >
-              <ArrowCircleRightIcon className="proceed-icon" />{" "}
-            </Link>
-          </div>
-        </div> */}
-      </div>
+    <> 
 
       <div className="cart mx-10 dnt-show-mble">
         <div className="flex flex-col items-center justify-center space-y-10 text-typography">

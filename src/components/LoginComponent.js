@@ -1,6 +1,6 @@
 import { CgSpinner } from "react-icons/cg";
 import OtpInput from "otp-input-react";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { auth } from "./firebase-config";

@@ -7,55 +7,66 @@ import Cart from "./components/Cart";
 import Footer from "./components/Footer";
 import Header from "./Header";
 import CartPaymentPolicy from "./CartPaymentPolicy";
-import { useDispatch } from "react-redux";
-import { getVenuDetails } from "./Redux/Slices/BokingSliceReducer";
 
 import sonetlogo from "./assets/SonetLogo.png";
 import Loader from "./components/Loader";
-import { context } from "./contexts/context"; 
 import Home from "./components/Home";
-import AreanaLogin from "./components/Areana/AreanaLogin";
-
-function MyApp() { 
-  
-  const containerDivURLS = ["http://localhost:3000/", "http://localhost:3000/arena-login", "http://localhost:3000/arena-register"]; 
+import { ErrorBoundary } from "react-error-boundary";
+import { GenericError } from "./errors/GenericError";
+function MyApp() {
+  const containerDivURLS = [
+    "http://localhost:3000/",
+    "http://localhost:3000/arena-login",
+    "http://localhost:3000/arena-register",
+  ];
   const currentUrl = window.location.href;
-  
-  const container  = (containerDivURLS.includes(currentUrl)) ? "fluid-container" : "container";
-   return (
-    <div className="App">
-  
-        <Loader  />
-        <BrowserRouter>
-          <Header logo={sonetlogo} />
-          {/* Header Navigation */}
 
-          {/* Main Content */}
-          <main>
-            <div className={container}>
-              {/* <div className="content-wrapper"> */}
-                {/* <SlideShow /> */}
-                <div className="w100">
-                  <Routes>
-                    <Route path="/" exact element={<Home />} />
-                    <Route path="/booking" exact element={<BookingForm />} />
-                    <Route
-                      path="/booking/confirm"
-                      exact
-                      element={<CartPaymentPolicy />}
-                    />
-                    <Route path="/arena-login" element={<Home />} />
-                    <Route path="/arena-register" element={<Home />} />
-                  </Routes>
-                </div>
-              </div>
-            {/* </div> */}
-          </main>
-        </BrowserRouter> 
+  const container = containerDivURLS.includes(currentUrl)
+    ? "fluid-container"
+    : "container";
+  return (
+    <div className="App">
+      <Loader />
+      <BrowserRouter>
+        <Header logo={sonetlogo} />
+        {/* Header Navigation */}
+
+        {/* Main Content */}
+        <main>
+          <div className={container}>
+            {/* <div className="content-wrapper"> */}
+            {/* <SlideShow /> */}
+            <div className="w100">
+              <Routes>
+                <Route path="/" exact element={<Home />} />
+                <Route
+                  path="/booking"
+                  exact
+                  element={
+                    <ErrorBoundary
+                      FallbackComponent={GenericError}
+                      onError={() => console.log("Error happened!")}
+                    >
+                      <BookingForm />
+                    </ErrorBoundary>
+                  }
+                />
+                <Route
+                  path="/booking/confirm"
+                  exact
+                  element={<CartPaymentPolicy />}
+                />
+                <Route path="/arena-login" element={<Home />} />
+                <Route path="/arena-register" element={<Home />} />
+              </Routes>
+            </div>
+          </div>
+          {/* </div> */}
+        </main>
+      </BrowserRouter>
       {/* Footer */}
-      <div className="dnt-show-mble" style={{marginTop:'1.7rem'}}>
-        { currentUrl !== "http://localhost:3000/arena/login" ? <Footer /> : null}
-        
+      <div className="dnt-show-mble" style={{ marginTop: "1.7rem" }}>
+        {currentUrl !== "http://localhost:3000/arena/login" ? <Footer /> : null}
       </div>
     </div>
   );

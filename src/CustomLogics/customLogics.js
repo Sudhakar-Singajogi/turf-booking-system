@@ -1,7 +1,4 @@
-import { useEffect, useRef } from "react";
-import useFormatDateYmd from "../CustomHooks/useFormatDateYmd";
-
-export const checkIsWeekEnd = (bookeddate) => {
+ export const checkIsWeekEnd = (bookeddate) => {
   let currentDate = new Date();
   if (bookeddate !== "") {
     const [day, month, year] = bookeddate.split("/").map(Number);
