@@ -1,3 +1,5 @@
+import { useCallback } from "react";
+
  export const checkIsWeekEnd = (bookeddate) => {
   let currentDate = new Date();
   if (bookeddate !== "") {
@@ -10,3 +12,42 @@
 
   return dayOfWeek === 0 || dayOfWeek === 6;
 };
+
+export const bookedSlots = (slots, bookeddate) => { 
+  const bookedSlotsData = slots.map((slot) => {
+    let strt = slot.start.split(":");
+    let end = slot.end.split(":");
+
+    return {
+      start: new Date(bookeddate).setHours(strt[0], strt[1], 0),
+      end: new Date(bookeddate).setHours(end[0], end[1], 59),
+    };
+  });
+
+  console.log("booked Slots: ", bookedSlots);
+
+  const disabledTimes = bookedSlotsData.map((slot) => {
+    return {
+      start: new Date(slot.start),
+      end: new Date(slot.end),
+    };
+  });
+
+  console.log("disabledTimes: ", disabledTimes);
+
+  const disabledIntervals = slots.map((slot) => {
+    let strt = slot.start.split(":");
+    let end = slot.end.split(":");
+
+    return {
+      start: new Date(bookeddate).setHours(strt[0], strt[1], 0),
+      end: new Date(bookeddate).setHours(end[0], end[1], 59),
+    };
+  });
+
+  return {
+    disabledIntervals,
+    disabledTimes,
+    bookedSlots:bookedSlotsData,
+  }; 
+}

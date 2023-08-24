@@ -1,9 +1,9 @@
 import React from "react";
-import "./Loader.css"; // Import your CSS file for styling
-import { useDrawerCloseContext } from "../contexts/DrawerCloseBtn";
+import "./Loader.css"; // Import your CSS file for styling 
+import { useLoaderContext } from "../contexts/LoaderContextProvider";
 
 function Loader() {
-    const { isLoading } = useDrawerCloseContext();
+    const { isLoading } = useLoaderContext();
     console.log('hey i haven loaded here:', isLoading)
 
   return isLoading ? (

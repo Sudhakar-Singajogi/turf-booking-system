@@ -121,9 +121,7 @@ function BookingTimePicker() {
                   for (const interval of disabledTimes) {
                     if (time >= interval.start && time <= interval.end) {
                       return false;
-                    } else {
-                      console.log("timeis:", time);
-                    }
+                    } 
                   }
                   return true;
                 }}

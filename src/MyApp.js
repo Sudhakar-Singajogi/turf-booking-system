@@ -20,13 +20,15 @@ function MyApp() {
     "http://localhost:3000/arena-register",
   ];
   const currentUrl = window.location.href;
+  console.log('currentUrl is:', currentUrl)
 
   const container = containerDivURLS.includes(currentUrl)
     ? "fluid-container"
     : "container";
   return (
     <div className="App">
-      <Loader />
+      {(currentUrl !== "http://localhost:3000/arena-login" && currentUrl !== "http://localhost:3000/arena-register" )  ? <Loader /> : null}
+      
       <BrowserRouter>
         <Header logo={sonetlogo} />
         {/* Header Navigation */}
@@ -66,7 +68,8 @@ function MyApp() {
       </BrowserRouter>
       {/* Footer */}
       <div className="dnt-show-mble" style={{ marginTop: "1.7rem" }}>
-        {currentUrl !== "http://localhost:3000/arena/login" ? <Footer /> : null}
+      <Footer />
+        {/* {(currentUrl !== "http://localhost:3000/arena-login" || currentUrl !== "http://localhost:3000/arena-register" )  ? <Footer /> : null} */}
       </div>
     </div>
   );

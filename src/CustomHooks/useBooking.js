@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import useFormatDateYmd from "./useFormatDateYmd";
 import { checkIsWeekEnd } from "../CustomLogics/customLogics";
@@ -8,7 +8,6 @@ function useBooking() {
   const { convertDateYmd } = useFormatDateYmd();
 
   const getBookingInfo = () => {
-
     const advPay = data.bookingamount * 0.3;
     const advPayRoundOff = Math.floor(advPay);
 
@@ -23,11 +22,14 @@ function useBooking() {
       is_weekend: checkIsWeekEnd(data.bookeddate) ? "1" : "0",
       booking_cost: data.bookingamount,
       advance_payment: advPayRoundOff,
-      balance_amount: (data.bookingamount - data.bookingamount * 0.3) + (advPay-advPayRoundOff),
-      status: '0',
+      balance_amount:
+        data.bookingamount -
+        data.bookingamount * 0.3 +
+        (advPay - advPayRoundOff),
+      status: "0",
     };
-    console.log('booking object is: ', obj)
-     return obj
+    console.log("booking object is: ", obj);
+    return obj;
   };
   const getCaptainInfo = (fullInfo = false) => {
     let captain = data.captain;
@@ -94,7 +96,6 @@ function useBooking() {
   return {
     getBookingInfo,
     getCaptainInfo,
-    // getBookedSlots,
     useCurrentBookedDate,
   };
 }

@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { bookedSlots } from "../../CustomLogics/customLogics";
 const baseURL = process.env.REACT_APP_apibaseURL;
 
 export const STATUSES = Object.freeze({
@@ -13,6 +14,10 @@ const initialState = {
     disabledIntervals: [],
     disabledTimes: [],
     bookedSlots: [],
+  },
+  admin: {
+    info: {},
+    invalidcredentals: "",
   },
 };
 
@@ -43,50 +48,7 @@ export const venueSlice = createSlice({
             bookedSlots: [],
           };
         } else {
-          const bookedSlots = slots.map((slot) => {
-            let strt = slot.start.split(":");
-            // strt = strt[1].split(":");
-
-            let end = slot.end.split(":");
-            // end = end[1].split(":");
-
-            return {
-              start: new Date(bookeddate).setHours(strt[0], strt[1], 0),
-              end: new Date(bookeddate).setHours(end[0], end[1], 59),
-            };
-          });
-
-          console.log("booked Slots: ", bookedSlots);
-
-          const disabledTimes = bookedSlots.map((slot) => {
-            return {
-              start: new Date(slot.start),
-              end: new Date(slot.end),
-            };
-          });
-
-          console.log("disabledTimes: ", disabledTimes);
-
-          const disabledIntervals = slots.map((slot) => {
-            let strt = slot.start.split(":");
-            // strt = strt[1].split(":");
-
-            let end = slot.end.split(":");
-            // end = end[1].split(":");
-
-            return {
-              start: new Date(bookeddate).setHours(strt[0], strt[1], 0),
-              end: new Date(bookeddate).setHours(end[0], end[1], 59),
-            };
-          });
-
-          state.bookedSlots = {
-            disabledIntervals,
-            disabledTimes,
-            bookedSlots,
-          };
-
-          //   SetBlockedSlots(action.payload)
+          state.bookedSlots = bookedSlots(slots, bookeddate);
         }
       })
       .addCase(setBlockedSlots.rejected, (state, action) => {
@@ -95,6 +57,38 @@ export const venueSlice = createSlice({
           disabledTimes: [],
           bookedSlots: [],
         };
+      })
+      .addCase(doAdminLogin.pending, (state, action) => {
+        state.admin= {
+            info: {},
+            invalidcredentals: "",
+          }
+          
+      })
+      .addCase(doAdminLogin.fulfilled, (state, action) => {
+        console.log("action payload is: ", action.payload.resultTotal);
+
+        if (action.payload.resultTotal === 0) {
+          state.admin= {
+            info: {},
+            invalidcredentals: true,
+          }
+        } else { 
+
+          state.admin= {
+            info: action.payload.data,
+            invalidcredentals: false,
+          }
+        }
+      })
+      .addCase(doAdminLogin.rejected, (state, action) => {
+        
+        state.admin= {
+          info: action.payload.data,
+          invalidcredentals: "",
+        }
+        
+        
       });
   },
 });
@@ -129,4 +123,29 @@ export const setBlockedSlots = createAsyncThunk(
   }
 );
 
+export const doAdminLogin = createAsyncThunk(
+  "venue/do-admin-login",
+  async (loginCredentails, { dispatch }) => {
+    // console.log('bookeddate:', bookeddate)
+
+    try {
+      // const resp = await fetch("baseURLturf/byareana", {
+      const resp = await fetch(`${baseURL}venue/login`, {
+        method: "POST",
+        body: JSON.stringify(loginCredentails),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+      if (!resp.result === "OK") {
+        throw new Error("Failed to get response, contact admin");
+      }
+      const data = await resp.json();
+      console.log("login resp: ", data);
+      return data;
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
+);
 export default venueSlice.reducer;

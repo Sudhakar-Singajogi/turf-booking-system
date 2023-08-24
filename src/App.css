@@ -858,10 +858,9 @@ input {
 }
 
 .drawer-close-btn {
-  padding: 10px; 
-  cursor:pointer
+  padding: 10px;
+  cursor: pointer;
 }
-
 
 .css-ittuaa-MuiInputAdornment-root {
   position: absolute;
@@ -872,12 +871,21 @@ input {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding:8px;
-  color:#fff;
+  padding: 8px;
+  color: #fff;
   background-color: #333;
-  
 }
 
+.validation-error {
+  text-align: left;
+  color: red;
+  font-size: 0.9rem;
+  margin-bottom: 0.6rem;
+}
+
+.loader-container-absolute {
+  position: absolute !important;
+}
 
 /* Media query for mobile devices */
 @media (max-width: 767px) {
@@ -932,7 +940,6 @@ input {
     display: none !important;
   }
 }
-
 
 /** write a media query for min width 300 and max of 767 **/
 @media (min-width: 300px) and (max-width: 767px) {
