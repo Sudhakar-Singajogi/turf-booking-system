@@ -37,7 +37,7 @@ function Header({ logo }) {
   console.log('currentPath: ', currentPath);
 
   const showNavBar = [
-    "/", "/arena-login", "/arena-register"
+    "/", "/arena-login", "/arena-register", "/admin/dashboard"
   ]
 
   return (

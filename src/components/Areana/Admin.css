@@ -1,0 +1,190 @@
+.app {
+  display: flex;
+  /* min-height: 100vh;  */
+}
+
+.flex-1 {
+  flex: 1; /* Take 1 part of the available space */
+}
+
+.left-navigation { 
+
+  color: white;
+  border-top: 1px solid #080707 !important;
+  transition: all 0.3s ease; /* Add transition for smooth animation */
+  position: fixed; /* Set the navigation to be fixed */
+  top: 0; /* Position it at the top */
+  bottom: 0; /* Stretch it to the bottom */
+  z-index: 100; /* Ensure it's above other elements */
+}
+
+.right-container {
+  flex: 5;
+  margin-left: 250px;
+  transition: margin-left 0.3s ease;
+}
+
+.move-to-right {
+    margin-left: 53px;
+}
+
+.adminfooter {
+  background: #333;
+  color: white;
+  position: sticky;
+  text-align: center;
+}
+
+.padding-2-rem {
+  padding: 2rem !important;
+}
+
+.full-menu {
+  width: 250px; /* Set full menu width */
+}
+
+.icon-menu {
+  width: 53px; /* Set icon menu width */
+}
+
+.hamburger {
+  display: none; /* Hide the icon by default */
+  cursor: pointer;
+}
+
+.hamburger {
+  display: block; /* Show the hamburger icon on smaller screens */
+  position: absolute;
+  top: 15px;
+  left: 5rem;
+  z-index: 1000;
+}
+
+.bar {
+  width: 30px;
+  height: 3px;
+  background-color: #fff;
+  margin: 6px 0;
+}
+
+.MenuItems {
+  /* padding:20px; */
+  margin-top: 9px;
+}
+
+.hambuger-parent {
+  position: relative;
+  padding-top:10px;
+}
+
+span.site-title {
+  font-size: 1.7rem;
+}
+
+.remove-left {
+  left: 1rem !important;
+}
+
+.top-2-6rem {
+  margin-top: 3.1rem !important;
+}
+
+.admin-header {
+    padding:12px;
+    text-align: right !important;
+}
+.account-menu-tooltip {
+    cursor: pointer;
+}
+.account-menu-tooltip:hover {
+    cursor: pointer !important;
+}
+
+.right-content {
+  padding-top:0.3rem;
+  padding-left: 0.5rem; 
+  padding-right: 0.5rem; 
+}
+.links-under-profile {
+  text-decoration: none;
+  color:#878686;
+}
+
+.left-nav-links {
+  color: #fff !important;
+}
+
+div.breadcrumb{
+  margin-top:15px !important
+}
+@media (max-width: 500px) {
+  .right-content {
+    padding-top:0.5rem;
+    padding-left: 0.5rem; 
+    padding-right: 0.5rem; 
+  }
+
+}
+
+@media (max-width: 530px) {
+  .hamburger {
+    left: 1rem !important;
+  }
+  .site-title {
+    display: none !important;
+  }
+  .MenuItems {
+    margin-top:2.5rem !important
+  }
+  .full-menu {
+    width: 53px !important;
+    flex:0 !important;
+  }
+
+  .right-container {
+    flex: 5;
+    margin-left: 53px;
+    transition: margin-left 0.3s ease;
+  }
+
+
+  .move-to-right {
+    margin-left: 53px;
+}
+.MenuItems {
+  margin-top:3.1rem !important
+}
+
+.dnt-show-530 {
+  display: none !important;
+}
+
+}
+
+@media (max-width: 768px) {
+  .site-title {
+    display: block;
+  }
+
+  .hamburger {
+    left: 5rem;
+  } 
+  /*
+  .app {
+    flex-direction: column;  
+  }
+
+  .left-navigation,
+  .right-container {
+    flex: 1; 
+  }
+
+  .full-menu {
+    display: none; 
+  }
+
+  .icon-menu {
+    display: block; 
+  }
+  */
+}

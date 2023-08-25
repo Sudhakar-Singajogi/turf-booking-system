@@ -6,8 +6,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { doAdminLogin } from "../../Redux/Slices/VenueSliceReducer";
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
+import { useNavigate } from "react-router-dom";
 
 function SignInAdmin() {
+  const navigate = useNavigate();
   const [signUpForm, setSignUpForm] = useState({
     email: "",
     password: "",
@@ -17,7 +19,14 @@ function SignInAdmin() {
   console.log("admin data is:", admin);
   const dispatch = useDispatch();
 
-  useEffect(() => {}, [admin.invalidcredentals]);
+  useEffect(() => {
+    if (admin.invalidcredentals === false) {
+      console.log("login success");
+      navigate("/admin/dashboard");
+    } else {
+      console.log("login Failed");
+    }
+  }, [admin.invalidcredentals, navigate]);
 
   const validationSchema = Yup.object().shape({
     email: Yup.string()
@@ -43,16 +52,14 @@ function SignInAdmin() {
           { setSubmitting, setFieldError, resetForm }
         ) => {
           try {
-            await validationSchema.validate(values);
-
-            console.log(values);
-
-            dispatch(doAdminLogin(values));
-
             await setLoader(true);
+            await validationSchema.validate(values); 
+
+            dispatch(doAdminLogin(values)); 
+
             setTimeout(async () => {
               await setLoader(false);
-            }, 200);
+            }, 500);
           } catch (errors) {
             setSubmitting(false);
           }

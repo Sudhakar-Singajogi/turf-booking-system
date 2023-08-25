@@ -13,24 +13,37 @@ import Loader from "./components/Loader";
 import Home from "./components/Home";
 import { ErrorBoundary } from "react-error-boundary";
 import { GenericError } from "./errors/GenericError";
+import Dashboard from "./components/Areana/Dashboard";
+import ConfigureArena from "./components/Areana/ConfigureArena";
+import Admin from "./components/Areana/Admin";
+import { useSelector } from "react-redux";
+
 function MyApp() {
   const containerDivURLS = [
     "http://localhost:3000/",
     "http://localhost:3000/arena-login",
     "http://localhost:3000/arena-register",
+    "http://localhost:3000/admin/dashboard",
   ];
   const currentUrl = window.location.href;
-  console.log('currentUrl is:', currentUrl)
+  console.log("currentUrl is:", currentUrl);
 
   const container = containerDivURLS.includes(currentUrl)
     ? "fluid-container"
     : "container";
+
+    const { admin } = useSelector((state) => state.venue);
+
   return (
     <div className="App">
-      {(currentUrl !== "http://localhost:3000/arena-login" && currentUrl !== "http://localhost:3000/arena-register" )  ? <Loader /> : null}
-      
+      {currentUrl !== "http://localhost:3000/arena-login" &&
+      currentUrl !== "http://localhost:3000/arena-register" ? (
+        <Loader />
+      ) : null}
+
       <BrowserRouter>
-        <Header logo={sonetlogo} />
+      {( parseInt(Object.keys(admin.info).length) === 0 ) && <Header logo={sonetlogo} /> }
+        
         {/* Header Navigation */}
 
         {/* Main Content */}
@@ -60,6 +73,13 @@ function MyApp() {
                 />
                 <Route path="/arena-login" element={<Home />} />
                 <Route path="/arena-register" element={<Home />} />
+                <Route path="admin/" element={<Admin />}>
+                  <Route path="/admin/dashboard" element={<Dashboard />} />
+                  <Route
+                    path="/admin/configure-arena"
+                    element={<ConfigureArena />}
+                  />
+                </Route>
               </Routes>
             </div>
           </div>
@@ -68,7 +88,8 @@ function MyApp() {
       </BrowserRouter>
       {/* Footer */}
       <div className="dnt-show-mble" style={{ marginTop: "1.7rem" }}>
-      <Footer />
+      {( parseInt(Object.keys(admin.info).length) === 0 ) && <Footer /> }
+        
         {/* {(currentUrl !== "http://localhost:3000/arena-login" || currentUrl !== "http://localhost:3000/arena-register" )  ? <Footer /> : null} */}
       </div>
     </div>

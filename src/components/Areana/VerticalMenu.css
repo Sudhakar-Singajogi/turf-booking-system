@@ -1,0 +1,33 @@
+/* VerticalMenu.css */
+.vertical-menu { 
+    color: #fff; 
+    padding-top:6px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 100vh;
+  }
+  
+  .menu-item {
+    padding: 15px;
+    cursor: pointer; 
+    transition: background-color 0.3s ease; 
+  }
+  
+  .menu-item:hover {
+    background-color: #555;
+  }
+
+  .menu-item-cotent {
+    position: relative;
+  }
+  
+  .menu-item-name {
+    position: absolute;
+    top:2px;
+    left:2.3rem;
+  }
+
+  .menu-item-active {
+    background-color: #aaa2a2;
+  }

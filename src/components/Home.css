@@ -477,9 +477,11 @@ footer {
     display: none; /* Hide the regular menu on smaller screens */
   }
 
+  
+
   .hamburger {
     display: block; /* Show the hamburger icon on smaller screens */
-    position: absolute;
+    /* position: absolute; */
     top: 20px;
     right: 20px;
     z-index: 1000;

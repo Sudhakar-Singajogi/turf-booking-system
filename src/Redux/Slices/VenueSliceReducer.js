@@ -24,7 +24,15 @@ const initialState = {
 export const venueSlice = createSlice({
   name: "venue",
   initialState,
-  reducers: {},
+  reducers: { 
+    adminLogout: (state, action) => {
+      state.admin= {
+        info: {},
+        invalidcredentals: "",
+      }
+      
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(setBlockedSlots.pending, (state, action) => {
@@ -66,9 +74,9 @@ export const venueSlice = createSlice({
           
       })
       .addCase(doAdminLogin.fulfilled, (state, action) => {
-        console.log("action payload is: ", action.payload.resultTotal);
+        console.log("action payload is: ", action.payload.totalRows);
 
-        if (action.payload.resultTotal === 0) {
+        if (action.payload.totalRows === 0) {
           state.admin= {
             info: {},
             invalidcredentals: true,
@@ -148,4 +156,6 @@ export const doAdminLogin = createAsyncThunk(
     }
   }
 );
+
+export const {adminLogout} = venueSlice.actions;
 export default venueSlice.reducer;
