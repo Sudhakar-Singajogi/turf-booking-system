@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { styled } from '@mui/material/styles';
 import MuiAccordion from '@mui/material/Accordion';
+import ConfigureTurfs from './ConfigureTurfs';
 
 
 export default function AccordionConfigure() {
@@ -27,7 +28,7 @@ export default function AccordionConfigure() {
     },
   }));
   return (
-    <div>
+    <>
       <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')} >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -37,10 +38,7 @@ export default function AccordionConfigure() {
           <Typography>Turf Configuration</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget.
-          </Typography>
+          <ConfigureTurfs />
         </AccordionDetails>
       </Accordion>
       <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}> 
@@ -82,6 +80,6 @@ export default function AccordionConfigure() {
           <Typography>Disabled Accordion</Typography>
         </AccordionSummary>
       </Accordion> */}
-    </div>
+    </>
   );
 }

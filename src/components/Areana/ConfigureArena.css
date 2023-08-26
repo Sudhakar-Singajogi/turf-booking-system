@@ -9,6 +9,57 @@
     0px 1px 1px 0px rgba(0, 0, 0, 0.14), 1px 1px 3px 3px rgba(0, 0, 0, 0.12);
 }
 
+.fa-edit,  .fa-trash-alt {
+  color:#a96868;
+  
+}
+
+.accodion-sub-title {
+  margin-left: 5px !important;
+  margin-top:0px !important;
+  margin-bottom:0px !important;
+  padding: 0px !important;
+  font-size:1.2rem;
+  font-weight:550
+}
+
+.accordion-Icons {
+  width: 30px !important;
+  height: 30px !important;
+}
+
+.css-1e9lk82-MuiListItemAvatar-root {
+  min-width:35px !important
+}
+
+.MuiListItem-padding {
+  padding-left: 0px !important;
+}
+
+.form-element-wid {
+  width:95% !important;
+}
+
+.add-turf-btn-icon {
+  background-color: orange !important;  
+}
+
+.css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root:hover {
+  background-color: none !important;
+}
+
+.fa-md {
+  font-size:25px !important;
+}
+
+.fa-times-circle {
+  color:#ee3e3e !important;
+}
+
+.fa-check-circle {
+  color:#008000 !important;
+}
+
 @media (max-width: 530px) {
   .show-from-tablet {
     display: none !important;
@@ -16,8 +67,22 @@
 
   .show-till-tablet {
     display: block !important;
+    margin-right:5px
+  }
+
+  .form-element-wid {
+    width:100% !important;
+  }
+  .add-turf-form-control {
+    padding-right:30px !important;
+  }
+
+  .add-turf-btn-icon {
+    background-color: orange !important; 
+    margin-right:-15px !important
   }
 }
+
 
 @media (min-width: 530px) and (max-width: 767px) {
   .show-from-tablet {
