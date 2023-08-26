@@ -47,7 +47,7 @@ function Admin() {
                 <Typography color="text.primary">Breadcrumbs</Typography>
               </Breadcrumbs>
             </div>
-            <Divider style={{background:"##dfdfdf"}} />
+            <Divider className="divider-line"/>
             <div style={{marginTop:'10px'}}>
 
             </div>

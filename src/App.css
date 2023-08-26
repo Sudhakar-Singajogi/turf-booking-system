@@ -887,6 +887,11 @@ input {
   position: absolute !important;
 }
 
+.divider-line {
+  background: #c3bfbf !important;
+}
+
+
 /* Media query for mobile devices */
 @media (max-width: 767px) {
   /* .containers {

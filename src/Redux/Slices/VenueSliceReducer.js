@@ -18,20 +18,23 @@ const initialState = {
   admin: {
     info: {},
     invalidcredentals: "",
+    turfs: [],
+    games: [],
   },
 };
 
 export const venueSlice = createSlice({
   name: "venue",
   initialState,
-  reducers: { 
+  reducers: {
     adminLogout: (state, action) => {
-      state.admin= {
+      state.admin = {
         info: {},
         invalidcredentals: "",
-      }
-      
-    }
+        turfs: [],
+        games: [],
+      };
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -67,36 +70,59 @@ export const venueSlice = createSlice({
         };
       })
       .addCase(doAdminLogin.pending, (state, action) => {
-        state.admin= {
-            info: {},
-            invalidcredentals: "",
-          }
-          
+        state.admin = {
+          info: {},
+          invalidcredentals: "",
+          turfs: [],
+        };
       })
       .addCase(doAdminLogin.fulfilled, (state, action) => {
         console.log("action payload is: ", action.payload.totalRows);
 
         if (action.payload.totalRows === 0) {
-          state.admin= {
+          state.admin = {
             info: {},
             invalidcredentals: true,
-          }
-        } else { 
-
-          state.admin= {
+            turfs: [],
+          };
+        } else {
+          state.admin = {
             info: action.payload.data,
             invalidcredentals: false,
-          }
+            turfs: [],
+          };
         }
       })
       .addCase(doAdminLogin.rejected, (state, action) => {
-        
-        state.admin= {
+        state.admin = {
           info: action.payload.data,
           invalidcredentals: "",
+          turfs: [],
+        };
+      })
+      .addCase(getTuyfsByArena.pending, (state, action) => {
+        
+        state.admin = {
+          ...state.admin,
+          turfs: [],
+        };
+      })
+      .addCase(getTuyfsByArena.fulfilled, (state, action) => {
+        console.log("action payload is: ", action.payload?.resultTotal);
+        
+
+        if (action.payload?.resultTotal === 0) {
+          state.admin = { ...state.admin, turfs: [] };
+        } else { 
+          state.admin = { ...state.admin, turfs: action.payload.data };
         }
+      })
+      .addCase(getTuyfsByArena.rejected, (state, action) => {
         
-        
+        state.admin = {
+          ...state.admin,
+          turfs: [],
+        };
       });
   },
 });
@@ -149,6 +175,7 @@ export const doAdminLogin = createAsyncThunk(
         throw new Error("Failed to get response, contact admin");
       }
       const data = await resp.json();
+      dispatch(getTuyfsByArena(data.data.arena_id))
       console.log("login resp: ", data);
       return data;
     } catch (error) {
@@ -157,5 +184,31 @@ export const doAdminLogin = createAsyncThunk(
   }
 );
 
-export const {adminLogout} = venueSlice.actions;
+export const getTuyfsByArena = createAsyncThunk(
+  "venue/get-tuyfs-by-arena",
+  async (arena_id, { dispatch }) => {
+    // console.log('bookeddate:', bookeddate)
+
+    try {
+      // const resp = await fetch("baseURLturf/byareana", {
+      const resp = await fetch(`${baseURL}turf/byareana`, {
+        method: "POST",
+        body: JSON.stringify({ arena_id: arena_id }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+      if (!resp.result === "OK") {
+        throw new Error("Failed to get response, contact admin");
+      }
+      const data = await resp.json();
+      console.log("turfs data is: ", data);
+      return data;
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
+);
+
+export const { adminLogout } = venueSlice.actions;
 export default venueSlice.reducer;

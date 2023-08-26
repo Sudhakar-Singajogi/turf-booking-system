@@ -14,14 +14,18 @@ let registration = false;
 
 if (
   currentUrl === "http://localhost:3000/arena-login" ||
-  currentUrl === "http://192.168.0.111:3000/arena-login"
+  currentUrl === "http://192.168.0.111:3000/arena-login" ||
+  currentUrl.includes("/arena-login")
+
 ) {
   loginForm = true;
 }
 
 if (
   currentUrl === "http://localhost:3000/arena-register" ||
-  currentUrl === "http://192.168.0.111:3000/arena-register"
+  currentUrl === "http://192.168.0.111:3000/arena-register" ||
+  currentUrl.includes("/arena-register")
+
 ) {
   registration = true;
 }
@@ -53,7 +57,7 @@ function LoginDrawerComponent() {
             {resetPwdForm ? "Forgot Password" : null}
             {showSignUpForm ? "Arena Sign Up" : null}
           </h2>
-          <Divider />
+          <Divider className="divider-line" />
         </div>
 
         <div className="login-content">
@@ -83,7 +87,7 @@ function LoginDrawerComponent() {
             <SignUpAdmin />
           ) : null}
 
-          <Divider />
+          <Divider className="divider-line" />
           <div className="login-links">
             {showLoginForm ? (
               <>

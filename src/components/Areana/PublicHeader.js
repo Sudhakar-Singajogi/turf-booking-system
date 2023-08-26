@@ -17,13 +17,15 @@ function PublicHeader() {
   useEffect(() => {
     if (
       currentUrl === "http://localhost:3000/arena-login" ||
-      currentUrl === "http://192.168.0.111:3000/arena-login"
+      currentUrl === "http://192.168.0.111:3000/arena-login" ||
+      currentUrl.includes("/arena-login")
     ) {
       closeDrawer(true);
     }
     if (
       currentUrl === "http://localhost:3000/arena-register" ||
-      currentUrl === "http://192.168.0.111:3000/arena-register"
+      currentUrl === "http://192.168.0.111:3000/arena-register" ||
+      currentUrl.includes("/arena-register")
     ) {
       closeDrawer(true);
     }

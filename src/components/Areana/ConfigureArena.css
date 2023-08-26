@@ -14,8 +14,7 @@
   
 }
 
-.accodion-sub-title {
-  margin-left: 5px !important;
+.accodion-sub-title { 
   margin-top:0px !important;
   margin-bottom:0px !important;
   padding: 0px !important;
@@ -24,8 +23,8 @@
 }
 
 .accordion-Icons {
-  width: 30px !important;
-  height: 30px !important;
+  width: 25px !important;
+  height: 25px !important;
 }
 
 .css-1e9lk82-MuiListItemAvatar-root {
@@ -48,10 +47,6 @@
   background-color: none !important;
 }
 
-.fa-md {
-  font-size:25px !important;
-}
-
 .fa-times-circle {
   color:#ee3e3e !important;
 }
@@ -59,6 +54,31 @@
 .fa-check-circle {
   color:#008000 !important;
 }
+
+.grid-header-adjust {
+  margin-left:1rem;
+}
+
+.grid-header {
+  font-size: 15px; 
+}
+
+.list-parent {
+  padding: 0px !important;
+}
+
+div.form-element-wid:last-child {
+  margin-left:5px
+}
+
+/* 
+.manage-btns-l {
+  margin-right:-10rem !important; 
+}
+
+.manage-btns-r {
+  margin-left:5rem !important; 
+} */
 
 @media (max-width: 530px) {
   .show-from-tablet {
@@ -80,6 +100,9 @@
   .add-turf-btn-icon {
     background-color: orange !important; 
     margin-right:-15px !important
+  }
+  .form-element-wid label {
+    font-size: 13px !important
   }
 }
 

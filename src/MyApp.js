@@ -24,6 +24,7 @@ function MyApp() {
     "http://localhost:3000/arena-login",
     "http://localhost:3000/arena-register",
     "http://localhost:3000/admin/dashboard",
+    "/arena-login"
   ];
   const currentUrl = window.location.href;
   console.log("currentUrl is:", currentUrl);

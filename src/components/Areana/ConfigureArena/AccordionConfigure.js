@@ -7,6 +7,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { styled } from '@mui/material/styles';
 import MuiAccordion from '@mui/material/Accordion';
 import ConfigureTurfs from './ConfigureTurfs';
+import AddSportToTurf from './AddSportToTurf';
 
 
 export default function AccordionConfigure() {
@@ -47,13 +48,10 @@ export default function AccordionConfigure() {
           aria-controls="panel2a-content"
           id="panel2a-header"
         >
-          <Typography>Sport To Turf</Typography>
+          <Typography>Sports To Turf</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget.
-          </Typography>
+          <AddSportToTurf />
         </AccordionDetails>
       </Accordion>
       <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>

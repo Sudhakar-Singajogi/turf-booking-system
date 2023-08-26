@@ -9,6 +9,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import AccordionConfigure from "./ConfigureArena/AccordionConfigure";
 import ConfigureTurfs from "./ConfigureArena/ConfigureTurfs";
+import AddSportToTurf from "./ConfigureArena/AddSportToTurf";
 
 function ConfigureArena() {
   // Initial check when the component mounts
@@ -19,14 +20,14 @@ function ConfigureArena() {
         <Card className="configure-items" sx={{ minWidth: 275 }}>
           <CardContent>
             <Typography
-              sx={{ fontSize: 14 }}
+              sx={{ fontSize: 16, fontWeight: 'bold' }}
               color="text.secondary"
               gutterBottom
             >
-              Word of the Day
+              Turn Configuration
             </Typography>
 
-            <ConfigureTurfs />
+            <ConfigureTurfs key="turfs"/>
              
           </CardContent>
 
@@ -38,20 +39,13 @@ function ConfigureArena() {
         <Card className="configure-items" sx={{ minWidth: 275 }}>
           <CardContent>
             <Typography
-              sx={{ fontSize: 14 }}
+              sx={{ fontSize: 16, fontWeight: 'bold' }}
               color="text.secondary"
               gutterBottom
             >
-              Word of the Day
+              Sports To Turf
             </Typography>
-            <Typography sx={{ mb: 1.5 }} color="text.secondary">
-              adjective
-            </Typography>
-            <Typography variant="body2">
-              well meaning and kindly.
-              <br />
-              {'"a benevolent smile"'}
-            </Typography>
+            <AddSportToTurf />
           </CardContent>
           <CardActions>
             <Button size="small">Learn More</Button>
@@ -61,11 +55,11 @@ function ConfigureArena() {
         <Card className="configure-items" sx={{ minWidth: 275 }}>
           <CardContent>
             <Typography
-              sx={{ fontSize: 14 }}
+              sx={{ fontSize: 16, fontWeight: 'bold' }}
               color="text.secondary"
               gutterBottom
             >
-              Word of the Day
+              Manage Coupons
             </Typography>
             <Typography sx={{ mb: 1.5 }} color="text.secondary">
               adjective
