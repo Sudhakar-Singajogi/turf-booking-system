@@ -10,6 +10,7 @@ import AddEditTurf from "./AddEditTurf";
 import { useCallback } from "react";
 import { getATurf } from "../../../Redux/Slices/VenueSliceReducer";
 import { useLoaderContext } from "../../../contexts/LoaderContextProvider";
+import TurfList from "./TurfList";
 
 function ConfigureTurfs() {
   const [edit, setEdit] = useState(0);
@@ -21,7 +22,7 @@ function ConfigureTurfs() {
     backgroundColor: theme.palette.background.paper,
   }));
 
-  useEffect(() => {
+  useEffect(() => { 
     const getTurfDetails = async () => {      
       if (edit > 0 && edit !== admin.selectedTurf.turfId) {
         await dispatch(getATurf(edit)); 
@@ -30,7 +31,7 @@ function ConfigureTurfs() {
         setLoader(false);
         setEdit(() => admin.selectedTurf.turfId)
       }
-      
+      // setLoader(false);
     };
     
     getTurfDetails();
@@ -70,7 +71,7 @@ function ConfigureTurfs() {
           <Demo>
             <List dense={false}>
               <Divider className="divider-line" />
-              {admin.turfs.length > 0 &&
+              {/* {admin.turfs.length > 0 &&
                 admin.turfs.map((turf) => {
                   return (
                     <>
@@ -81,7 +82,10 @@ function ConfigureTurfs() {
                       />
                     </>
                   );
-                })}
+                })} */}
+                <TurfList key="turfs list"
+                        showEdit={showEdit}
+                        turfs={admin.turfs} />
             </List>
           </Demo>
         </Grid>
