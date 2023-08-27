@@ -36,7 +36,7 @@
 }
 
 .form-element-wid {
-  width:95% !important;
+  width:100% !important;
 }
 
 .add-turf-btn-icon {
@@ -93,10 +93,7 @@ div.form-element-wid:last-child {
   .form-element-wid {
     width:100% !important;
   }
-  .add-turf-form-control {
-    padding-right:30px !important;
-  }
-
+  
   .add-turf-btn-icon {
     background-color: orange !important; 
     margin-right:-15px !important

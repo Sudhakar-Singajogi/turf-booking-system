@@ -20,6 +20,7 @@ const initialState = {
     invalidcredentals: "",
     turfs: [],
     games: [],
+    selectedTurf:{}
   },
 };
 
@@ -33,6 +34,7 @@ export const venueSlice = createSlice({
         invalidcredentals: "",
         turfs: [],
         games: [],
+        selectedTurf:{}
       };
     },
   },
@@ -105,6 +107,7 @@ export const venueSlice = createSlice({
         state.admin = {
           ...state.admin,
           turfs: [],
+          selectedTurf:{},
         };
       })
       .addCase(getTuyfsByArena.fulfilled, (state, action) => {
@@ -112,9 +115,9 @@ export const venueSlice = createSlice({
         
 
         if (action.payload?.resultTotal === 0) {
-          state.admin = { ...state.admin, turfs: [] };
+          state.admin = { ...state.admin, turfs: [], selectedTurf:{}, };
         } else { 
-          state.admin = { ...state.admin, turfs: action.payload.data };
+          state.admin = { ...state.admin, turfs: action.payload.data, selectedTurf:{}, };
         }
       })
       .addCase(getTuyfsByArena.rejected, (state, action) => {
@@ -122,6 +125,31 @@ export const venueSlice = createSlice({
         state.admin = {
           ...state.admin,
           turfs: [],
+          selectedTurf:{},
+        };
+      })
+      .addCase(getATurf.pending, (state, action) => {
+        
+        state.admin = {
+          ...state.admin, 
+          selectedTurf:{},
+        };
+      })
+      .addCase(getATurf.fulfilled, (state, action) => { 
+        const apiResp = action.payload;
+        
+        if (apiResp.hasOwnProperty('resultTotal') && apiResp.resultTotal === 0 ) {
+          state.admin = { ...state.admin, selectedTurf:{}, };
+        } else { 
+          state.admin = { ...state.admin, selectedTurf:apiResp.data, };
+        }
+      })
+      .addCase(getATurf.rejected, (state, action) => {
+        
+        state.admin = {
+          ...state.admin,
+          turfs: [],
+          selectedTurf:{},
         };
       });
   },
@@ -186,11 +214,8 @@ export const doAdminLogin = createAsyncThunk(
 
 export const getTuyfsByArena = createAsyncThunk(
   "venue/get-tuyfs-by-arena",
-  async (arena_id, { dispatch }) => {
-    // console.log('bookeddate:', bookeddate)
-
-    try {
-      // const resp = await fetch("baseURLturf/byareana", {
+  async (arena_id, { dispatch }) => { 
+    try { 
       const resp = await fetch(`${baseURL}turf/byareana`, {
         method: "POST",
         body: JSON.stringify({ arena_id: arena_id }),
@@ -204,6 +229,35 @@ export const getTuyfsByArena = createAsyncThunk(
       const data = await resp.json();
       console.log("turfs data is: ", data);
       return data;
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
+);
+
+export const getATurf = createAsyncThunk(
+  "venue/get-a-turf",
+  async (turfId, { dispatch, getState }) => { 
+    if(turfId === 0) {
+      return {resultTotal:0};
+    }
+    try { 
+      let state = getState();
+      const arena_id = state.venue.admin.info.arena_id;
+
+      const resp = await fetch(`${baseURL}turf/getdetails`, {
+        method: "POST",
+        body: JSON.stringify({turfId:turfId, arena_id: arena_id }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+      if (!resp.result === "OK") {
+        throw new Error("Failed to get response, contact admin");
+      }
+      const response = await resp.json();
+      console.log("turf detail is: ", response);
+      return response;
     } catch (error) {
       return Promise.reject(error);
     }
