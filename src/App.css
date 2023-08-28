@@ -890,7 +890,24 @@ input {
 .divider-line {
   background: #c3bfbf !important;
 }
+.checkbox-stack li {
+  padding: 0px !important;
+  
+}
 
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.checkbox-input {
+  margin-right: 10px;
+}
+
+.rounded-corner {
+  border-radius: 5px;
+}
 
 /* Media query for mobile devices */
 @media (max-width: 767px) {

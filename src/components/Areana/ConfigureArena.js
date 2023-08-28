@@ -10,6 +10,8 @@ import Typography from "@mui/material/Typography";
 import AccordionConfigure from "./ConfigureArena/AccordionConfigure";
 import ConfigureTurfs from "./ConfigureArena/ConfigureTurfs";
 import AddSportToTurf from "./ConfigureArena/AddSportToTurf";
+import ManageSportToTurf from "./ConfigureArena/ManageSportToTurf";
+import SportsToTurfContextProvider from "../../contexts/SportsToTurfContextProvider"; 
 
 function ConfigureArena() {
   // Initial check when the component mounts
@@ -19,16 +21,7 @@ function ConfigureArena() {
       <div className="columns-container show-from-tablet">
         <Card className="configure-items" sx={{ minWidth: 275 }}>
           <CardContent>
-            <Typography
-              sx={{ fontSize: 16, fontWeight: 'bold' }}
-              color="text.secondary"
-              gutterBottom
-            >
-              Turn Configuration
-            </Typography>
-
-            <ConfigureTurfs key="turfs"/>
-             
+            <ConfigureTurfs key="turfs" />
           </CardContent>
 
           <CardActions>
@@ -39,13 +32,39 @@ function ConfigureArena() {
         <Card className="configure-items" sx={{ minWidth: 275 }}>
           <CardContent>
             <Typography
-              sx={{ fontSize: 16, fontWeight: 'bold' }}
+              sx={{ fontSize: 16, fontWeight: "bold" }}
               color="text.secondary"
               gutterBottom
             >
               Sports To Turf
             </Typography>
-            <AddSportToTurf />
+            {/* <AddSportToTurf /> */}
+            <SportsToTurfContextProvider>
+              <ManageSportToTurf />
+            </SportsToTurfContextProvider>
+          </CardContent>
+          <CardActions>
+            {/* <Button size="small">Learn More</Button> */}
+          </CardActions>
+        </Card>
+
+        <Card className="configure-items" sx={{ minWidth: 275 }}>
+          <CardContent>
+            <Typography
+              sx={{ fontSize: 16, fontWeight: "bold" }}
+              color="text.secondary"
+              gutterBottom
+            >
+              Manage Coupons
+            </Typography>
+            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+              adjective
+            </Typography>
+            <Typography variant="body2">
+              well meaning and kindly.
+              <br />
+              {'"a benevolent smile"'}
+            </Typography>
           </CardContent>
           <CardActions>
             <Button size="small">Learn More</Button>
@@ -55,7 +74,7 @@ function ConfigureArena() {
         <Card className="configure-items" sx={{ minWidth: 275 }}>
           <CardContent>
             <Typography
-              sx={{ fontSize: 16, fontWeight: 'bold' }}
+              sx={{ fontSize: 16, fontWeight: "bold" }}
               color="text.secondary"
               gutterBottom
             >
@@ -77,9 +96,11 @@ function ConfigureArena() {
       </div>
 
       <div className="columns-container show-till-tablet">
-        <AccordionConfigure />
-
-
+        <SportsToTurfContextProvider>
+          {/* <AddEditTurfContextProvider> */}
+            <AccordionConfigure />
+          {/* </AddEditTurfContextProvider> */}
+        </SportsToTurfContextProvider>
       </div>
     </>
   );
