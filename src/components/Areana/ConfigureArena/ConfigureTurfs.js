@@ -31,7 +31,7 @@ function ConfigureTurfs() {
         setLoader(false);
         setEdit(() => admin.selectedTurf.turfId)
       }
-      // setLoader(false);
+      setLoader(false);
     };
     
     getTurfDetails();

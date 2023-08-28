@@ -6,9 +6,9 @@ import { Button } from "@mui/material";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
+  clearMsgs,
   createATurf,
   getATurf,
-  turfUpdateMsg,
   updateATurf,
 } from "../../../Redux/Slices/VenueSliceReducer";
 import Alert from "@mui/material/Alert";
@@ -76,6 +76,7 @@ function AddEditTurf({ showEdit, selectedTurf }) {
       if (admin.updateTurfMsg !== "Turf Updated successfully") {
         setSeverity("error");
       }
+      setMsg(admin.updateTurfMsg);
       setShowAlert(true);
     }
 
@@ -84,6 +85,7 @@ function AddEditTurf({ showEdit, selectedTurf }) {
       if (admin.insertTurfMsg !== "Turf created successfully") {
         setSeverity("error");
       }
+      setMsg(admin.insertTurfMsg);
       setShowAlert(true);
     }
 
@@ -92,6 +94,7 @@ function AddEditTurf({ showEdit, selectedTurf }) {
       if (admin.deleteTurfMsg !== "Turf deleted successfully") {
         setSeverity("error");
       }
+      setMsg(admin.deleteTurfMsg);
       setShowAlert(true);
     }
 
@@ -105,11 +108,11 @@ function AddEditTurf({ showEdit, selectedTurf }) {
   return (
     <>
       <Stack sx={{ marginBottom: "1rem" }} spacing={2}>
-        {showAlert ? (
+        {showAlert && (
           <>
             <Alert
               onClose={() => {
-                dispatch(turfUpdateMsg(""));
+                dispatch(clearMsgs(""));
               }}
               sx={{ fontWeight: "bold" }}
               severity={severity}
@@ -117,8 +120,6 @@ function AddEditTurf({ showEdit, selectedTurf }) {
               {msg}
             </Alert>
           </>
-        ) : (
-          <></>
         )}
       </Stack>
 

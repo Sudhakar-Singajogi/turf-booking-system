@@ -43,6 +43,14 @@ export const venueSlice = createSlice({
         deleteTurfMsg:""
       };
     },
+    clearMsgs:(state, action) => {
+      state.admin = {
+        ...state.admin,
+        updateTurfMsg: "",
+        insertTurfMsg: "",
+        deleteTurfMsg:""
+      };
+    },
     turfUpdateMsg: (state, action) => {
       state.admin = {
         ...state.admin,
@@ -133,6 +141,7 @@ export const venueSlice = createSlice({
           selectedTurf: {},
           updateTurfMsg: "",
           insertTurfMsg: "",
+          deleteTurfMsg:""
         };
       })
       .addCase(getTuyfsByArena.fulfilled, (state, action) => {
@@ -145,6 +154,7 @@ export const venueSlice = createSlice({
             selectedTurf: {},
             updateTurfMsg: "",
             insertTurfMsg: "",
+            deleteTurfMsg:""
           };
         } else {
           state.admin = {
@@ -153,6 +163,7 @@ export const venueSlice = createSlice({
             selectedTurf: {},
             updateTurfMsg: "",
             insertTurfMsg: "",
+            deleteTurfMsg:""
           };
         }
       })
@@ -163,6 +174,7 @@ export const venueSlice = createSlice({
           selectedTurf: {},
           updateTurfMsg: "",
           insertTurfMsg: "",
+          deleteTurfMsg:""
         };
       })
       .addCase(getATurf.pending, (state, action) => {
@@ -171,6 +183,7 @@ export const venueSlice = createSlice({
           selectedTurf: {},
           updateTurfMsg: "",
           insertTurfMsg: "",
+          deleteTurfMsg:""
         };
       })
       .addCase(getATurf.fulfilled, (state, action) => {
@@ -185,6 +198,7 @@ export const venueSlice = createSlice({
             selectedTurf: {},
             updateTurfMsg: "",
             insertTurfMsg: "",
+            deleteTurfMsg:""
           };
         } else {
           state.admin = { ...state.admin, selectedTurf: apiResp.data };
@@ -197,6 +211,7 @@ export const venueSlice = createSlice({
           selectedTurf: {},
           updateTurfMsg: "",
           insertTurfMsg: "",
+          deleteTurfMsg:""
         };
       });
   },
@@ -426,5 +441,5 @@ export const deleteATurf = createAsyncThunk(
   }
 );
 
-export const { adminLogout, turfUpdateMsg, turfCreateMsg, turfDeleteMsg } = venueSlice.actions;
+export const { adminLogout, turfUpdateMsg, turfCreateMsg, turfDeleteMsg, clearMsgs } = venueSlice.actions;
 export default venueSlice.reducer;
