@@ -5,7 +5,7 @@ import { useLoaderContext } from "../../contexts/LoaderContextProvider";
 import { useDispatch } from "react-redux"; 
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack"; 
-
+import { SignUpAdminSchema } from "../../validationSchema";
 const baseURL = process.env.REACT_APP_apibaseURL;
 
 function SignUpAdmin() {
@@ -23,23 +23,7 @@ function SignUpAdmin() {
 
   const dispatch = useDispatch();
 
-  const validationSchema = Yup.object().shape({
-    email: Yup.string()
-      .email("Invalid email")
-      .required("Email is required")
-      .matches(
-        /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-        "Invalid email format"
-      ),
-
-    arena_name: Yup.string().required("Arena name is required"),
-    manager_name: Yup.string().required("Manager name is required"),
-    arena_location: Yup.string().required("Arena location is required"),
-    password: Yup.string()
-      .required("Password is required")
-      .min(8, "Password must be at least 8 characters")
-      .matches(/^(?=.*[a-zA-Z])(?=.*\d)/, "Password must be alphanumeric"),
-  });
+  
 
   const signUpAdmin = async (values, setFieldError, resetForm) => {
     await setLoader(true);
@@ -97,12 +81,12 @@ function SignUpAdmin() {
     <>
       <Formik
         initialValues={signUpForm}
-        validationSchema={validationSchema}
+        validationSchema={SignUpAdminSchema}
         onSubmit={async (values, { setSubmitting, setFieldError, resetForm }) => {
           setEmailExistChecked((prev) => "");
 
           try {
-            await validationSchema.validate(values);
+            await SignUpAdminSchema.validate(values);
 
             await setLoader(true);
             setTimeout(async () => {

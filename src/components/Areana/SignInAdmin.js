@@ -7,6 +7,7 @@ import { doAdminLogin } from "../../Redux/Slices/VenueSliceReducer";
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import { useNavigate } from "react-router-dom";
+import { SignInAdminSchema } from "../../validationSchema";
 
 function SignInAdmin() {
   const navigate = useNavigate();
@@ -16,44 +17,27 @@ function SignInAdmin() {
   });
   const { isLoading, setLoader } = useLoaderContext();
   const { admin } = useSelector((state) => state.venue);
-  console.log("admin data is:", admin);
+  
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (admin.invalidcredentals === false) {
-      console.log("login success");
       navigate("/admin/dashboard");
-    } else {
-      console.log("login Failed");
-    }
-  }, [admin.invalidcredentals, navigate]);
-
-  const validationSchema = Yup.object().shape({
-    email: Yup.string()
-      .email("Invalid email")
-      .required("Email is required")
-      .matches(
-        /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-        "Invalid email format"
-      ),
-    password: Yup.string()
-      .required("Password is required")
-      .min(8, "Password must be at least 8 characters")
-      .matches(/^(?=.*[a-zA-Z])(?=.*\d)/, "Password must be alphanumeric"),
-  });
+    } 
+  }, [admin.invalidcredentals, navigate]); 
 
   return (
     <>
       <Formik
         initialValues={signUpForm}
-        validationSchema={validationSchema}
+        validationSchema={SignInAdminSchema}
         onSubmit={async (
           values,
           { setSubmitting, setFieldError, resetForm }
         ) => {
           try {
             await setLoader(true);
-            await validationSchema.validate(values); 
+            await SignInAdminSchema.validate(values); 
 
             dispatch(doAdminLogin(values)); 
 
