@@ -5,12 +5,17 @@ import { getTuyfsByArena } from "../Redux/Slices/VenueSliceReducer";
 
 function useVenue() {
   const dispatch = useDispatch();
+  const{admin} = useSelector((state) => state.venue);
  
   const GetAllTurfsByArena = useCallback((arenaId) => {
     dispatch(getTuyfsByArena(arenaId));
   }, [dispatch]);
 
-  return { GetAllTurfsByArena };
+  const getSelectedTurf = () => {
+    return admin.selectedTurf
+  }
+
+  return { GetAllTurfsByArena, getSelectedTurf };
 }
 
 export default useVenue;

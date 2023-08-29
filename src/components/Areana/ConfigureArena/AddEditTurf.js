@@ -1,122 +1,20 @@
-import React, { useEffect } from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import List from "@mui/material/List";
+import React from "react";
 import ListItem from "@mui/material/ListItem";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
+import List from "@mui/material/List";
 import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  clearMsgs,
-  createATurf,
-  getATurf,
-  updateATurf,
-} from "../../../Redux/Slices/VenueSliceReducer";
-import Alert from "@mui/material/Alert";
-import Stack from "@mui/material/Stack";
-import { useLoaderContext } from "../../../contexts/LoaderContextProvider";
+import { useDispatch, useSelector } from "react-redux";
+import { updateATurf } from "../../../Redux/Slices/VenueSliceReducer";
+import { useEffect } from "react";
+import useVenue from "../../../CustomHooks/useVenue";
 
-import { addEditTurfValidationSchema } from "../../../validationSchema";
-
-function AddEditTurf({ showEdit, selectedTurf, onChange }) {
-  const { admin } = useSelector((state) => state.venue);
-  const turfsel = selectedTurf;
-  const isTurfSel = turfsel.hasOwnProperty("turfId");
-  const [fieldErrors, setFieldErrors] = useState({});
-  const [turfSelected, setTurfSelected] = useState(admin.selectedTurf);
-
-  const [turfName, setTurfName] = useState(turfSelected ? turfSelected.turf_name : "")
-  const [turfSize, setTurfSize] = useState(turfSelected ? turfSelected.areana_size : "")
-  const [weedaycost, setWeedayCost] = useState(turfSelected ? turfSelected.weekdays_cost : "")
-  const [weekendCost, setWeekendCost] = useState(turfSelected ? turfSelected.weekends_cost : "")
-
-  const turfStruct = {
-     
-  };
-  
-
-  const dispatch = useDispatch();
-  const { setLoader } = useLoaderContext();
-  const selectedTurfRef = selectedTurf;
+function AddEditTurf({ turfInfo, onChange: onTurfInfoChange, showEdit }) {
   const [validationError, setValidationError] = useState("");
-  const [severity, setSeverity] = useState("");
-  const [msg, setMsg] = useState("");
-  const [showAlert, setShowAlert] = useState(false);
-
-  const resetUpdateForm = async () => {
-    showEdit(0);
-    await dispatch(getATurf(0));
-  };
-
-  const resetErrorMsg = async (e) => {
-    setFieldErrors((prevErrors) => ({
-      ...prevErrors,
-      [e.target.name]: "",
-    }));
-
-    setTurfSelected((prevValues) => ({
-      ...prevValues,
-      [e.target.name]: e.target.value,
-    }));
-  };
-
-  const updateTurf = async () => {
-    if (JSON.stringify(selectedTurfRef) === JSON.stringify(turfSelected)) {
-      console.log("they are equal");
-      setValidationError("Do some changes to udpate");
-    } else {
-      setLoader(true);
-      console.log("update a turf now");
-      dispatch(updateATurf(turfSelected));
-      if (admin.updateTurfMsg === "Turf Updated successfully") {
-        showEdit(0);
-      }
-    }
-  };
-
-  const createturf = async (formValues) => {
-    dispatch(createATurf(formValues));
-  };
-
-  useEffect(() => {
-    console.log("hey", admin.selectedTurf);
-    if (admin.updateTurfMsg !== "") {
-      setSeverity("success");
-      if (admin.updateTurfMsg !== "Turf Updated successfully") {
-        setSeverity("error");
-      }
-      setMsg(admin.updateTurfMsg);
-      setShowAlert(true);
-    }
-
-    if (admin.insertTurfMsg !== "") {
-      setSeverity("success");
-      if (admin.insertTurfMsg !== "Turf created successfully") {
-        setSeverity("error");
-      }
-      setMsg(admin.insertTurfMsg);
-      setShowAlert(true);
-    }
-
-    if (admin.deleteTurfMsg !== "") {
-      setSeverity("success");
-      if (admin.deleteTurfMsg !== "Turf deleted successfully") {
-        setSeverity("error");
-      }
-      setMsg(admin.deleteTurfMsg);
-      setShowAlert(true);
-    }
-
-    if (showAlert) {
-      setTimeout(() => {
-        setLoader(false);
-      }, 300);
-    }
-  }, [turfSelected]);
-
-  const validateForm = async (formType, values) => { 
-
+  const [fieldErrors, setFieldErrors] = useState({});
+  const dispatch = useDispatch();
+  const { getSelectedTurf } = useVenue();
+  const validateForm = async (formType, values) => {
     const newFieldErrors = {};
     const areana_size = values.areana_size;
     const turf_name = values.turf_name;
@@ -139,7 +37,7 @@ function AddEditTurf({ showEdit, selectedTurf, onChange }) {
       newFieldErrors["turf_name"] = "";
     }
 
-    if (weekdays_cost.trim() === "") {
+    if (weekdays_cost === "") {
       newFieldErrors["weekdays_cost"] = "Weekdays Cost is required";
       hasError = true;
     } else {
@@ -151,7 +49,7 @@ function AddEditTurf({ showEdit, selectedTurf, onChange }) {
       }
     }
 
-    if (weekends_cost.trim() === "") {
+    if (weekends_cost === "") {
       newFieldErrors["weekends_cost"] = "Weekends Cost is required";
       hasError = true;
     } else {
@@ -178,127 +76,130 @@ function AddEditTurf({ showEdit, selectedTurf, onChange }) {
     }
   };
 
+  const updateTurf = async () => {
+    console.log("updated object is: ", turfInfo);
+    dispatch(updateATurf(turfInfo));
+    setTimeout(() => {
+      showEdit(0);
+    }, 400);
+  };
+
+  const createturf = async (formValues) => {
+    console.log("formValues: ", formValues);
+    // dispatch(createATurf(formValues));
+  };
+  // const resp = getSelectedTurf();
+  // console.log("resp is:", resp)
+  //   if(!resp.hasOwnProperty('turfId')) {
+  //     turfInfo = {}
+  //   }
+
+  useEffect(() => {
+    console.log("add edit turf", turfInfo);
+  }, [turfInfo]);
+
   return (
     <>
-      <Stack sx={{ marginBottom: "1rem" }} spacing={2}>
-        {showAlert && (
-          <>
-            <Alert
-              onClose={() => {
-                dispatch(clearMsgs(""));
-              }}
-              sx={{ fontWeight: "bold" }}
-              severity={severity}
-            >
-              {msg}
-            </Alert>
-          </>
-        )}
-      </Stack>
-{JSON.stringify(selectedTurf)}
-      <List dense={false} className="list-parent"> 
-          <ListItem className="add-turf-form-control">
-            <TextField
-              id="outlined-basic"
-              label={`${turfName ? "" : "Enter turf name"}`}
-              fullWidth={true}
-              value={selectedTurf.turf_name}
-              name="turf_name"
-              onChange={(e) => {
-                onChange(e);
-              }}
-            />
-          </ListItem>
-          {fieldErrors["turf_name"] !== "" && (
+      <List dense={false} className="list-parent">
+        <ListItem className="add-turf-form-control" key="add-edit-turfs">
+          <TextField
+            id="outlined-basic"
+            label={`${turfInfo.turfId ? "" : "Enter turf name"}`}
+            fullWidth={true}
+            value={turfInfo.turfId > 0 ? turfInfo.turf_name : ""}
+            name="turf_name"
+            onChange={onTurfInfoChange}
+          />
+        </ListItem>
+        {/* {fieldErrors["turf_name"] !== "" && (
             <p className="validation-error">{fieldErrors["turf_name"]}</p>
-          )}
-          <ListItem className="add-turf-form-control">
+          )} */}
+        <ListItem className="add-turf-form-control">
+          <TextField
+            id="outlined-basic"
+            label={`${turfInfo.turfId ? "" : "Enter turf size"}`}
+            fullWidth={true}
+            name="areana_size"
+            value={turfInfo.turfId > 0 ? turfInfo.areana_size : ""}
+            onChange={onTurfInfoChange}
+          />
+        </ListItem>
+        {/* {fieldErrors["areana_size"] !== "" && (
+            <p className="validation-error">{fieldErrors["areana_size"]}</p>
+          )} */}
+
+        <ListItem className="add-turf-form-control">
+          <div className="form-element-wid">
             <TextField
               id="outlined-basic"
-              label={`${turfSize ? "" : "Enter turf size"}`}
+              label={`${
+                turfInfo.turfId > 0 && turfInfo.weekdays_cost
+                  ? ""
+                  : "Week day cost"
+              }`}
               fullWidth={true}
-              name="areana_size"
-              value={turfSize}
-              onChange={(e) => { setTurfSize(() => e.target.value)
-              }}
+              value={turfInfo.turfId > 0 ? turfInfo.weekdays_cost : ""}
+              name="weekdays_cost"
+              onChange={onTurfInfoChange}
+              type="number"
             />
-          </ListItem>
-          {fieldErrors["areana_size"] !== "" && (
-            <p className="validation-error">{fieldErrors["areana_size"]}</p>
+          </div>
+
+          <div className="form-element-wid">
+            <TextField
+              id="outlined-basic"
+              label={`${turfInfo.weekends_cost ? "" : "Week end cost"}`}
+              fullWidth={true}
+              name="weekends_cost"
+              type="number"
+              value={turfInfo.turfId > 0 ? turfInfo.weekends_cost : ""}
+              onChange={onTurfInfoChange}
+            />
+          </div>
+        </ListItem>
+        <>
+          {fieldErrors["weekdays_cost"] !== "" && (
+            <p className="validation-error">{fieldErrors["weekdays_cost"]}</p>
           )}
+          {fieldErrors["weekends_cost"] !== "" && (
+            <p className="validation-error">{fieldErrors["weekends_cost"]}</p>
+          )}
+        </>
 
-          <ListItem className="add-turf-form-control">
-            <div className="form-element-wid">
-              <TextField
-                id="outlined-basic"
-                label={`${weedaycost ? "" : "Week day cost"}`}
-                fullWidth={true}
-                value={weedaycost}
-                name="weekdays_cost"
-                onChange={(e) => {
-                  setWeedayCost(() => e.target.value);
+        <div style={{ marginTop: "7px" }}>
+          {turfInfo?.turfId > 0 ? (
+            <>
+              <button
+                type="button"
+                onClick={() => validateForm("update", turfInfo)}
+                style={{ width: "69%" }}
+              >
+                Update turf
+              </button>
+              <Button
+                sx={{
+                  width: "25%",
+                  marginLeft: "4px",
+                  background: "orange",
+                  color: "#fff",
                 }}
-                type="number"
-              />
-            </div>
-
-            <div className="form-element-wid">
-              <TextField
-                id="outlined-basic"
-                label={`${weekendCost ? "" : "Week end cost"}`}
-                fullWidth={true}
-                name="weekends_cost"
-                type="number"
-                value={weekendCost}
-                onChange={(e) => {
-                  setWeekendCost(e.target.value);
-                }}
-              />
-            </div>
-          </ListItem>
-          <>
-            {fieldErrors["weekdays_cost"] !== "" && (
-              <p className="validation-error">{fieldErrors["weekdays_cost"]}</p>
-            )}
-            {fieldErrors["weekends_cost"] !== "" && (
-              <p className="validation-error">{fieldErrors["weekends_cost"]}</p>
-            )}
-          </>
-
-          <div style={{ marginTop: "7px" }}>
-            {turfSelected?.turfId > 0 ? (
-              <>
-                <button
-                  type="button"
-                  onClick={() => validateForm("update", turfSelected)}
-                  style={{ width: "69%" }}
-                >
-                  Update turf
-                </button>
-                <Button
-                  sx={{
-                    width: "25%",
-                    marginLeft: "4px",
-                    background: "orange",
-                    color: "#fff",
-                  }}
-                  onClick={() => resetUpdateForm()}
-                >
-                  Cancel
-                </Button>
-              </>
-            ) : (
-              <>
-                <button
-                  type="button"
-                  onClick={() => validateForm("add", turfSelected)}
-                  style={{ width: "96%" }}
-                >
-                  Add turf
-                </button>
-              </>
-            )}
-          </div> 
+                // onClick={() => resetUpdateForm()}
+              >
+                Cancel
+              </Button>
+            </>
+          ) : (
+            <>
+              <button
+                type="button"
+                // onClick={() => validateForm("add", turfSelected)}
+                style={{ width: "96%" }}
+              >
+                Add turf
+              </button>
+            </>
+          )}
+        </div>
         {/* )}
         </Formik> */}
       </List>

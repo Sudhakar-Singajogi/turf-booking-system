@@ -68,7 +68,7 @@ export const venueSlice = createSlice({
         ...state.admin,
         deleteTurfMsg: action.payload,
       };
-    },
+    }, 
   },
   extraReducers: (builder) => {
     builder
@@ -441,5 +441,5 @@ export const deleteATurf = createAsyncThunk(
   }
 );
 
-export const { adminLogout, turfUpdateMsg, turfCreateMsg, turfDeleteMsg, clearMsgs } = venueSlice.actions;
+export const { adminLogout, turfUpdateMsg, turfCreateMsg, turfDeleteMsg, clearMsgs} = venueSlice.actions;
 export default venueSlice.reducer;

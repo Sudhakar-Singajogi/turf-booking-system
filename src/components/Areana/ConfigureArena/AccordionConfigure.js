@@ -8,10 +8,15 @@ import { styled } from '@mui/material/styles';
 import MuiAccordion from '@mui/material/Accordion';
 import ConfigureTurfs from './ConfigureTurfs';
 import AddSportToTurf from './AddSportToTurf';
+import { useEffect } from 'react';
 
 
 export default function AccordionConfigure() {
   const [expanded, setExpanded] = React.useState('panel1');
+
+  useEffect(()=> {
+
+  }, [expanded])
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
