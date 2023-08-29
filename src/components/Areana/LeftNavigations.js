@@ -29,7 +29,7 @@ function LeftNavigation({ setAdjustrightcontent }) {
           <div className="bar"></div>
         </div>
 
-        <span class="site-title">{isFullMenu ? "Spyro" : null}</span>
+        <span className="site-title">{isFullMenu ? "Spyro" : null}</span>
       </div>
 
       <div className={`MenuItems ${isFullMenu ? "" : "top-2-6rem"}`}>

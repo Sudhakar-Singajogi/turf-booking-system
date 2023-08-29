@@ -55,11 +55,13 @@ export const venueSlice = createSlice({
       state.admin = {
         ...state.admin,
         updateTurfMsg: action.payload,
+        insertTurfMsg: ""
       };
     },
     turfCreateMsg: (state, action) => {
       state.admin = {
         ...state.admin,
+        updateTurfMsg:"",
         insertTurfMsg: action.payload,
       };
     },
@@ -67,6 +69,8 @@ export const venueSlice = createSlice({
       state.admin = {
         ...state.admin,
         deleteTurfMsg: action.payload,
+        insertTurfMsg: "",
+        updateTurfMsg:"", 
       };
     }, 
   },
@@ -138,10 +142,7 @@ export const venueSlice = createSlice({
         state.admin = {
           ...state.admin,
           turfs: [],
-          selectedTurf: {},
-          updateTurfMsg: "",
-          insertTurfMsg: "",
-          deleteTurfMsg:""
+          selectedTurf: {}, 
         };
       })
       .addCase(getTuyfsByArena.fulfilled, (state, action) => {
@@ -151,19 +152,13 @@ export const venueSlice = createSlice({
           state.admin = {
             ...state.admin,
             turfs: [],
-            selectedTurf: {},
-            updateTurfMsg: "",
-            insertTurfMsg: "",
-            deleteTurfMsg:""
+            selectedTurf: {}, 
           };
         } else {
           state.admin = {
             ...state.admin,
             turfs: action.payload.data,
-            selectedTurf: {},
-            updateTurfMsg: "",
-            insertTurfMsg: "",
-            deleteTurfMsg:""
+            selectedTurf: {}, 
           };
         }
       })
@@ -171,49 +166,47 @@ export const venueSlice = createSlice({
         state.admin = {
           ...state.admin,
           turfs: [],
-          selectedTurf: {},
-          updateTurfMsg: "",
-          insertTurfMsg: "",
-          deleteTurfMsg:""
+          selectedTurf: {}, 
         };
       })
-      .addCase(getATurf.pending, (state, action) => {
-        state.admin = {
-          ...state.admin,
-          selectedTurf: {},
-          updateTurfMsg: "",
-          insertTurfMsg: "",
-          deleteTurfMsg:""
-        };
-      })
-      .addCase(getATurf.fulfilled, (state, action) => {
-        const apiResp = action.payload;
+      // .addCase(getATurf.pending, (state, action) => {
+      //   state.admin = {
+      //     ...state.admin,
+      //     selectedTurf: {},
+      //     updateTurfMsg: "",
+      //     insertTurfMsg: "",
+      //     deleteTurfMsg:""
+      //   };
+      // })
+      // .addCase(getATurf.fulfilled, (state, action) => {
+      //   const apiResp = action.payload;
 
-        if (
-          apiResp.hasOwnProperty("resultTotal") &&
-          apiResp.resultTotal === 0
-        ) {
-          state.admin = {
-            ...state.admin,
-            selectedTurf: {},
-            updateTurfMsg: "",
-            insertTurfMsg: "",
-            deleteTurfMsg:""
-          };
-        } else {
-          state.admin = { ...state.admin, selectedTurf: apiResp.data };
-        }
-      })
-      .addCase(getATurf.rejected, (state, action) => {
-        state.admin = {
-          ...state.admin,
-          turfs: [],
-          selectedTurf: {},
-          updateTurfMsg: "",
-          insertTurfMsg: "",
-          deleteTurfMsg:""
-        };
-      });
+      //   if (
+      //     apiResp.hasOwnProperty("resultTotal") &&
+      //     apiResp.resultTotal === 0
+      //   ) {
+      //     state.admin = {
+      //       ...state.admin,
+      //       selectedTurf: {},
+      //       updateTurfMsg: "",
+      //       insertTurfMsg: "",
+      //       deleteTurfMsg:""
+      //     };
+      //   } else {
+      //     state.admin = { ...state.admin, selectedTurf: apiResp.data };
+      //   }
+      // })
+      // .addCase(getATurf.rejected, (state, action) => {
+      //   state.admin = {
+      //     ...state.admin,
+      //     turfs: [],
+      //     selectedTurf: {},
+      //     updateTurfMsg: "",
+      //     insertTurfMsg: "",
+      //     deleteTurfMsg:""
+      //   };
+      // })
+      ;
   },
 });
 

@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import useFormatDateYmd from "./useFormatDateYmd";
-import { getTuyfsByArena } from "../Redux/Slices/VenueSliceReducer";
+import { getATurf, getTuyfsByArena } from "../Redux/Slices/VenueSliceReducer";
 
 function useVenue() {
   const dispatch = useDispatch();
@@ -11,11 +11,20 @@ function useVenue() {
     dispatch(getTuyfsByArena(arenaId));
   }, [dispatch]);
 
-  const getSelectedTurf = () => {
+  const getSelectedTurf = async(id) => {
+    
     return admin.selectedTurf
   }
+  const getTurfErrorMsgs = () => {
+    const errmsgs =  {
+      "insert": admin.insertTurfMsg,
+      "update": admin.updateTurfMsg,
+      "delete": admin.deleteTurfMsg
+    } 
+    return errmsgs
+  }
 
-  return { GetAllTurfsByArena, getSelectedTurf };
+  return { GetAllTurfsByArena, getSelectedTurf, getTurfErrorMsgs };
 }
 
 export default useVenue;

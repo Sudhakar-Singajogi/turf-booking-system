@@ -71,7 +71,7 @@ function SignInAdmin() {
               component="div"
               className="validation-error"
             />
-            <button type="submit">Register</button>
+            <button type="submit">Login</button>
             {isLoading && (
               <>
                 <div className="loader-container loader-container-absolute">

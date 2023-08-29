@@ -101,7 +101,7 @@ function AddSportToTurf() {
         </Alert>
       )}
 
-      <div class="checkbox-stack">
+      <div className="checkbox-stack">
         {games.map((sport) => (
           <MenuItem key={sport} value={sport}>
             <Checkbox

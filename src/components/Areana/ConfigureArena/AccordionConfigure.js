@@ -1,22 +1,18 @@
-import * as React from 'react';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { styled } from '@mui/material/styles';
-import MuiAccordion from '@mui/material/Accordion';
-import ConfigureTurfs from './ConfigureTurfs';
-import AddSportToTurf from './AddSportToTurf';
-import { useEffect } from 'react';
-
+import * as React from "react";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import Typography from "@mui/material/Typography";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { styled } from "@mui/material/styles";
+import MuiAccordion from "@mui/material/Accordion";
+import ConfigureTurfs from "./ConfigureTurfs";
+import AddSportToTurf from "./AddSportToTurf";
+import { useEffect } from "react";
+import ManageSportToTurf from "./ManageSportToTurf";
 
 export default function AccordionConfigure() {
-  const [expanded, setExpanded] = React.useState('panel1');
-
-  useEffect(()=> {
-
-  }, [expanded])
+  const [expanded, setExpanded] = React.useState("panel1");
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
@@ -26,16 +22,19 @@ export default function AccordionConfigure() {
     <MuiAccordion disableGutters elevation={0} square {...props} />
   ))(({ theme }) => ({
     border: `1px solid ${theme.palette.divider}`,
-    '&:not(:last-child)': {
+    "&:not(:last-child)": {
       borderBottom: 0,
     },
-    '&:before': {
-      display: 'none',
+    "&:before": {
+      display: "none",
     },
   }));
   return (
     <>
-      <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')} >
+      <Accordion
+        expanded={expanded === "panel1"}
+        onChange={handleChange("panel1")}
+      >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
@@ -47,7 +46,10 @@ export default function AccordionConfigure() {
           <ConfigureTurfs />
         </AccordionDetails>
       </Accordion>
-      <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}> 
+      <Accordion
+        expanded={expanded === "panel2"}
+        onChange={handleChange("panel2")}
+      >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel2a-content"
@@ -56,10 +58,13 @@ export default function AccordionConfigure() {
           <Typography>Sports To Turf</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <AddSportToTurf />
+          <ManageSportToTurf />
         </AccordionDetails>
       </Accordion>
-      <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
+      <Accordion
+        expanded={expanded === "panel3"}
+        onChange={handleChange("panel3")}
+      >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel2a-content"
