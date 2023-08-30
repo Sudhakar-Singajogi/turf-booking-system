@@ -11,7 +11,9 @@ import AccordionConfigure from "./ConfigureArena/AccordionConfigure";
 import ConfigureTurfs from "./ConfigureArena/ConfigureTurfs";
 import AddSportToTurf from "./ConfigureArena/AddSportToTurf";
 import ManageSportToTurf from "./ConfigureArena/ManageSportToTurf";
-import SportsToTurfContextProvider from "../../contexts/SportsToTurfContextProvider"; 
+import SportsToTurfContextProvider from "../../contexts/SportsToTurfContextProvider";
+import { Divider } from "@mui/material";
+import ConfigureCoupons from "./ConfigureCoupons";
 
 function ConfigureArena() {
   // Initial check when the component mounts
@@ -21,6 +23,13 @@ function ConfigureArena() {
       <div className="columns-container show-from-tablet">
         <Card className="configure-items" sx={{ minWidth: 275 }}>
           <CardContent>
+            <Typography
+              sx={{ fontSize: 16, fontWeight: "bold" }}
+              color="text.secondary"
+              gutterBottom
+            >
+              Configure Turfs
+            </Typography>
             <ConfigureTurfs key="turfs" />
           </CardContent>
 
@@ -53,21 +62,20 @@ function ConfigureArena() {
             <Typography
               sx={{ fontSize: 16, fontWeight: "bold" }}
               color="text.secondary"
-              gutterBottom
+              gutterBottom 
             >
               Manage Coupons
             </Typography>
-            <Typography sx={{ mb: 1.5 }} color="text.secondary">
-              adjective
+            <Typography sx={{ mb: 2.5 }} color="text.secondary">
+              Available Coupons
             </Typography>
-            <Typography variant="body2">
-              well meaning and kindly.
-              <br />
-              {'"a benevolent smile"'}
-            </Typography>
+
+            <Divider className="divider-line" />
+            <ConfigureCoupons />
+             
           </CardContent>
           <CardActions>
-            <Button size="small">Learn More</Button>
+            {/* <Button size="small">Learn More</Button> */}
           </CardActions>
         </Card>
 
@@ -98,7 +106,7 @@ function ConfigureArena() {
       <div className="columns-container show-till-tablet">
         <SportsToTurfContextProvider>
           {/* <AddEditTurfContextProvider> */}
-            <AccordionConfigure />
+          <AccordionConfigure />
           {/* </AddEditTurfContextProvider> */}
         </SportsToTurfContextProvider>
       </div>

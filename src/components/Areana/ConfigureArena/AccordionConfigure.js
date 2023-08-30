@@ -10,6 +10,7 @@ import ConfigureTurfs from "./ConfigureTurfs";
 import AddSportToTurf from "./AddSportToTurf";
 import { useEffect } from "react";
 import ManageSportToTurf from "./ManageSportToTurf";
+import ConfigureCoupons from "../ConfigureCoupons";
 
 export default function AccordionConfigure() {
   const [expanded, setExpanded] = React.useState("panel1");
@@ -73,10 +74,8 @@ export default function AccordionConfigure() {
           <Typography>Manage Coupons</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget.
-          </Typography>
+          
+          <ConfigureCoupons />
         </AccordionDetails>
       </Accordion>
       {/* <Accordion disabled>

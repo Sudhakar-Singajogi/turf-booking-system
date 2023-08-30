@@ -3,7 +3,7 @@ import React from "react";
 function useDateTimeRealated() {
   const convertDateTimeToMillSec = (dateTimeStr) => {
     // const dateString = "2023-08-12 6:30 am";
-    console.log('dateTimeStr: ', dateTimeStr);
+    console.log("dateTimeStr: ", dateTimeStr);
     const dateObject = new Date(dateTimeStr);
     const milliseconds = dateObject.getTime();
     return milliseconds;
@@ -40,8 +40,40 @@ function useDateTimeRealated() {
     return formattedTime;
   };
 
-  
-  return { convertDateTimeToMillSec, convertDateYmd, addHoursToTimeSlot};
+  const dateTimeToyearMonthDay = (dateString) => {
+    // const dateString = "2023-10-01T14:23:20.000Z";
+    const date = new Date(dateString);
+
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+    const yr = date.getYear().toString().padStart(2, "0");
+    // const formattedDate = `${yr}-${month}-${day}`;
+    const formattedDate = `${month}-${day}`;
+
+    return formattedDate;
+  };
+
+  const dateStringToYmd = (datestr) => {
+    //example "Wed Aug 30 2023 00:00:00 GMT+0530 (India Standard Time)"
+    const inputDate = new Date(datestr);
+
+    const year = inputDate.getFullYear();
+    const month = (inputDate.getMonth() + 1).toString().padStart(2, "0");
+    const day = inputDate.getDate().toString().padStart(2, "0");
+
+    const formattedDate = `${year}-${month}-${day}`;
+
+    console.log(formattedDate); // Output: 2023-08-30
+    return formattedDate;
+  };
+
+  return {
+    convertDateTimeToMillSec,
+    convertDateYmd,
+    addHoursToTimeSlot,
+    dateTimeToyearMonthDay,
+    dateStringToYmd
+  };
 }
 
 export default useDateTimeRealated;

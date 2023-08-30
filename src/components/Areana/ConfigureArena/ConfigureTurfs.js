@@ -3,7 +3,7 @@ import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import Grid from "@mui/material/Grid";
-import { Divider } from "@mui/material";
+import { Divider, Typography } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import Alert from "@mui/material/Alert";
 import { clearMsgs, getATurf } from "../../../Redux/Slices/VenueSliceReducer";
@@ -16,7 +16,8 @@ import { deleteATurf } from "../../../Redux/Slices/VenueSliceReducer";
 import useVenue from "../../../CustomHooks/useVenue";
 import AddTurf from "./AddTurf";
 import EditTurf from "./EditTurf";
-
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 
 let addNew = {
   turf_name: "",
@@ -38,6 +39,7 @@ function ConfigureTurfs() {
   const Demo = styled("div")(({ theme }) => ({
     backgroundColor: theme.palette.background.paper,
   }));
+  const [showDownArr, setShowDownArr] = useState(true);
 
   const { getSelectedTurf, getTurfErrorMsgs } = useVenue();
 
@@ -46,9 +48,8 @@ function ConfigureTurfs() {
     // setLoader(false);
     setShowAlert(() => false);
     if (edit > 0) {
-
-      setTimeout(() => { 
-        turfErrMsgs = getTurfErrorMsgs(); 
+      setTimeout(() => {
+        turfErrMsgs = getTurfErrorMsgs();
         setLoader(false);
       }, 300);
     } else {
@@ -81,7 +82,6 @@ function ConfigureTurfs() {
         );
       }
     }
-    
   }, [edit, getSelectedTurf]);
 
   const deleteTurf = async (id) => {
@@ -91,13 +91,12 @@ function ConfigureTurfs() {
     showEdit(0);
   };
   const updateTurf = (id) => {
-    if(turfIdRef.current !== id) {
+    if (turfIdRef.current !== id) {
       setLoader(true);
-       showEdit(id);
+      showEdit(id);
       setTempState(id);
       turfIdRef.current = id;
-    } 
-    
+    }
   };
 
   const showEdit = (id) => {
@@ -111,18 +110,14 @@ function ConfigureTurfs() {
   };
 
   return (
-    
     <Box sx={{ flexGrow: 1 }}>
-      {isLoading && (
-      <>
-        <div className="loader-container loader-container-absolute">
-          <div className="loader"></div>
-        </div>
-      </>
-    )}
-      <Grid container spacing={2} sx={{ mt: 1 }}>
+      
+      <Grid container spacing={2}>
         <Grid item xs={12}>
-          <h6 className="accodion-sub-title">Turfs Available</h6>
+          {/* <h6 className="accodion-sub-title">Turfs Available</h6> */}
+          <Typography sx={{ mb: 1.5 }} color="text.secondary">
+            Turfs Available
+          </Typography>
           <Demo key="listing-turfs">
             {showAlert === true && (
               <Alert
@@ -180,20 +175,30 @@ function ConfigureTurfs() {
         </Grid>
       </Grid>
 
+      <Typography sx={{ mt: 1, mb: 1.5 }} color="text.secondary">
+              <span style={{ float: "left", cursor: "pointer" }}>
+              {edit === 0 ? "Add New Turf" : "Edit Turf"}
+              </span>{" "}
+              <span
+                style={{ float:'right', cursor: "pointer" }}
+                onClick={() => setShowDownArr(() => !showDownArr)}
+              >
+                {showDownArr ? <ArrowDropDownIcon /> : <ArrowDropUpIcon />}
+              </span>
+            </Typography> 
+
       <Grid container spacing={2}>
-        <Grid item sx={{ paddingTop: "0px !important", mt: 1, mb:1 }}>
-          <Demo key="listing-turfs_${edit}">
-            <h6 className="accodion-sub-title" >Add new turf</h6>
-            {edit > 0 && (
+        <Grid item sx={{ paddingTop: "0px !important", mt: 1, mb: 1 }}>
+            
+          {edit === 0 && showDownArr && <AddTurf key="addturf" showEdit={showEdit} />}
+            {edit > 0 && showDownArr && (
               <EditTurf
                 key={`editTurf_${edit}`}
                 turfInfo={turfInfo}
                 showEdit={showEdit}
                 edit={edit}
               />
-            )}
-            {edit === 0 && <AddTurf key="addturf" showEdit={showEdit} />}
-          </Demo>
+            )} 
         </Grid>
       </Grid>
     </Box>
