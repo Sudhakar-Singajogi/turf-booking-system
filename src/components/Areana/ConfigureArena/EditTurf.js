@@ -1,26 +1,22 @@
 import React, { useRef } from "react";
 import ListItem from "@mui/material/ListItem";
 import TextField from "@mui/material/TextField";
-import { Button } from "@mui/material";
+
 import List from "@mui/material/List";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  clearMsgs,
-  getATurf,
-  updateATurf,
-} from "../../../Redux/Slices/VenueSliceReducer";
+import { updateATurf } from "../../../Redux/Slices/VenueSliceReducer";
 import { useEffect } from "react";
-import Alert from "@mui/material/Alert";
-import useVenue from "../../../CustomHooks/useVenue";
+import { validateAddEditTurfForm } from "../../../CustomLogics/customLogics";
+import { useLoaderContext } from "../../../contexts/LoaderContextProvider";
 
 const baseURL = process.env.REACT_APP_apibaseURL;
 function EditTurf({ showEdit, edit, turfInfo: turf }) {
-  const { getSelectedTurf, getTurfErrorMsgs } = useVenue();
   const { admin } = useSelector((state) => state.venue);
   const [turfInfo, setTurfInfo] = useState({});
   const [fieldErrors, setFieldErrors] = useState({});
   const dispatch = useDispatch();
+  const { setLoader } = useLoaderContext();
 
   useEffect(() => {
     const getturf = async (id) => {
@@ -42,71 +38,15 @@ function EditTurf({ showEdit, edit, turfInfo: turf }) {
   };
 
   const validateForm = async (formType, values) => {
-    // console.log(values);
-    const newFieldErrors = {};
-    const areana_size = values.areana_size;
-    const turf_name = values.turf_name;
-    const weekdays_cost = values.weekdays_cost;
-    const weekends_cost = values.weekends_cost;
-
-    let hasError = false;
-
-    if (areana_size.trim() === "") {
-      newFieldErrors["areana_size"] = "Arena Size is required";
-      hasError = true;
-    } else {
-      newFieldErrors["areana_size"] = "";
-    }
-
-    if (turf_name.trim() === "") {
-      newFieldErrors["turf_name"] = "Turf Name is required";
-      hasError = true;
-    } else {
-      newFieldErrors["turf_name"] = "";
-    }
-
-    if (weekdays_cost === "") {
-      newFieldErrors["weekdays_cost"] = "Weekdays Cost is required";
-      hasError = true;
-    } else {
-      if (parseInt(weekends_cost) < 1) {
-        newFieldErrors["weekdays_cost"] = "Weekdays Cost should greater than 0";
-        hasError = true;
-      } else {
-        newFieldErrors["weekdays_cost"] = "";
-      }
-    }
-
-    if (weekends_cost === "") {
-      newFieldErrors["weekends_cost"] = "Weekends Cost is required";
-      hasError = true;
-    } else {
-      // console.log("weekends_cost: ", weekends_cost);
-      if (parseInt(weekends_cost) < 1) {
-        newFieldErrors["weekends_cost"] = "Weekends Cost should greater than 0";
-        hasError = true;
-      } else {
-        newFieldErrors["weekends_cost"] = "";
-      }
-    }
-
-    if (!hasError) {
-      if (weekends_cost < weekdays_cost) {
-        newFieldErrors["weekends_cost"] =
-          "Weekends Cost should greater than Weekdays Cost";
-        hasError = true;
-      }
-    }
-
-    setFieldErrors(newFieldErrors);
-
-    if (!hasError) {
+    let { hasErrors, fieldErrors } = validateAddEditTurfForm(values);
+    setFieldErrors(fieldErrors);
+    if (hasErrors !== true) {
       updateTurf(values);
     }
   };
 
-  const updateTurf = async () => {
-    // console.log("updated object is: ", turfInfo);
+  const updateTurf = async () => { 
+    setLoader(true);
     await dispatch(updateATurf(turfInfo));
     showEdit(0);
   };
@@ -117,15 +57,19 @@ function EditTurf({ showEdit, edit, turfInfo: turf }) {
       ...prevValues,
       [name]: value,
     }));
+    setFieldErrors((prev) => ({
+      ...prev,
+      [name]: "",
+    }));
   };
 
   return (
-    <> 
+    <>
       <List dense={false} className="list-parent">
         <ListItem className="add-turf-form-control" key={`edit-turfs-${edit}`}>
           <TextField
             id="outlined-basic"
-            label={`${turfInfo?.turfId ? "" : "Enter turf namees"}`}
+            label={`${turfInfo?.turfId ? "" : "Enter turf name"}`}
             fullWidth={true}
             value={turfInfo?.turfId > 0 ? turfInfo?.turf_name : ""}
             name="turf_name"

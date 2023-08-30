@@ -27,8 +27,14 @@ function AddSportToTurf() {
   const [sports, setSports] = useState([]);
   const [showCancel, setShowCancel] = useState(false);
 
-  const { turfId, sportsByTurf, updateSportToTurf, turfAddMsg, setTurfAddMsg } =
-    useSportsToTurfContext();
+  const {
+    turfId,
+    getSportsByTurf,
+    sportsByTurf,
+    updateSportToTurf,
+    turfAddMsg,
+    setTurfAddMsg,
+  } = useSportsToTurfContext();
 
   const handleChange = (event) => {
     const {
@@ -62,12 +68,22 @@ function AddSportToTurf() {
     //check whether we have any differences in the default and selected sports
     const turfSports = sportsByTurf.map((sport) => sport.sport);
 
-    const differences = sports.filter((item) => !turfSports.includes(item));
-
-    if (differences.length > 0) {
-      setShowCancel(false);
-      await updateSportToTurf(sports);
+    if (turfSports.length !== sports.length) {
+      await updateSports(sports);
+    } else {
+      const differences = turfSports.filter((item) => !sports.includes(item));
+      if (differences.length > 0) {
+        await updateSports(sports);
+      } else {
+        setTurfAddMsg("Do some change to update");
+      }
     }
+  };
+
+  const updateSports = async (sports) => {
+    setShowCancel(false);
+    await updateSportToTurf(sports);
+    await getSportsByTurf(turfId);
   };
 
   const clearChangedSports = () => {
@@ -94,8 +110,12 @@ function AddSportToTurf() {
           onClose={() => {
             closeAlert();
           }}
+          className={
+            turfAddMsg === "Sports added successfully"
+              ? "custom-alert-success"
+              : "custom-alert-warning"
+          }
           sx={{ fontWeight: "bold" }}
-          // severity={`${turfAddMsg} === "Sports added successfully" ? "success" : "error"}`}
         >
           {turfAddMsg}
         </Alert>

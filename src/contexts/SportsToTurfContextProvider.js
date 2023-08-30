@@ -40,8 +40,9 @@ const SportsToTurfContextProvider = ({ children }) => {
       return sprts.push({ sport: sport, turfid: turfId });
     });
     obj.sports = sprts;
-    const apiResp = await postCall("turf/addsports", obj);
-    console.log("status:", apiResp.resultCode);
+    let apiResp = await postCall("turf/addsports", obj);
+    // console.log("status:", await apiResp.json());
+    apiResp = await apiResp.json();
     if (apiResp.resultCode === 200) {
         setTurfAddMsg("Sports added successfully")
     } else {

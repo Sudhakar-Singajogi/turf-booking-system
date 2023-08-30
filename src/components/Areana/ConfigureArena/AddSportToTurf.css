@@ -1,3 +1,11 @@
 .css-1869usk-MuiFormControl-root{
     width:95% !important
 }
+
+.custom-alert-success {
+    background:#beefdb !important;
+}
+
+.custom-alert-warning {
+    background:#f2e296 !important;
+}

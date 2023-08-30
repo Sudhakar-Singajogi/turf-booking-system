@@ -17,6 +17,7 @@ import useVenue from "../../../CustomHooks/useVenue";
 import AddTurf from "./AddTurf";
 import EditTurf from "./EditTurf";
 
+
 let addNew = {
   turf_name: "",
   areana_size: "",
@@ -32,7 +33,7 @@ function ConfigureTurfs() {
   const [severity, setSeverity] = useState("");
   const [msg, setMsg] = useState("");
   const [showAlert, setShowAlert] = useState(false);
-
+  const { isLoading, setLoader } = useLoaderContext();
   const turfIdRef = useRef(0);
   const Demo = styled("div")(({ theme }) => ({
     backgroundColor: theme.palette.background.paper,
@@ -42,11 +43,14 @@ function ConfigureTurfs() {
 
   useEffect(() => {
     let turfErrMsgs;
+    // setLoader(false);
     setShowAlert(() => false);
     if (edit > 0) {
-      setTimeout(() => {
+
+      setTimeout(() => { 
         turfErrMsgs = getTurfErrorMsgs(); 
-      }, 0);
+        setLoader(false);
+      }, 300);
     } else {
       turfErrMsgs = getTurfErrorMsgs();
       setTurfInfo(addNew);
@@ -77,16 +81,23 @@ function ConfigureTurfs() {
         );
       }
     }
+    
   }, [edit, getSelectedTurf]);
 
   const deleteTurf = async (id) => {
     showEdit(id);
+    setLoader(true);
     await dispatch(deleteATurf(id));
     showEdit(0);
   };
   const updateTurf = (id) => {
-    showEdit(id);
-    setTempState(id);
+    if(turfIdRef.current !== id) {
+      setLoader(true);
+       showEdit(id);
+      setTempState(id);
+      turfIdRef.current = id;
+    } 
+    
   };
 
   const showEdit = (id) => {
@@ -100,7 +111,15 @@ function ConfigureTurfs() {
   };
 
   return (
+    
     <Box sx={{ flexGrow: 1 }}>
+      {isLoading && (
+      <>
+        <div className="loader-container loader-container-absolute">
+          <div className="loader"></div>
+        </div>
+      </>
+    )}
       <Grid container spacing={2} sx={{ mt: 1 }}>
         <Grid item xs={12}>
           <h6 className="accodion-sub-title">Turfs Available</h6>

@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 
- export const checkIsWeekEnd = (bookeddate) => {
+export const checkIsWeekEnd = (bookeddate) => {
   let currentDate = new Date();
   if (bookeddate !== "") {
     const [day, month, year] = bookeddate.split("/").map(Number);
@@ -13,7 +13,7 @@ import { useCallback } from "react";
   return dayOfWeek === 0 || dayOfWeek === 6;
 };
 
-export const bookedSlots = (slots, bookeddate) => { 
+export const bookedSlots = (slots, bookeddate) => {
   const bookedSlotsData = slots.map((slot) => {
     let strt = slot.start.split(":");
     let end = slot.end.split(":");
@@ -48,6 +48,80 @@ export const bookedSlots = (slots, bookeddate) => {
   return {
     disabledIntervals,
     disabledTimes,
-    bookedSlots:bookedSlotsData,
-  }; 
-}
+    bookedSlots: bookedSlotsData,
+  };
+};
+
+export const validateAddEditTurfForm = (values) => {
+  const newFieldErrors = {};
+  const areana_size = values.areana_size;
+  const turf_name = values.turf_name;
+  const weekdays_cost = values.weekdays_cost;
+  const weekends_cost = values.weekends_cost;
+
+  let hasError = false;
+
+  if (areana_size.trim() === "") {
+    newFieldErrors["areana_size"] = "Arena Size is required";
+    hasError = true;
+  } else {
+    newFieldErrors["areana_size"] = "";
+  }
+
+  if (turf_name.trim() === "") {
+    newFieldErrors["turf_name"] = "Turf Name is required";
+    hasError = true;
+  } else {
+    newFieldErrors["turf_name"] = "";
+  }
+
+  if (weekdays_cost === "") {
+    newFieldErrors["weekdays_cost"] = "Weekdays Cost is required";
+    hasError = true;
+  } else {
+    if (parseInt(weekends_cost) < 1) {
+      newFieldErrors["weekdays_cost"] = "Weekdays Cost should greater than 0";
+      hasError = true;
+    } else {
+      newFieldErrors["weekdays_cost"] = "";
+    }
+  }
+
+  if (weekends_cost === "") {
+    newFieldErrors["weekends_cost"] = "Weekends Cost is required";
+    hasError = true;
+  } else {
+    if (parseInt(weekends_cost) < 1) {
+      newFieldErrors["weekends_cost"] = "Weekends Cost should greater than 0";
+      hasError = true;
+    } else {
+      newFieldErrors["weekends_cost"] = "";
+    }
+  }
+
+  if (!hasError) {
+    if (parseInt(weekdays_cost) > parseInt(weekends_cost)) {
+      console.log(weekdays_cost);
+      console.log(weekends_cost);
+      newFieldErrors["weekends_cost"] =
+        "Weekends Cost should greater than Weekdays Cost";
+      hasError = true;
+    } else {
+      newFieldErrors["weekends_cost"] = "";
+      hasError = false;
+    }
+  }
+
+  if (!hasError) {
+    if (weekends_cost < weekdays_cost) {
+      newFieldErrors["weekends_cost"] =
+        "Weekends Cost should greater than Weekdays Cost";
+      hasError = true;
+    }
+  }
+
+  return {
+    fieldErrors: newFieldErrors,
+    hasErrors: hasError,
+  };
+};
