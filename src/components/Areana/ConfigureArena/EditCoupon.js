@@ -34,17 +34,17 @@ const CustomDatePickerInput = React.forwardRef((props, ref) => {
 });
 
 const CustomDatePickerInput2 = React.forwardRef((props, ref) => {
-    return (
-      <TextField
-        {...props}
-        variant="standard" // Add any other TextField props you want to customize
-        style={{ width: "100%" }} // Make the input field take up the full width
-        fullWidth
-      />
-    );
-  });
+  return (
+    <TextField
+      {...props}
+      variant="standard" // Add any other TextField props you want to customize
+      style={{ width: "100%" }} // Make the input field take up the full width
+      fullWidth
+    />
+  );
+});
 
-function EditCoupon({ couponId }) {
+function EditCoupon({ couponId, updateCoupon }) {
   const [selectedCoupon, setSelectedCoupon] = useState({});
   const { GetACoupon } = useCoupons();
   const calenderRef = useRef();
@@ -54,12 +54,11 @@ function EditCoupon({ couponId }) {
   const datePickerRef2 = useRef(null);
   const today = new Date(); // Get today's date
 
-  const{dateStringToYmd} = useDateTimeRealated();
+  const { dateStringToYmd } = useDateTimeRealated();
 
   useEffect(() => {
     const getCouponInfo = async (id) => {
-      let resp = await GetACoupon(id);
-      console.log("resp:", resp);
+      let resp = await GetACoupon(id); 
       setSelectedCoupon(resp);
     };
     getCouponInfo(couponId);
@@ -79,16 +78,20 @@ function EditCoupon({ couponId }) {
   };
   const handleDateChange = async (date) => {
     setSelectedCoupon((prevValues) => ({
-        ...prevValues,
-        'offerStartsAt': date,
-      }));
+      ...prevValues,
+      offerStartsAt: date,
+    }));
   };
 
-  const handleEndAtDateChange= async (date) => {
+  const handleEndAtDateChange = async (date) => {
     setSelectedCoupon((prevValues) => ({
-        ...prevValues,
-        'offerEndAt': date,
-      }));
+      ...prevValues,
+      offerEndAt: date,
+    }));
+  };
+
+  const cancel = (id) => {
+    updateCoupon(id);
   };
 
   const showCalender = () => {
@@ -127,7 +130,7 @@ function EditCoupon({ couponId }) {
                     selectedCoupon?.couponName ? "" : "Enter coupon name"
                   }`}
                   fullWidth={true}
-                  value={selectedCoupon?.couponName}
+                  value={selectedCoupon?.couponName || ""}
                   name="couponName"
                   onChange={(e) => {
                     handleChange(e);
@@ -139,7 +142,7 @@ function EditCoupon({ couponId }) {
                   id="outlined-basic"
                   label={`${selectedCoupon?.offer ? "" : "Enter coupon Offer"}`}
                   fullWidth={true}
-                  value={selectedCoupon?.offer}
+                  value={selectedCoupon?.offer || ""}
                   name="offer"
                   onChange={(e) => {
                     handleChange(e);
@@ -162,7 +165,10 @@ function EditCoupon({ couponId }) {
                     label="Select Date"
                     id="outlined-start-adornment"
                     ref={calenderRef}
-                    value={selectedCoupon?.offerStartsAt && dateStringToYmd(selectedCoupon.offerStartsAt)}
+                    value={
+                      selectedCoupon?.offerStartsAt &&
+                      dateStringToYmd(selectedCoupon.offerStartsAt)
+                    }
                     onFocus={() => showCalender()}
                     InputProps={{
                       startAdornment: (
@@ -191,7 +197,10 @@ function EditCoupon({ couponId }) {
                     label="Select Date"
                     id="outlined-start-adornment2"
                     ref={calenderRef2}
-                    value={selectedCoupon?.offerEndAt && dateStringToYmd(selectedCoupon.offerEndAt)}
+                    value={
+                      selectedCoupon?.offerEndAt &&
+                      dateStringToYmd(selectedCoupon.offerEndAt)
+                    }
                     onFocus={() => showCalender2()}
                     InputProps={{
                       startAdornment: (
@@ -236,7 +245,9 @@ function EditCoupon({ couponId }) {
                       color: "#fff",
                       borderRadius: "5px",
                     }}
-                    onClick={() => {}}
+                    onClick={() => {
+                      cancel(0);
+                    }}
                   >
                     Cancel
                   </button>

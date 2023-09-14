@@ -6,8 +6,8 @@ import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { styled } from "@mui/material/styles";
 import MuiAccordion from "@mui/material/Accordion";
-import ConfigureTurfs from "./ConfigureTurfs";
-import AddSportToTurf from "./AddSportToTurf";
+// import ConfigureTurfs from "./ConfigureTurfs";
+// import AddSportToTurf from "./AddSportToTurf";
 import { useEffect } from "react";
 import ManageSportToTurf from "./ManageSportToTurf";
 import ConfigureCoupons from "../ConfigureCoupons";
@@ -44,9 +44,11 @@ export default function AccordionConfigure() {
           <Typography>Turf Configuration</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <ConfigureTurfs />
+          {/* have to refactor the configure turf component using context api */}
+          {/* <ConfigureTurfs /> */}
         </AccordionDetails>
       </Accordion>
+      
       <Accordion
         expanded={expanded === "panel2"}
         onChange={handleChange("panel2")}

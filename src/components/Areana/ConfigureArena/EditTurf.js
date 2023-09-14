@@ -5,10 +5,11 @@ import TextField from "@mui/material/TextField";
 import List from "@mui/material/List";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateATurf } from "../../../Redux/Slices/VenueSliceReducer";
+import { getTuyfsByArena, updateATurf } from "../../../Redux/Slices/VenueSliceReducer";
 import { useEffect } from "react";
 import { validateAddEditTurfForm } from "../../../CustomLogics/customLogics";
 import { useLoaderContext } from "../../../contexts/LoaderContextProvider";
+import useManageTurfs from "../../../CustomHooks/useManageTurfs";
 
 const baseURL = process.env.REACT_APP_apibaseURL;
 function EditTurf({ showEdit, edit, turfInfo: turf }) {
@@ -17,6 +18,7 @@ function EditTurf({ showEdit, edit, turfInfo: turf }) {
   const [fieldErrors, setFieldErrors] = useState({});
   const dispatch = useDispatch();
   const { setLoader } = useLoaderContext();
+  const { updateTurf } = useManageTurfs();
 
   useEffect(() => {
     const getturf = async (id) => {
@@ -41,14 +43,17 @@ function EditTurf({ showEdit, edit, turfInfo: turf }) {
     let { hasErrors, fieldErrors } = validateAddEditTurfForm(values);
     setFieldErrors(fieldErrors);
     if (hasErrors !== true) {
-      updateTurf(values);
+      update_turf(values);
     }
   };
 
-  const updateTurf = async () => { 
+  const update_turf = async () => {
     setLoader(true);
-    await dispatch(updateATurf(turfInfo));
+    // await dispatch(updateATurf(turfInfo));
+    updateTurf(turfInfo);
     showEdit(0);
+    
+    setLoader(false);
   };
 
   const onTurfInfoChange = (e) => {

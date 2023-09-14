@@ -15,16 +15,9 @@ import { useSportsToTurfContext } from "../../../contexts/SportsToTurfContextPro
 const Demo = styled("div")(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
 }));
-function ManageSportToTurf() {
-  const [game, setGame] = useState("");
-  const [turf, setTurf] = useState("");
-  const dispatch = useDispatch();
+function ManageSportToTurf({...props}) {
   const { admin } = useSelector((state) => state.venue);
-  const { turfId, getSportsByTurf, sportsByTurf, updateSportToTurf } =
-    useSportsToTurfContext();
-  const handleGameChange = (event) => {
-    setGame(event.target.value);
-  };
+  const { turfId, getSportsByTurf } = useSportsToTurfContext();
 
   const handleTurfChange = async (turfid) => {
     await getSportsByTurf(turfid);
@@ -38,7 +31,7 @@ function ManageSportToTurf() {
         Turfs Available
       </Typography>
       <Demo key="listing-turfs">
-      <Divider className="divider-line" />
+        <Divider className="divider-line" />
         <FormControl sx={{ m: 0 }} style={{ marginTop: "10px", width: "100%" }}>
           <InputLabel id="demo-simple-select-helper-label">Turfs</InputLabel>
           <Select

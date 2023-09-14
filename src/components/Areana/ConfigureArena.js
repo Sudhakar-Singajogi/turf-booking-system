@@ -9,11 +9,13 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import AccordionConfigure from "./ConfigureArena/AccordionConfigure";
 import ConfigureTurfs from "./ConfigureArena/ConfigureTurfs";
-import AddSportToTurf from "./ConfigureArena/AddSportToTurf";
+// import AddSportToTurf from "./ConfigureArena/AddSportToTurf";
 import ManageSportToTurf from "./ConfigureArena/ManageSportToTurf";
 import SportsToTurfContextProvider from "../../contexts/SportsToTurfContextProvider";
 import { Divider } from "@mui/material";
 import ConfigureCoupons from "./ConfigureCoupons";
+import ManageCouponContextProvider from "../../contexts/ManageCouponContextProvider";
+import ConfTurf from "./ConfTurf";
 
 function ConfigureArena() {
   // Initial check when the component mounts
@@ -30,12 +32,10 @@ function ConfigureArena() {
             >
               Configure Turfs
             </Typography>
-            <ConfigureTurfs key="turfs" />
+            {/* have to refactor the configure turf component using context api */}
+            {/* <ConfigureTurfs key="turfs" dntrerender={true} /> */}
+            <ConfTurf key="turfs" dntrerender={true} />
           </CardContent>
-
-          <CardActions>
-            {/* <Button size="small">Learn More</Button> */}
-          </CardActions>
         </Card>
 
         <Card className="configure-items" sx={{ minWidth: 275 }}>
@@ -49,7 +49,7 @@ function ConfigureArena() {
             </Typography>
             {/* <AddSportToTurf /> */}
             <SportsToTurfContextProvider>
-              <ManageSportToTurf />
+              <ManageSportToTurf dntrerender={true} key="manage-sports" />
             </SportsToTurfContextProvider>
           </CardContent>
           <CardActions>
@@ -62,7 +62,7 @@ function ConfigureArena() {
             <Typography
               sx={{ fontSize: 16, fontWeight: "bold" }}
               color="text.secondary"
-              gutterBottom 
+              gutterBottom
             >
               Manage Coupons
             </Typography>
@@ -71,8 +71,9 @@ function ConfigureArena() {
             </Typography>
 
             <Divider className="divider-line" />
-            <ConfigureCoupons />
-             
+            <ManageCouponContextProvider>
+              <ConfigureCoupons dntrerender={true} key="manage-coupons" />
+            </ManageCouponContextProvider>
           </CardContent>
           <CardActions>
             {/* <Button size="small">Learn More</Button> */}
@@ -105,9 +106,8 @@ function ConfigureArena() {
 
       <div className="columns-container show-till-tablet">
         <SportsToTurfContextProvider>
-          {/* <AddEditTurfContextProvider> */}
+          {/* have to refactor the configure turf component using context api */}
           <AccordionConfigure />
-          {/* </AddEditTurfContextProvider> */}
         </SportsToTurfContextProvider>
       </div>
     </>

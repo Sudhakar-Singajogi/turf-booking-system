@@ -30,7 +30,7 @@ function useCoupons() {
       coupon_id:id,
     });
     resp = await resp.json();
-    console.log('coupons are:', resp);
+    console.log('coupon is :', resp);
     if (resp.resultCode === 200) {
       if (resp.totalRows > 0) { 
         return resp.data;

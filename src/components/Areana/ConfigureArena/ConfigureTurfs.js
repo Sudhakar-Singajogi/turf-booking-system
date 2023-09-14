@@ -25,7 +25,7 @@ let addNew = {
   weekdays_cost: "",
   weekends_cost: "",
 };
-function ConfigureTurfs() {
+function ConfigureTurfs({ ...props }) {
   const [edit, setEdit] = useState(0);
   const { admin } = useSelector((state) => state.venue);
   const dispatch = useDispatch();
@@ -45,7 +45,9 @@ function ConfigureTurfs() {
 
   useEffect(() => {
     let turfErrMsgs;
+
     // setLoader(false);
+    console.log("configure turf called");
     setShowAlert(() => false);
     if (edit > 0) {
       setTimeout(() => {
@@ -111,7 +113,6 @@ function ConfigureTurfs() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      
       <Grid container spacing={2}>
         <Grid item xs={12}>
           {/* <h6 className="accodion-sub-title">Turfs Available</h6> */}
@@ -176,29 +177,30 @@ function ConfigureTurfs() {
       </Grid>
 
       <Typography sx={{ mt: 1, mb: 1.5 }} color="text.secondary">
-              <span style={{ float: "left", cursor: "pointer" }}>
-              {edit === 0 ? "Add New Turf" : "Edit Turf"}
-              </span>{" "}
-              <span
-                style={{ float:'right', cursor: "pointer" }}
-                onClick={() => setShowDownArr(() => !showDownArr)}
-              >
-                {showDownArr ? <ArrowDropDownIcon /> : <ArrowDropUpIcon />}
-              </span>
-            </Typography> 
+        <span style={{ float: "left", cursor: "pointer" }}>
+          {edit === 0 ? "Add New Turf" : "Edit Turf"}
+        </span>{" "}
+        <span
+          style={{ float: "right", cursor: "pointer" }}
+          onClick={() => setShowDownArr(() => !showDownArr)}
+        >
+          {showDownArr ? <ArrowDropDownIcon /> : <ArrowDropUpIcon />}
+        </span>
+      </Typography>
 
       <Grid container spacing={2}>
         <Grid item sx={{ paddingTop: "0px !important", mt: 1, mb: 1 }}>
-            
-          {edit === 0 && showDownArr && <AddTurf key="addturf" showEdit={showEdit} />}
-            {edit > 0 && showDownArr && (
-              <EditTurf
-                key={`editTurf_${edit}`}
-                turfInfo={turfInfo}
-                showEdit={showEdit}
-                edit={edit}
-              />
-            )} 
+          {edit === 0 && showDownArr && (
+            <AddTurf key="addturf" showEdit={showEdit} />
+          )}
+          {edit > 0 && showDownArr && (
+            <EditTurf
+              key={`editTurf_${edit}`}
+              turfInfo={turfInfo}
+              showEdit={showEdit}
+              edit={edit}
+            />
+          )}
         </Grid>
       </Grid>
     </Box>

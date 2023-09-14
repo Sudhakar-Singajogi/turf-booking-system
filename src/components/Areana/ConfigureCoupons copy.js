@@ -4,7 +4,7 @@ import EditCoupon from "./ConfigureArena/EditCoupon";
 import AddCoupon from "./ConfigureArena/AddCoupon";
 import Tooltip from "@mui/material/Tooltip";
 import useDateTimeRealated from "../../CustomHooks/useDateTimeRealated";
-import {useManageCouponContext} from "../../contexts/ManageCouponContextProvider";
+
 import {
   Divider,
   Grid,
@@ -25,15 +25,7 @@ function ConfigureCoupons({...props}) {
   const gotCoupons = useRef(false);
   const { isLoading, setLoader } = useLoaderContext();
   const { dateTimeToyearMonthDay } = useDateTimeRealated();
-  // const {getAllCoupons, } = useManageCouponContext()
-  const allCoupons = [];
 
-  useEffect(()=> {
-    // getAllCoupons();
-  }, [allCoupons])
-  
-
-  /*
   useEffect(() => {
     const getAllCoupons = async () => {
       console.log("yeah first time");
@@ -59,8 +51,6 @@ function ConfigureCoupons({...props}) {
     }
   };
 
-
-  */
   return (
     <>
       <Grid container spacing={2}>
@@ -75,8 +65,8 @@ function ConfigureCoupons({...props}) {
           </Typography>
 
           <List dense={false} key="coupon-listing">
-            {allCoupons.length > 0 &&
-              allCoupons.map((coupon, index) => {
+            {coupons.length > 0 &&
+              coupons.map((coupon, index) => {
                 return (
                   <ListItem
                     key={coupon.couponId}
@@ -85,7 +75,7 @@ function ConfigureCoupons({...props}) {
                         <IconButton
                           edge="end"
                           aria-label="edit"
-                          // onClick={() => updateCoupon(coupon.couponId)}
+                          onClick={() => updateCoupon(coupon.couponId)}
                           className="manage-btns-l"
                           sx={{ mx: 3 }}
                         >
@@ -187,10 +177,7 @@ function ConfigureCoupons({...props}) {
 
           {couponId === 0 && <AddCoupon />}
           {couponId > 0 && (
-            <EditCoupon 
-            couponId={couponId} 
-            // updateCoupon={updateCoupon} 
-            />
+            <EditCoupon couponId={couponId} updateCoupon={updateCoupon} />
           )}
         </Grid>
       </Grid>
