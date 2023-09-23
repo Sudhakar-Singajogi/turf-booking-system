@@ -1,0 +1,184 @@
+.react-calendar__month-view__days__day {
+  color: #000 !important;
+}
+.react-datetime-picker__calendar {
+  z-index: 9999 !important;
+  top: 45px !important;
+}
+.react-datetime-picker__clock--open {
+  z-index: 9999 !important;
+  display: none !important;
+}
+
+.react-datetime-picker__wrapper {
+  border: 1px solid #cdc8c8 !important;
+  padding: 5px !important;
+  margin-left: 5px;
+  border-radius: 5px;
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for separation */
+  
+}
+
+.react-calendar__navigation {
+  margin-bottom: 0px !important;
+}
+
+.react-calendar__navigation button {
+  background-color: #cdc8c8 !important;
+}
+
+.date-time-picker-parent {
+  border: 1px solid #cdc8c8;
+  border-radius: 5px;
+  float: right;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-left: 0.5rem;
+  box-shadow: 4px 8px 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for separation */ 
+  cursor: pointer;
+}
+
+.date-time-picker-parent:hover {
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for separation */
+    
+  }
+
+.react-datetime-picker__button:enabled
+  svg.react-datetime-picker__calendar-button__icon {
+  display: none !important;
+}
+
+.filter-sec {
+  position: relative;
+  text-align: right;
+  margin-right: 5px;
+}
+.booked-slot-search-icon {
+  position: absolute;
+  top: 0px;
+  background-color: #cdc8c8;
+  left: 26.7rem;
+  cursor: pointer;
+  height: 54px;
+  line-height: 39px;
+  /* border-radius: 5px;  */
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  z-index: 9999 !important;
+}
+
+.rdt_TableCol_Sortable .brFloq {
+  font-size: 13px !important;
+  font-weight: bold;
+}
+
+.rdt_TableRow .rdt_TableCell div:first-child {
+  overflow: initial !important;
+  white-space: initial !important;
+  text-overflow: inherit !important;
+}
+
+.rdt_TableCol_Sortable div:first-child {
+  overflow: initial !important;
+  white-space: initial !important;
+  text-overflow: inherit !important;
+}
+
+.rdt_TableCell div {
+  text-align: center !important;
+}
+
+.slots-container {
+    flex-grow: 1;   
+}
+
+@media (min-width: 300px) and (max-width: 400px) {
+  /* .date-time-picker-parent {
+    max-width: 300px !important;
+  } */
+  .rdt_Pagination span {
+    display: none;
+  }
+
+  .filter-sec {
+    margin-bottom: 10px !important;
+  }
+
+  .rdt_TableRow .rdt_TableCell {
+    font-size: 10px !important;
+  }
+
+  .rdt_TableRow .dKzMcW {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+  }
+
+  .booked-slot-search-icon {
+    position: absolute;
+    top: 0px;
+    background-color: #cdc8c8;
+    left: 16.4rem;
+    cursor: pointer;
+    height: 35px;
+    line-height: 39px;
+  }
+
+  .react-datetime-picker__button svg {
+    width: 1.3rem !important;
+    margin-left: -10px;
+  }
+
+  .filter-sec {
+    float: left !important;
+    margin-right: 0px !important;
+  }
+
+  .date-time-picker-parent {
+    /* border: 1px solid #cdc8c8; */ 
+    float: right;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-left: 0.3rem;
+    width: 300px !important;
+  }
+
+  .slots-container {
+    width: 300px !important; 
+    margin-left:0.7rem !important
+  }
+}
+
+
+
+@media (max-width: 530px) {
+
+  .react-datetime-picker__wrapper {
+    padding: 3px !important;
+    margin-left: 5px;
+  }
+}
+
+@media (min-width:530px) and (max-width: 767px) {
+    
+  .booked-slot-search-icon {
+    height: 38.5px !important;
+    left: 25.5rem !important;
+  }
+}
+
+@media (min-width:768px) {
+    .booked-slot-search-icon {
+        height: 38.5px !important;
+        left: 25.5rem !important;
+      } 
+}
+
+@media (min-width:1024px) {
+    .min-1024 {
+        display: block !important;
+      }
+    .slots-container {        
+        margin: 0px !important;
+        width: calc(33.3% - 20px) !important;       
+      }
+}

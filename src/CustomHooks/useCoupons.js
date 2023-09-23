@@ -41,7 +41,24 @@ function useCoupons() {
     return [];
   };
 
-  return { GetAllCouponsByArena, GetACoupon };
+  const addACoupon = async (coupon) => {
+    let resp = await postCall("coupons/addcoupon", {
+      arena_id: admin.info.arena_id,
+      ...coupon,
+    });
+    resp = await resp.json();
+    console.log('coupon is :', resp);
+    if (resp.resultCode === 200) {
+      if (resp.totalRows > 0) { 
+        return resp.data;
+      } else {
+        return [];
+      }
+    }
+    return [];
+  };
+
+  return { GetAllCouponsByArena, GetACoupon, addACoupon };
 }
 
 export default useCoupons;

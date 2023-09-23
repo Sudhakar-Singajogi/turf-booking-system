@@ -880,7 +880,10 @@ input {
   text-align: left;
   color: red;
   font-size: 0.9rem;
+  margin-top: 0.3rem;
+  margin-left: 0.2rem;
   margin-bottom: 0.6rem;
+  
 }
 
 .loader-container-absolute {
@@ -908,6 +911,23 @@ input {
 .rounded-corner {
   border-radius: 5px;
 }
+.text-bold {
+  font-weight: bold !important;
+}
+
+.limit-text-10 {
+  max-width: 15ch !important; 
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap!important;
+  margin-right:20px;
+}
+
+.text-right {
+  text-align: right !important;
+}
+
+
 
 /* Media query for mobile devices */
 @media (max-width: 767px) {

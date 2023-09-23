@@ -31,12 +31,12 @@ function ConfTurf({ ...props }) {
   const [edit, setEdit] = useState(0);
   const [showDownArr, setShowDownArr] = useState(true);
   const { isLoading, setLoader } = useLoaderContext();
-  const { getAllTurfsByArena } = useManageTurfs();
+  const { getAllTurfsByArena, deleteTurf } = useManageTurfs();
 
   useEffect(() => {
     const fetchAllTurfs = async (arena_id) => {
       const allturfsResp = await getAllTurfsByArena(arena_id);
-      console.log('allturfsResp: ', allturfsResp)
+      console.log("allturfsResp: ", allturfsResp);
       if (allturfsResp.success) {
         setAllTurfs(() => allturfsResp.data);
       }
@@ -48,6 +48,17 @@ function ConfTurf({ ...props }) {
   const updateTurf = useCallback((turfId) => {
     setEdit(turfId);
   }, []);
+
+  const delete_turf = async (turfId) => {
+    var resp = await deleteTurf(turfId);
+
+    setTimeout(() => {
+      console.log("resp:", resp);
+      if (resp.success) {
+        setEdit(0);
+      }
+    }, 300);
+  };
 
   return (
     <>
@@ -82,7 +93,7 @@ function ConfTurf({ ...props }) {
                             aria-label="delete"
                             className="manage-btns-r"
                             sx={{ mx: -4.5 }}
-                            //   onClick={() => deleteTurf(turf.turfId)}
+                            onClick={() => delete_turf(turf.turfId)}
                           >
                             {/* <DeleteIcon /> */}
                             <i className="fas fa-trash-alt "></i>
@@ -116,7 +127,7 @@ function ConfTurf({ ...props }) {
         </Typography>
         <Grid container spacing={2}>
           <Grid item sx={{ paddingTop: "0px !important", mt: 1, mb: 1 }}>
-            {edit === 0 && showDownArr && (
+            {edit <= 0 && showDownArr && (
               <AddTurf key="addturf" showEdit={setEdit} />
             )}
             {edit > 0 && showDownArr && (

@@ -33,8 +33,8 @@ function ConfigureArena() {
               Configure Turfs
             </Typography>
             {/* have to refactor the configure turf component using context api */}
-            {/* <ConfigureTurfs key="turfs" dntrerender={true} /> */}
-            <ConfTurf key="turfs" dntrerender={true} />
+            <ConfigureTurfs key="turfs" dntrerender={true} />
+            {/* <ConfTurf key="turfs" dntrerender={true} /> */}
           </CardContent>
         </Card>
 

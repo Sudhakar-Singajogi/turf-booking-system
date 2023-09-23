@@ -11,6 +11,7 @@ import MuiAccordion from "@mui/material/Accordion";
 import { useEffect } from "react";
 import ManageSportToTurf from "./ManageSportToTurf";
 import ConfigureCoupons from "../ConfigureCoupons";
+import ConfigureTurfs from "./ConfigureTurfs";
 
 export default function AccordionConfigure() {
   const [expanded, setExpanded] = React.useState("panel1");
@@ -45,7 +46,7 @@ export default function AccordionConfigure() {
         </AccordionSummary>
         <AccordionDetails>
           {/* have to refactor the configure turf component using context api */}
-          {/* <ConfigureTurfs /> */}
+          <ConfigureTurfs key="turfs" dntrerender={true} />
         </AccordionDetails>
       </Accordion>
       
@@ -61,7 +62,7 @@ export default function AccordionConfigure() {
           <Typography>Sports To Turf</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <ManageSportToTurf />
+          <ManageSportToTurf  key="sports" dntrerender={true}/>
         </AccordionDetails>
       </Accordion>
       <Accordion
@@ -77,7 +78,7 @@ export default function AccordionConfigure() {
         </AccordionSummary>
         <AccordionDetails>
           
-          <ConfigureCoupons />
+          <ConfigureCoupons key="coupons" dntrerender={true}/>
         </AccordionDetails>
       </Accordion>
       {/* <Accordion disabled>

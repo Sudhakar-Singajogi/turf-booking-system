@@ -73,7 +73,40 @@ function useManageTurfs() {
       };
     }
   };
-  return { updateTurf, getAllTurfsByArena };
+
+  const deleteTurf = async (turfId) => {
+    try {
+      const arena_id = admin.info.arena_id;
+      const turfObj = { turfId: turfId, arena_id: arena_id };
+
+      const resp = await fetch(`${baseURL}turf/delete`, {
+        method: "POST",
+        body: JSON.stringify(turfObj),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+      if (!resp.result === "OK") { 
+        return {
+          success: false,
+          message: "Failed to delete turf, contact admin",
+        };
+      }
+      const response = await resp.json();
+      if (response.message === "Query Success") { 
+        return {
+          success: true,
+          message: "Turf deleted successfully",
+        };
+      }
+    } catch (error) {
+      return {
+        success: false,
+        message: "Failed to delete turf, contact admin",
+      };
+    }
+  };
+  return { updateTurf, getAllTurfsByArena, deleteTurf };
 }
 
 export default useManageTurfs;

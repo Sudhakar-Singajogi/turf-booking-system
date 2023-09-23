@@ -113,7 +113,7 @@ export const validateAddEditTurfForm = (values) => {
   }
 
   if (!hasError) {
-    if (weekends_cost < weekdays_cost) {
+    if (parseInt(weekends_cost) < parseInt(weekdays_cost)) {
       newFieldErrors["weekends_cost"] =
         "Weekends Cost should greater than Weekdays Cost";
       hasError = true;

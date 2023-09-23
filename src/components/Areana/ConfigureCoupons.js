@@ -4,9 +4,7 @@ import EditCoupon from "./ConfigureArena/EditCoupon";
 import AddCoupon from "./ConfigureArena/AddCoupon";
 import Tooltip from "@mui/material/Tooltip";
 import useDateTimeRealated from "../../CustomHooks/useDateTimeRealated";
-import {useManageCouponContext} from "../../contexts/ManageCouponContextProvider";
 import {
-  Divider,
   Grid,
   IconButton,
   List,
@@ -18,7 +16,7 @@ import {
 import useCoupons from "../../CustomHooks/useCoupons";
 import { useLoaderContext } from "../../contexts/LoaderContextProvider";
 
-function ConfigureCoupons({...props}) {
+function ConfigureCoupons() {
   const [couponId, setCouponId] = useState(0);
   const [coupons, setCoupons] = useState([]);
   const { GetAllCouponsByArena } = useCoupons();
@@ -26,14 +24,7 @@ function ConfigureCoupons({...props}) {
   const { isLoading, setLoader } = useLoaderContext();
   const { dateTimeToyearMonthDay } = useDateTimeRealated();
   // const {getAllCoupons, } = useManageCouponContext()
-  const allCoupons = [];
 
-  useEffect(()=> {
-    // getAllCoupons();
-  }, [allCoupons])
-  
-
-  /*
   useEffect(() => {
     const getAllCoupons = async () => {
       console.log("yeah first time");
@@ -55,12 +46,9 @@ function ConfigureCoupons({...props}) {
 
       setTimeout(() => {
         setLoader(false);
-      }, 100);
+      }, 300);
     }
   };
-
-
-  */
   return (
     <>
       <Grid container spacing={2}>
@@ -73,10 +61,25 @@ function ConfigureCoupons({...props}) {
           >
             Available Coupons
           </Typography>
+          <List dense={false} key="coupon-listing">
+            <ListItem>
+              <ListItemText>
+                <span className="text-bold">Coupon </span>
+              </ListItemText>
+
+              <ListItemText>
+                <span className="text-bold">Stats - ends</span>
+              </ListItemText>
+
+              <ListItemText>
+                <span className="text-bold">Offer Percentage</span>
+              </ListItemText>
+            </ListItem>
+          </List>
 
           <List dense={false} key="coupon-listing">
-            {allCoupons.length > 0 &&
-              allCoupons.map((coupon, index) => {
+            {coupons.length > 0 &&
+              coupons.map((coupon, index) => {
                 return (
                   <ListItem
                     key={coupon.couponId}
@@ -85,7 +88,7 @@ function ConfigureCoupons({...props}) {
                         <IconButton
                           edge="end"
                           aria-label="edit"
-                          // onClick={() => updateCoupon(coupon.couponId)}
+                          onClick={() => updateCoupon(coupon.couponId)}
                           className="manage-btns-l"
                           sx={{ mx: 3 }}
                         >
@@ -109,7 +112,7 @@ function ConfigureCoupons({...props}) {
                           aria-label="delete"
                           className="manage-btns-r"
                           sx={{ mx: -4.5 }}
-                          //   onClick={() => deleteTurf(turf.turfId)}
+                          // onClick={() => deleteTurf(turf.turfId)}
                         >
                           {index === 0 ? (
                             <Tooltip
@@ -130,6 +133,7 @@ function ConfigureCoupons({...props}) {
                   >
                     <ListItemText
                       sx={{ cursor: "pointer" }}
+                      className="limit-text-10"
                       primary={
                         <>
                           {index === 0 ? (
@@ -137,7 +141,7 @@ function ConfigureCoupons({...props}) {
                               {coupon.couponName}
                             </Tooltip>
                           ) : (
-                            coupon.couponName
+                            <p>{coupon.couponName}</p>
                           )}
                         </>
                       }
@@ -150,11 +154,14 @@ function ConfigureCoupons({...props}) {
                           {index === 0 ? (
                             <>
                               <Tooltip title="Coupon Availablity">
-                                {`${dateTimeToyearMonthDay(
-                                  coupon.offerStartsAt
-                                )} - ${dateTimeToyearMonthDay(
-                                  coupon.offerEndAt
-                                )} `}
+                                <span className="limit-text-10">
+                                  {" "}
+                                  {`${dateTimeToyearMonthDay(
+                                    coupon.offerStartsAt
+                                  )} - ${dateTimeToyearMonthDay(
+                                    coupon.offerEndAt
+                                  )} `}
+                                </span>
                               </Tooltip>
                             </>
                           ) : (
@@ -185,12 +192,9 @@ function ConfigureCoupons({...props}) {
               })}
           </List>
 
-          {couponId === 0 && <AddCoupon />}
+          {couponId === 0 && <AddCoupon setCouponId={setCouponId} />}
           {couponId > 0 && (
-            <EditCoupon 
-            couponId={couponId} 
-            // updateCoupon={updateCoupon} 
-            />
+            <EditCoupon couponId={couponId} updateCoupon={updateCoupon} />
           )}
         </Grid>
       </Grid>

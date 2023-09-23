@@ -33,7 +33,7 @@ function AddTurf({ showEdit }) {
     setLoader(true);
     await dispatch(createATurf(formValues));
     setTurfInfo(addNew);
-    showEdit(0);
+    showEdit(-1);
     setTimeout(() => {
       setLoader(false);
     }, 300)
