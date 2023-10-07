@@ -35,7 +35,12 @@
   padding-bottom: 1rem;
   padding-left: 0.5rem;
   box-shadow: 4px 8px 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for separation */ 
-  cursor: pointer;
+  cursor: pointer;  
+}
+
+.date-time-picker-parent:first-child {
+  width:96% !important;
+  margin-left:10px !important;
 }
 
 .date-time-picker-parent:hover {
@@ -52,19 +57,25 @@
   position: relative;
   text-align: right;
   margin-right: 5px;
+  display: flex !important;
 }
+
+.filter-sec label {
+  margin-top:8px;
+}
+
 .booked-slot-search-icon {
-  position: absolute;
-  top: 0px;
+  /* position: absolute; */
+  /* border-radius: 5px;  */
+  /* top: 0px; */
   background-color: #cdc8c8;
-  left: 26.7rem;
+  margin-left:-10px !important;
   cursor: pointer;
   height: 54px;
   line-height: 39px;
-  /* border-radius: 5px;  */
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
-  z-index: 9999 !important;
+  z-index: 1 !important;
 }
 
 .rdt_TableCol_Sortable .brFloq {
@@ -99,10 +110,32 @@
   .rdt_Pagination span {
     display: none;
   }
-
-  .filter-sec {
-    margin-bottom: 10px !important;
+  .filter-sec label{
+    margin-top:18px !important;
+    font-size: 14px !important;
+    font-weight: bold !important;
   }
+/* 
+  .filter-sec {
+    margin-bottom: 10px !important; 
+    position: relative;
+    text-align: right;
+    margin-right: 5px;
+    display: block !important;
+  }
+  .filter-sec .MuiFormControl-root {
+    margin:0.2rem !important;
+    width:14rem !important;
+  }
+
+  .filter-sec .MuiFormControl-root .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+    padding: 7px 7px !important
+  }
+
+  .filter-sec .MuiFormControl-root .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input fieldset .css-yjsfm1{
+    height:9px !important;
+  }  */
+
 
   .rdt_TableRow .rdt_TableCell {
     font-size: 10px !important;
@@ -114,13 +147,19 @@
   }
 
   .booked-slot-search-icon {
-    position: absolute;
-    top: 0px;
+    /* position: absolute; */
+    /* left: 16.6rem; */
+    /* height: 35px; */
+    /* top: 0px; */
+    width:1.5rem !important;
     background-color: #cdc8c8;
-    left: 16.4rem;
-    cursor: pointer;
-    height: 35px;
-    line-height: 39px;
+    cursor: pointer; 
+  }
+
+  .booked-slot-search-icon svg{
+    /* position: absolute; */
+    margin-top: 1.1rem;
+    margin-left:-1px;
   }
 
   .react-datetime-picker__button svg {
@@ -131,6 +170,7 @@
   .filter-sec {
     float: left !important;
     margin-right: 0px !important;
+    
   }
 
   .date-time-picker-parent {
@@ -146,6 +186,19 @@
     width: 300px !important; 
     margin-left:0.7rem !important
   }
+
+  
+  .date-time-picker-parent:first-child {
+    width:100% !important;
+    margin-left:0px !important;
+  }
+  
+  .date-time-picker-parent {
+    width:100% !important;
+    margin-left:10px !important;
+    margin-bottom:10px !important;
+  }
+
 }
 
 
@@ -168,7 +221,7 @@
 
 @media (min-width:768px) {
     .booked-slot-search-icon {
-        height: 38.5px !important;
+        height: 40px !important;
         left: 25.5rem !important;
       } 
 }

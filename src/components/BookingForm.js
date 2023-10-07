@@ -23,11 +23,12 @@ import { useLoaderContext } from "../contexts/LoaderContextProvider";
 import BookingDatePicker from "./Booking/BookingDatePicker";
 import BookingTimePicker from "./Booking/BookingTimePicker";
 import "bootstrap/dist/css/bootstrap.min.css";
+import CartPaymentPolicy from "../CartPaymentPolicy";
 
-const BookingForm = () => {
+const BookingForm = (venue="") => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const venueId = searchParams.get("venueid");
+  const venueId = venue !== '' ? venue : searchParams.get("venueid");
   const [isRendered, setIsRendered] = useState(false);
 
   const dispatch = useDispatch();
@@ -112,6 +113,7 @@ const BookingForm = () => {
                       ""
                     )}
                   </Stack>
+                  {/* <CartPaymentPolicy /> */}
                 </div>
 
                 <div className="form-container">

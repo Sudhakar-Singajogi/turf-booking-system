@@ -1,23 +1,55 @@
-import React from "react";
-import Drawer from "@mui/material/Drawer"; 
-import { useDrawerCloseContext } from "../../contexts/DrawerCloseBtn";
+import * as React from "react";
+import Box from "@mui/material/Box";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import Button from "@mui/material/Button";
+import { Drawer } from "@mui/material";
 
-export default function MUIDrawer({ open, component, onClose }) {
-  const { isOpen } = useDrawerCloseContext();
+export default function MUIDrawer({ open, component }) {
+  const [state, setState] = React.useState({
+    top: false,
+    left: false,
+    bottom: false,
+    right: true,
+  });
+
+  const toggleDrawer = (anchor, open) => (event) => {
+    if (
+      event &&
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+
+    setState({ ...state, [anchor]: open });
+  };
+
+  const list = (anchor) => (
+    <Box
+      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 370 }}
+      role="presentation" 
+      className="admin-book-slot"
+    >
+      {component}
+    </Box>
+  );
 
   return (
     <div>
-      {
-        <React.Fragment key="right">
-          <Drawer
-            //    variant="persistent"
-            anchor="right"
-            open={isOpen} 
+      {["right"].map((anchor) => (
+        <>
+         <Drawer
+            variant="persistent"
+            anchor={anchor}
+            open={state[anchor]}
+            // onClose={toggleDrawer(anchor, false)}
           >
-            {component}
-          </Drawer>
-        </React.Fragment>
-      }
+            {list(anchor)}
+          </Drawer> 
+        </>
+         
+          
+      ))}
     </div>
   );
 }

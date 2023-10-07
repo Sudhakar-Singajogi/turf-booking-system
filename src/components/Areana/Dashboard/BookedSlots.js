@@ -9,8 +9,8 @@ import "react-calendar/dist/Calendar.css";
 import "react-clock/dist/Clock.css";
 
 import "./BookedSlots.css";
-import SearchIcon from '@mui/icons-material/Search';
-
+import SearchIcon from "@mui/icons-material/Search";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
 const columns = [
   {
@@ -124,9 +124,8 @@ function BookedSlots() {
   const [value, onChange] = useState(new Date());
 
   const checkSlotAvailable = () => {
-    console.log('selected date and time is:', value);
-  }
-
+    console.log("selected date and time is:", value);
+  };
 
   return (
     <>
@@ -135,25 +134,23 @@ function BookedSlots() {
 
         <div className="filter-sec">
           <label>Filter by</label>
-          <span className="booked-slot-search-icon">
-          <SearchIcon onClick={() => checkSlotAvailable()} />
-          </span>
+          
           <DateTimePicker
             onChange={onChange}
             value={value}
             minDate={new Date()}
             style={{ border: "none" }}
           />
-          
-          
-
+          <span className="booked-slot-search-icon">
+            <SearchIcon onClick={() => checkSlotAvailable()} />
+          </span>
         </div>
         <div className="slots-bboked-section">
-          <ReactDataTable 
-          columns={columns} 
-          data={data} 
-          selectableRows={false}
-           />
+          <ReactDataTable
+            columns={columns}
+            data={data}
+            selectableRows={false}
+          />
         </div>
       </div>
     </>

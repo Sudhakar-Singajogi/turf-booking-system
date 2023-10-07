@@ -17,6 +17,7 @@ import Dashboard from "./components/Areana/Dashboard";
 import ConfigureArena from "./components/Areana/ConfigureArena";
 import Admin from "./components/Areana/Admin";
 import { useSelector } from "react-redux";
+import BookSlot from "./components/Areana/BookSlot";
 
 function MyApp() {
   const containerDivURLS = [
@@ -76,6 +77,7 @@ function MyApp() {
                 <Route path="/arena-register" element={<Home />} />
                 <Route path="admin/" element={<Admin />}>
                   <Route path="/admin/dashboard" element={<Dashboard />} />
+                  <Route path="/admin/book-slot" element={<BookSlot />} />
                   <Route
                     path="/admin/configure-arena"
                     element={<ConfigureArena />}

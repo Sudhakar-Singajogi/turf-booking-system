@@ -25,8 +25,26 @@ export const data = {
       borderWidth: 1,
     },
   ],
+  
+};
+
+const options = {
+  plugins: {
+    legend: {
+      display: true,
+      position: "bottom",
+      align: "start",
+      labels: {
+        color: "000",
+      },
+    },
+    title: {
+      display: true,
+      text: "Monthly Bookings",
+    },
+  }, 
 };
 
 export default function MonthlyBookings() {
-  return <Doughnut data={data} />;
+  return <Doughnut data={data} options={options} />;
 }

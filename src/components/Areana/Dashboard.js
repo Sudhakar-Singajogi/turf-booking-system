@@ -2,13 +2,27 @@ import { Outlet } from "react-router-dom";
 import BookedSlots from "./Dashboard/BookedSlots";
 import "./Dashboard.css";
 import YearlyBookings from "./Dashboard/YearlyBookings";
-import { Divider } from "@mui/material";
+import {
+  Divider,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@mui/material";
 import { faker } from "@faker-js/faker";
 import MonthlyBookings from "./Dashboard/MonthlyBookings";
 import { WeeklyBookings } from "./Dashboard/WeeklyBookings";
 
 export const options = {
   plugins: {
+    legend: {
+      display: true,
+      position: "bottom",
+      align: "center",
+      labels: {
+        color: "000",
+      },
+    },
     title: {
       display: true,
       text: "Yearly Bookings",
@@ -77,29 +91,57 @@ function Dashboard() {
         </div>
         <div className="chart-container">
           <div className="chart">
-            <YearlyBookings options={options} data={data} />
+            <div className="chart pos-rel">
+              <FormControl className="select-month-filter" variant="standard">
+                <InputLabel id="demo-simple-select-label">Select Quarter</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value=""
+                  label="Select Turf"
+                  // onChange={handleChange}
+                >
+                  <MenuItem value={10}>First Quarter</MenuItem>
+                  <MenuItem value={20}>Second Quarter</MenuItem>
+                  <MenuItem value={30}>Third Quarter</MenuItem>
+                </Select>
+              </FormControl>
+              <YearlyBookings options={options} data={data} />
+            </div>
           </div>
         </div>
 
         <div className="chart-container">
           <div className="chart">
-            <MonthlyBookings>
-              <label>Monthly Bookings</label>
-            </MonthlyBookings>
+            <div className="chart pos-rel">
+              <FormControl className="select-month-filter" variant="standard">
+                <InputLabel id="demo-simple-select-label">By Month</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value=""
+                  label="Select Turf"
+                  // onChange={handleChange}
+                >
+                  <MenuItem value={10}>Ten</MenuItem>
+                  <MenuItem value={20}>Twenty</MenuItem>
+                  <MenuItem value={30}>Thirty</MenuItem>
+                </Select>
+              </FormControl>
+              <MonthlyBookings></MonthlyBookings>
+            </div>
           </div>
         </div>
       </div>
-      <Divider style={{ marginBottom: "20px" }} />
+      <Divider style={{ margin: "10px 20px" }} />
       <div className="dashboard-container">
-        <div className="slots-container">
+        <div className="slots-container flex-box">
           <BookedSlots />
         </div>
         <div className="slots-container">
-           
+          <BookedSlots />
         </div>
-        <div className="slots-container">
-           
-        </div>
+        <div className="slots-container"></div>
       </div>
     </>
   );

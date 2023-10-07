@@ -3,47 +3,53 @@
 }
 
 .dashboard-container {
-    display: flex;
-    flex-wrap: wrap; /* Allows children to wrap to the next row on smaller screens */
+  display: flex;
+  flex-wrap: wrap; /* Allows children to wrap to the next row on smaller screens */
+}
 
-    
-  }
-
-  /* Responsive adjustments for chart containers */
+/* Responsive adjustments for chart containers */
 .chart-container {
-    flex-grow: 1; 
+  flex-grow: 1;
   /* min-width: calc(33.33% - 20px);  */
-  width:400px;
+  width: 400px;
   box-sizing: border-box; /* Include margin in the width calculation */
   border: 1px solid #cdc8c8;
-  box-shadow: 4px 8px 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for separation */ 
+  box-shadow: 4px 8px 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for separation */
   padding: 10px;
-  margin:10px;
+  margin: 10px;
   cursor: pointer;
   /* aspect-ratio: auto 500 / 180 !important; */
-  height: 280px;
-  }
+  /* height: 280px; */
+}
 
-  .chart-container .chart:last-child  {
-    height:250px !important;
-    text-align: center !important;
-
-    display: flex;
+.chart-container .chart:last-child {
+  height: 310px !important;
+  text-align: center !important;
+  padding-bottom:20px;
+  display: flex;
   justify-content: center; /* Center horizontally */
   align-items: center; /* Center vertically */
-  height: 100vh; /* Optiona
+  height: 100vh;
+}
 
-  }
+.chart-container:hover {
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for separation */
+}
 
-  .chart-container:hover {    
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for separation */ 
+.chart-container .chart {
+  width: 95%;
+}
 
-  }
+.flex-box {
+  display: flex !important;
+}
 
-  .chart-container .chart {
-    width: 95%;
-  }  
-
+.select-month-filter {
+  position: absolute !important;
+  top:0px !important;
+  right: 10px !important;
+  width: 5.5rem; 
+}
 
 @media (min-width: 300px) and (max-width: 400px) {
   .dashboard-comp-title {
@@ -53,37 +59,62 @@
   }
   .dashboard-container {
     flex-direction: column;
-  } 
+  }
   .chart-container {
-    width: 300px !important; 
+    width: 300px !important;
   }
 
-  
-  
   .chart {
     width: 285px !important;
   }
+
+  
+.chart-container .chart:last-child {
+  height: 250px !important;
   
 }
-
-@media (max-width:1024px) {
-    .min-1024 {
-        display: none !important;
-      }
 }
 
-@media (min-width:768px) and (max-width:1024px) {
-    .chart-container {        
-        width: calc(50% - 20px) !important;       
-      }
+.admin-book-slot .booking-cart-wrapper {
+  width: 97% !important;
+
 }
 
 
-@media (min-width:1024px) {
-    .min-1024 {
-        display: block !important;
-      }
-    .chart-container {        
-        width: calc(33.3% - 20px) !important;       
-      }
+.admin-book-slot .booking-cart-wrapper .footer {
+  
+  padding: 4px !important;
+  
+  margin-left: 1px !important;
+  margin-bottom: 1px!important;
+}
+
+.admin-book-slot .booking-cart-wrapper .booking-form-container {
+  padding: 5px !important;
+}
+
+.admin-book-slot .booking-cart-wrapper .booking-form-container .div-a {
+  border:none !important;
+  width: 100% !important;
+}
+
+@media (max-width: 1024px) {
+  .min-1024 {
+    display: none !important;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .chart-container {
+    width: calc(50% - 20px) !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .min-1024 {
+    display: block !important;
+  }
+  .chart-container {
+    width: calc(33.3% - 20px) !important;
+  }
 }
