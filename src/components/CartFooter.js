@@ -12,7 +12,7 @@ import {
   validateBookingForm,
 } from "../Redux/Slices/BookingFormValidatorReducer";
 
-function CartFooter() {
+function CartFooter({ isAdmin, showConfirmSlot }) {
   const { data } = useSelector((state) => state.booking);
   const { validateBooking } = useValidateBooking();
   const isAvailable = useSelector((state) => state.validateForm.isAvailable);
@@ -20,10 +20,15 @@ function CartFooter() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  console.log("isAdmin:", isAdmin);
+
   const ProceedToPolicy = async (e) => {
     e.preventDefault();
-    validateBooking();
+    validateBooking(isAdmin);
     // checkTurfAvailability();
+    if(isAdmin) {
+      showConfirmSlot();
+    }
   };
 
   useEffect(() => {
@@ -64,13 +69,26 @@ function CartFooter() {
         </div>
       </div>
       <div className="footer-icon">
-        <Link
-          to="/booking/confirm"
-          onClick={(e) => ProceedToPolicy(e)}
-          style={{ color: "#fff" }}
-        >
-          <ArrowCircleRightIcon className="proceed-icon" />{" "}
-        </Link>
+        {isAdmin ? (
+          <>
+            <span 
+              onClick={(e) => ProceedToPolicy(e)}
+              style={{ color: "#fff", cursor:"pointer"}}
+            >
+              <ArrowCircleRightIcon className="proceed-icon" />{" "}
+            </span>
+          </>
+        ) : (
+          <>
+            <Link
+              to="/booking/confirm"
+              onClick={(e) => ProceedToPolicy(e)}
+              style={{ color: "#fff" }}
+            >
+              <ArrowCircleRightIcon className="proceed-icon" />{" "}
+            </Link>
+          </>
+        )}
       </div>
     </div>
   );

@@ -466,7 +466,9 @@
   cursor: pointer;
 }
 
-
+.btn-secondary {
+  background-color: #ff6384 !important;
+}
 /* General styles */
 .containers {
   display: flex;

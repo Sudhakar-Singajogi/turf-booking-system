@@ -1,4 +1,4 @@
-import React, { useCallback} from "react";
+import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   checkTurfAvailability,
@@ -20,7 +20,7 @@ function useValidateBooking() {
 
   const navigate = useNavigate();
 
-  const validateBooking = async () => {
+  const validateBooking = async (isAdmin) => {
     let form_errors = {
       game_error: "",
       bookeddate_error: "",
@@ -108,7 +108,7 @@ function useValidateBooking() {
         return true;
       }
       */
-      navigate("/booking/confirm");
+      if (!isAdmin) navigate("/booking/confirm");
     }
     setLoader(false);
   };
@@ -128,7 +128,6 @@ function useValidateBooking() {
     await dispatch(validateBookingForm(form_errors));
     setLoader(false);
   }, [isAvailable]);
-
 
   return { validateBooking, CheckAvailability };
 }

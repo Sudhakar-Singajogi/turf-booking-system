@@ -23,7 +23,7 @@ import { applyCouponCost } from "./Redux/Slices/BokingSliceReducer";
 function getTurfName(turfs, turfId) {
   if (turfId > 0) {
     const turf = turfs.filter((i) => i.value === turfId);
-    return turf[0].label;
+        return turf[0].label;
   }
 }
 
@@ -34,7 +34,7 @@ function getGameName(games, gameId) {
   }
 }
 
-function CartPaymentPolicy() {
+function CartPaymentPolicy({isAdmin=false}) {
   const { data: slot } = useSelector((state) => state.booking);
   const [modalOpen, setModalOpen] = useState(false);
   const [showOTP, setShowOTP] = useState(false);
@@ -45,7 +45,7 @@ function CartPaymentPolicy() {
   const couponCost = 0.05;
 
   console.log("slot is: ", slot);
-  const turfs = slot.turfs;
+    const turfs = slot.turfs;
   const sports = slot.sports;
   const bookingAmount = slot.bookingamount;
 
@@ -128,7 +128,7 @@ function CartPaymentPolicy() {
     console.log("hey");
     // setModalOpen(true);
     e.preventDefault();
-    initiatePayment();
+    initiatePayment(isAdmin);
   };
 
   const handleModalClose = () => {
@@ -237,8 +237,10 @@ function CartPaymentPolicy() {
                 ))}
               </div>
             </div>
+            
+            { isAdmin === false && (<>
             <hr />
-            <div className="dnt-show-at-765">
+              <div className="dnt-show-at-765">
               <h6 style={{ fontWeight: "bold", fontSize: "18px" }}>
                 Reschedule Policy:
               </h6>
@@ -291,6 +293,9 @@ function CartPaymentPolicy() {
                 </li>
               </ul>
             </div>
+
+            </>) }
+            
           </div>
         </div>
         <div className="div-b pricing-details ">
@@ -445,7 +450,7 @@ function CartPaymentPolicy() {
               ) : (
                 <>
                   <button
-                    className="proceed-btn btn-block"
+                    className="proceed-btn btn-block btn-secondary"
                     onClick={(e) => {
                       setModalOpen(true);
                     }}

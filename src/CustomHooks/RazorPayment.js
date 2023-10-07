@@ -27,10 +27,10 @@ function RazorPayment() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const {data:bookingData} = useSelector((state) => state.booking);
-  console.log('bookingData: ', bookingData)
+  const { data: bookingData } = useSelector((state) => state.booking);
+  console.log("bookingData: ", bookingData);
 
-  const initiatePayment = async () => {
+  const initiatePayment = async (isAdmin) => {
     try {
       const res = await loadScript(
         "https://checkout.razorpay.com/v1/checkout.js"
@@ -53,7 +53,7 @@ function RazorPayment() {
       const response = await resp.json();
       console.log("resp data: ", response.data[0]);
 
-      const { order_id, amount, bookingid, orderId } = response.data[0]; 
+      const { order_id, amount, bookingid, orderId } = response.data[0];
 
       console.log("amount is: ", amount);
 
@@ -74,18 +74,20 @@ function RazorPayment() {
             orderId: orderId,
           };
 
-          const result = await axios.post(
-            `${baseURL}order/success`,
-            data
-          );
-          
-          dispatch(turfbookedsuccessfully(true))
+          const result = await axios.post(`${baseURL}order/success`, data);
+
+          dispatch(turfbookedsuccessfully(true));
           dispatch(clearTurf());
-          console.log('redirecting fro here: ', bookingData.venuedetails.arena_id);
+          console.log(
+            "redirecting fro here: ",
+            bookingData.venuedetails.arena_id
+          );
 
-          
-
-          navigate("/booking?venueid="+bookingData.venuedetails.arena_id);
+          if (isAdmin !== true) {
+            navigate("/booking?venueid=" + bookingData.venuedetails.arena_id);
+          } else {
+            navigate("/admin/dashboard");
+          }
         },
         prefill: { ...getCaptainInfo(false) },
         // prefill: userInfo,

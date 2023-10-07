@@ -64,7 +64,7 @@ function MyApp() {
                       FallbackComponent={GenericError}
                       onError={() => console.log("Error happened!")}
                     >
-                      <BookingForm />
+                      <BookingForm venue={""} />
                     </ErrorBoundary>
                   }
                 />
