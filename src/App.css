@@ -488,8 +488,13 @@
   padding: 8px;
 }
 
-.m-y-10 {
+.active {
   margin-top: 10px;
+  display: block;
+}
+
+.disp-none {
+  display: none !important;
 }
 
 .pricing-details,
@@ -776,6 +781,9 @@ input {
 
 .ml-0-5rem {
   margin-left: 0.5rem;
+}
+.disp-block {
+  display: block !important;
 }
 /* Keyframes for fadeIn animation */
 @keyframes fadeIn {

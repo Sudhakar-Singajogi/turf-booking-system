@@ -28,7 +28,7 @@ function TopNav() {
 
   return (
     <>
-      <div className="header sticky top-0 z-50 bgblack">
+      <div className="header sticky top-0 z-50 admin-bgblack">
         <div className="admin-header w100">
           <Tooltip title="Account settings" className="account-menu-tooltip">
             <IconButton

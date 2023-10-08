@@ -57,7 +57,7 @@
 }
 
 .hamburger {
-  display: block; /* Show the hamburger icon on smaller screens */
+  
   position: absolute;
   top: 15px;
   left: 5rem;

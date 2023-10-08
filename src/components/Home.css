@@ -207,7 +207,12 @@ footer {
 }
 
 .bgblack {
-  background-color: #000 !important;
+  background-color: #1d5de6  !important;
+  opacity: 0.7;
+}
+
+.admin-bgblack {
+  background-color: #000  !important;
   opacity: 0.7;
 }
 
@@ -468,7 +473,7 @@ footer {
     z-index: 1001;
   }
   .header {
-    margin-top: -19px !important;
+    /* margin-top: -19px !important; */
   }
 }
 

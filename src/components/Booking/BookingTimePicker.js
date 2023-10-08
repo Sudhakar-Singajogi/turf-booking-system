@@ -22,6 +22,8 @@ function BookingTimePicker() {
     (state) => state.venue.bookedSlots
   );
 
+  console.log('disabledTimes:', disabledTimes)
+
   const { convertDateYmd } = useFormatDateYmd();
   const { useCurrentBookedDate } = useBooking();
 
@@ -110,7 +112,7 @@ function BookingTimePicker() {
                 onChange={handleTimeChange}
                 showTimeSelect // Show the time picker
                 showTimeSelectOnly // Show only the time picker, hiding the date picker
-                timeIntervals={15} // Set time intervals (in minutes)
+                // timeIntervals={5} // Set time intervals (in minutes)
                 timeCaption="Time"
                 timeFormat="hh:mm aa"
                 dateFormat="MMMM d, yyyy h:mm aa"

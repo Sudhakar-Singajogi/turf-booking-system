@@ -9,24 +9,30 @@ function PublicHeader() {
   const [modalOpen, setModalOpen] = useState(false);
   const { closeDrawer } = useDrawerCloseContext();
 
+  console.log('mobileNavActive: ', mobileNavActive)
+
   const toggleMobileNav = () => {
     setMobileNavActive(!mobileNavActive);
   };
   const currentUrl = window.location.href;
 
   useEffect(() => {
+    setMobileNavActive(false);
     if (
       currentUrl === "http://localhost:3000/arena-login" ||
       currentUrl === "http://192.168.0.111:3000/arena-login" ||
       currentUrl.includes("/arena-login")
     ) {
       closeDrawer(true);
+      setMobileNavActive(true);
     }
     if (
       currentUrl === "http://localhost:3000/arena-register" ||
       currentUrl === "http://192.168.0.111:3000/arena-register" ||
       currentUrl.includes("/arena-register")
+      
     ) {
+      setMobileNavActive(true);
       closeDrawer(true);
     }
 
@@ -71,7 +77,7 @@ function PublicHeader() {
             </ul>
           </nav>
           <div
-            className={`hamburger ${mobileNavActive ? "active" : ""}`}
+            className={`hamburger ${mobileNavActive ? "active" : "disp-none"}`}
             onClick={toggleMobileNav}
           >
             <div className="bar"></div>
@@ -109,7 +115,7 @@ function PublicHeader() {
         component={<ComponentToDisplay />}
       /> */}
 
-      <MUIDrawer component={<LoginDrawerComponent />} />
+      <MUIDrawer open={mobileNavActive} component={<LoginDrawerComponent />} />
     </>
   );
 }

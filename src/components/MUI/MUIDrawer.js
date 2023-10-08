@@ -5,6 +5,7 @@ import Button from "@mui/material/Button";
 import { Drawer } from "@mui/material";
 
 export default function MUIDrawer({ open, component }) {
+  console.log('ope is: ', open)
   const [state, setState] = React.useState({
     top: false,
     left: false,
@@ -41,7 +42,7 @@ export default function MUIDrawer({ open, component }) {
          <Drawer
             variant="persistent"
             anchor={anchor}
-            open={state[anchor]}
+            open={open}
             // onClose={toggleDrawer(anchor, false)}
           >
             {list(anchor)}

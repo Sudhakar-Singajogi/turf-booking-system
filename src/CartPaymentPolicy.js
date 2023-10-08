@@ -20,10 +20,16 @@ import RazorPayment from "./CustomHooks/RazorPayment";
 import { checkIsWeekEnd } from "./CustomLogics/customLogics";
 import { applyCouponCost } from "./Redux/Slices/BokingSliceReducer";
 
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
+
 function getTurfName(turfs, turfId) {
   if (turfId > 0) {
     const turf = turfs.filter((i) => i.value === turfId);
-        return turf[0].label;
+    return turf[0].label;
   }
 }
 
@@ -34,7 +40,7 @@ function getGameName(games, gameId) {
   }
 }
 
-function CartPaymentPolicy({isAdmin=false}) {
+function CartPaymentPolicy({ isAdmin = false }) {
   const { data: slot } = useSelector((state) => state.booking);
   const [modalOpen, setModalOpen] = useState(false);
   const [showOTP, setShowOTP] = useState(false);
@@ -45,7 +51,7 @@ function CartPaymentPolicy({isAdmin=false}) {
   const couponCost = 0.05;
 
   console.log("slot is: ", slot);
-    const turfs = slot.turfs;
+  const turfs = slot.turfs;
   const sports = slot.sports;
   const bookingAmount = slot.bookingamount;
 
@@ -65,10 +71,10 @@ function CartPaymentPolicy({isAdmin=false}) {
     slot.bookeddate === ""
   ) {
     dispatch(clearErrors());
-    if(slot.venuedetails.arena_id === '') {
+    if (slot.venuedetails.arena_id === "") {
       navigate("/");
     } else {
-      navigate("/booking?venueid="+slot.venuedetails.arena_id);
+      navigate("/booking?venueid=" + slot.venuedetails.arena_id);
     }
     return false;
   }
@@ -125,6 +131,9 @@ function CartPaymentPolicy({isAdmin=false}) {
   ];
 
   const handlePaymentProcess = (e) => {
+
+    //cross verify whether this slot is still is available or not
+
     console.log("hey");
     // setModalOpen(true);
     e.preventDefault();
@@ -140,7 +149,7 @@ function CartPaymentPolicy({isAdmin=false}) {
 
   return (
     <>
-      <div className="containers" style={{marginTop:'2rem'}}>
+      <div className="containers" style={{ marginTop: "2rem" }}>
         <div className="div-a game-venue-details">
           <div className="policy-container ">
             <div className="cart-header">
@@ -237,65 +246,64 @@ function CartPaymentPolicy({isAdmin=false}) {
                 ))}
               </div>
             </div>
-            
-            { isAdmin === false && (<>
-            <hr />
-              <div className="dnt-show-at-765">
-              <h6 style={{ fontWeight: "bold", fontSize: "18px" }}>
-                Reschedule Policy:
-              </h6>
-              <ul className="fancy-bullets">
-                <li>
-                  <strong style={{ fontSize: "13px" }}>
-                    Advance Notice Required:
-                  </strong>{" "}
-                  <span className="policy-bullet-points">
-                    Rescheduling requests must be submitted at least 2 hours
-                    prior to the scheduled booking time.
-                  </span>
-                </li>
-                <li>
-                  <strong style={{ fontSize: "13px" }}>
-                    One-time Reschedule:
-                  </strong>{" "}
-                  <span className="policy-bullet-points">
-                    Customers are allowed a single opportunity to reschedule
-                    their booking. Once rescheduled, cancellations will no
-                    longer be permitted.
-                  </span>
-                </li>
-              </ul>
-              <hr />
-            </div>
-            <div className="dnt-show-at-765">
-              <h6 style={{ fontWeight: "bold", fontSize: "18px" }}>
-                Cancellation Policy:
-              </h6>
-              <ul className="fancy-bullets">
-                <li>
-                  <strong style={{ fontSize: "13px" }}>
-                    Cancellation Timeframe:
-                  </strong>{" "}
-                  <span className="policy-bullet-points">
-                    Cancellation is not possible less than 2 hours prior to the
-                    scheduled booking time.
-                  </span>
-                </li>
-                <li>
-                  <strong style={{ fontSize: "13px" }}>
-                    Cancellation Fee:
-                  </strong>{" "}
-                  <span className="policy-bullet-points">
-                    In case of cancellations made within the permissible
-                    timeframe, a cancellation fee of 15% of the total booking
-                    amount will be deducted.
-                  </span>
-                </li>
-              </ul>
-            </div>
-
-            </>) }
-            
+            {isAdmin === false && (
+              <>
+                <hr />
+                <div className="dnt-show-at-765">
+                  <h6 style={{ fontWeight: "bold", fontSize: "18px" }}>
+                    Reschedule Policy:
+                  </h6>
+                  <ul className="fancy-bullets">
+                    <li>
+                      <strong style={{ fontSize: "13px" }}>
+                        Advance Notice Required:
+                      </strong>{" "}
+                      <span className="policy-bullet-points">
+                        Rescheduling requests must be submitted at least 2 hours
+                        prior to the scheduled booking time.
+                      </span>
+                    </li>
+                    <li>
+                      <strong style={{ fontSize: "13px" }}>
+                        One-time Reschedule:
+                      </strong>{" "}
+                      <span className="policy-bullet-points">
+                        Customers are allowed a single opportunity to reschedule
+                        their booking. Once rescheduled, cancellations will no
+                        longer be permitted.
+                      </span>
+                    </li>
+                  </ul>
+                  <hr />
+                </div>
+                <div className="dnt-show-at-765">
+                  <h6 style={{ fontWeight: "bold", fontSize: "18px" }}>
+                    Cancellation Policy:
+                  </h6>
+                  <ul className="fancy-bullets">
+                    <li>
+                      <strong style={{ fontSize: "13px" }}>
+                        Cancellation Timeframe:
+                      </strong>{" "}
+                      <span className="policy-bullet-points">
+                        Cancellation is not possible less than 2 hours prior to
+                        the scheduled booking time.
+                      </span>
+                    </li>
+                    <li>
+                      <strong style={{ fontSize: "13px" }}>
+                        Cancellation Fee:
+                      </strong>{" "}
+                      <span className="policy-bullet-points">
+                        In case of cancellations made within the permissible
+                        timeframe, a cancellation fee of 15% of the total
+                        booking amount will be deducted.
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+              </>
+            )}
           </div>
         </div>
         <div className="div-b pricing-details ">
@@ -381,7 +389,7 @@ function CartPaymentPolicy({isAdmin=false}) {
               </div>
             </div> */}
 
-            <hr />
+            {/* <hr /> */}
             <div className="price-section ">
               <div className="flex-item ">
                 <h6 style={{ fontWeight: "bold", fontSize: "1rem" }}>
@@ -399,42 +407,91 @@ function CartPaymentPolicy({isAdmin=false}) {
                 </span>
               </div>
             </div>
+            <FormControl>
+              <RadioGroup
+                row
+                aria-labelledby="demo-row-radio-buttons-group-label"
+                name="row-radio-buttons-group"
+              >
+                <div className="price-section m-y-10">
+                  <div className="flex-item ">
+                    <FormControlLabel
+                      value="Pay Advance"
+                      control={<Radio />}
+                      label="Pay Advance"
+                    />
 
-            <ul className="fancy-bullets ">
-              {!checkIsWeekEnd(slot.bookeddate) ? (
-                <>
-                  <li>
-                    <strong style={{ fontSize: "11px" }}>
-                      Coupon Applied:{" "}
-                      <CurrencyRupeeIcon style={{ fontSize: "15px" }} />
-                      {slot.turfcost * slot.hrs - bookingAmount}
-                    </strong>
-                  </li>
-                </>
-              ) : (
-                ""
-              )}
+                    <ul className="fancy-bullets ">
+                      {!checkIsWeekEnd(slot.bookeddate) ? (
+                        <>
+                          <li>
+                            <strong style={{ fontSize: "11px" }}>
+                              Coupon Applied:{" "}
+                              <CurrencyRupeeIcon style={{ fontSize: "15px" }} />
+                              {slot.turfcost * slot.hrs - bookingAmount}
+                            </strong>
+                          </li>
+                        </>
+                      ) : (
+                        ""
+                      )}
 
-              <li>
-                <strong style={{ fontSize: "11px" }}>
-                  Advance to pay:{" "}
-                  <CurrencyRupeeIcon style={{ fontSize: "15px" }} />
-                  {
-                    advPayRoundOff
-                  }
-                </strong>
-              </li>
-              <li>
-                <strong style={{ fontSize: "11px" }}>
-                  Amount to be paid at venue:{" "}
-                  <CurrencyRupeeIcon style={{ fontSize: "15px" }} />
-                  {
+                      <li>
+                        <strong style={{ fontSize: "11px" }}>
+                          Advance to pay:{" "}
+                          <CurrencyRupeeIcon style={{ fontSize: "15px" }} />
+                          {advPayRoundOff}
+                        </strong>
+                      </li>
+                      <li>
+                        <strong style={{ fontSize: "11px" }}>
+                          Amount to be paid at venue:{" "}
+                          <CurrencyRupeeIcon style={{ fontSize: "15px" }} />
+                          {bookingAmount -
+                            bookingAmount * 0.3 +
+                            (advPay - advPayRoundOff)}
+                        </strong>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
 
-                  (bookingAmount - bookingAmount * 0.3) +(advPay - advPayRoundOff)
-                  }
-                </strong>
-              </li>
-            </ul>
+                <div className="price-section m-y-10">
+                  <div className="flex-item">
+                    <FormControlLabel
+                      value="Pay Full"
+                      control={<Radio />}
+                      label="Pay Full"
+                    />
+
+                    <ul className="fancy-bullets ">
+                      {!checkIsWeekEnd(slot.bookeddate) ? (
+                        <>
+                          <li>
+                            <strong style={{ fontSize: "11px" }}>
+                              Coupon Applied:{" "}
+                              <CurrencyRupeeIcon style={{ fontSize: "15px" }} />
+                              {slot.turfcost * slot.hrs - bookingAmount}
+                            </strong>
+                          </li>
+                        </>
+                      ) : (
+                        ""
+                      )}
+
+                      <li>
+                        <strong style={{ fontSize: "11px" }}>
+                          Amount to be paid:{" "}
+                          <CurrencyRupeeIcon style={{ fontSize: "15px" }} />
+                          {bookingAmount}
+                        </strong>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </RadioGroup>
+            </FormControl>
+
             <div className="cart-footer">
               {slot.captain.captainId ? (
                 <>
@@ -460,7 +517,10 @@ function CartPaymentPolicy({isAdmin=false}) {
                 </>
               )}
             </div>
+
           </div>
+
+          
         </div>
         <div className="div-c policy-terms show-at-765">
           <div>

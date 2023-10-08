@@ -15,13 +15,13 @@ function LeftNavigation({ setAdjustrightcontent }) {
 
   return (
     <div
-      className={`bgblack  left-navigation ${
+      className={`admin-bgblack left-navigation ${
         isFullMenu ? "full-menu flex-1" : "icon-menu"
       }`}
     >
       <div className="hambuger-parent">
         <div
-          className={`hamburger ${isFullMenu ? "" : "remove-left"}`}
+          className={`hamburger ${isFullMenu ? "disp-block" : "disp-block remove-left"}`}
           onClick={toggleMenu}
         >
           <div className="bar"></div>
