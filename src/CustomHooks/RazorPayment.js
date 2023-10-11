@@ -30,7 +30,7 @@ function RazorPayment() {
   const { data: bookingData } = useSelector((state) => state.booking);
   console.log("bookingData: ", bookingData);
 
-  const initiatePayment = async (isAdmin) => {
+  const initiatePayment = async (isAdmin, paymentobj = "") => {
     try {
       const res = await loadScript(
         "https://checkout.razorpay.com/v1/checkout.js"
@@ -42,7 +42,7 @@ function RazorPayment() {
       }
       const resp = await fetch(`${baseURL}order/create-order`, {
         method: "POST",
-        body: JSON.stringify({ ...getBookingInfo() }),
+        body: paymentobj === "" ? JSON.stringify({ ...getBookingInfo() }) : JSON.stringify(paymentobj),
         headers: {
           "Content-type": "application/json; charset=UTF-8",
         },

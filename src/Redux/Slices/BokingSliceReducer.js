@@ -42,6 +42,9 @@ export const bookingSlice = createSlice({
       venuedetails: {},
       captain: {},
       isCaptainExists: "",
+      bookedBy:"",
+      coupon_amount: 0,
+      coupon_code: "NA",
     },
     status: STATUSES.IDLE,
   },
@@ -66,7 +69,11 @@ export const bookingSlice = createSlice({
     },
     calculateBookingCost: (state, action) => {
       state.data.bookingamount = state.data.hrs * state.data.turfcost;
+    }, 
+    setBookedBy: (state, action) => {
+      state.data.bookedBy = action.payload;
     },
+
     clearTurf: (state, action) => {
       state.data = {
         game: 0,
@@ -81,13 +88,19 @@ export const bookingSlice = createSlice({
         venuedetails: state.data.venuedetails,
         captain: state.data.captain,
         isCaptainExists: "",
+        coupon_amount: 0,
+        coupon_code: "NA",
+        bookedBy:"",
       };
       state.isAvailable = "";
     },
     applyCouponCost: (state, action) => {
       state.data.bookingamount =
         state.data.hrs * state.data.turfcost -
-        state.data.hrs * state.data.turfcost * action.payload;
+        state.data.hrs * state.data.turfcost * action.payload.couponCost;
+      state.data.coupon_amount =
+        state.data.hrs * state.data.turfcost * action.payload.couponCost;
+      state.data.coupon_code = action.payload.couponCode;
     },
     getBookingSliceInfo: (state, action) => {
       return state;
@@ -125,7 +138,7 @@ export const bookingSlice = createSlice({
           turfcost: Number(getTurfCost(turf, state.data.bookeddate)).toFixed(2),
         }));
 
-        console.log('turfs are:', turfs)
+        console.log("turfs are:", turfs);
 
         state.data.turfs = turfs;
       })
@@ -138,7 +151,7 @@ export const bookingSlice = createSlice({
       .addCase(getSportsByTurf.fulfilled, (state, action) => {
         const games = [];
 
-        action.payload.data.map(item => {
+        action.payload.data.map((item) => {
           if (item.sport === "Cricket") {
             games.push({
               label: item.sport,
@@ -239,8 +252,8 @@ export const bookingSlice = createSlice({
 export const getTurfs = createAsyncThunk(
   "booking/getTurfs",
 
-  async ( { dispatch, getState }) => {
-    console.log('calling turfs ')
+  async ({ dispatch, getState }) => {
+    console.log("calling turfs ");
     try {
       const state = getState(); // Get the current state
       const arena_id = state.booking.data.venuedetails.arena_id;
@@ -317,7 +330,7 @@ export const getSportsByTurf = createAsyncThunk(
 
 export const getVenuDetails = createAsyncThunk(
   "booking/venuedetails",
-  async (arena_id, {dispatch}) => {
+  async (arena_id, { dispatch }) => {
     try {
       const resp = await fetch(`${baseURL}venue/details`, {
         method: "POST",
@@ -334,7 +347,7 @@ export const getVenuDetails = createAsyncThunk(
       }
       const data = await resp.json();
       console.log("resp data: ", resp);
-      dispatch(getTurfs())
+      dispatch(getTurfs());
       return data;
     } catch (error) {
       console.log("Error got is:", error);
@@ -372,9 +385,9 @@ export const changeDate = createAsyncThunk(
       const { convertDateYmd } = useFormatDateYmd();
       dispatch(getTurfs());
 
-      let turfObj = {turfId:0, turfCost:0};
+      let turfObj = { turfId: 0, turfCost: 0 };
 
-      dispatch(changeTurf(turfObj))
+      dispatch(changeTurf(turfObj));
       dispatch(calculateBookingCost());
 
       const currentDate = new Date(convertDateYmd(date));
@@ -391,7 +404,7 @@ export const changeDate = createAsyncThunk(
 
       // Access the turf value from the state
       const turfValue = state.booking.data.turf;
-      console.log('turfValue is: ', turfValue)
+      console.log("turfValue is: ", turfValue);
 
       if (turfValue > 0) {
         obj.turf_id = state.data.turf;
@@ -460,8 +473,7 @@ export const createNewCaptain = createAsyncThunk(
       return Promise.reject(error);
     }
   }
-); 
-
+);
 
 export default bookingSlice.reducer;
 
@@ -475,4 +487,5 @@ export const {
   clearTurf,
   applyCouponCost,
   getBookingSliceInfo,
+  setBookedBy
 } = bookingSlice.actions;

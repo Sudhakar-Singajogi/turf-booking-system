@@ -65,7 +65,7 @@ function CartPaymentPolicy({ isAdmin = false }) {
     console.log("is weekend: ", checkIsWeekEnd(slot.bookeddate));
 
     if (!checkIsWeekEnd(slot.bookeddate)) {
-      dispatch(applyCouponCost(couponCost));
+      dispatch(applyCouponCost({couponCost: couponCost, "couponCode":"WeekDay"}));
     }
   }, [couponCost]);
 

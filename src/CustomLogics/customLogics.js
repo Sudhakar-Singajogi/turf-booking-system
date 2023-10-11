@@ -44,11 +44,13 @@ export const bookedSlots = (slots, bookeddate) => {
       end: new Date(bookeddate).setHours(end[0], end[1], 59),
     };
   });
+  
 
   return {
     disabledIntervals,
     disabledTimes,
     bookedSlots: bookedSlotsData,
+    
   };
 };
 
@@ -125,3 +127,11 @@ export const validateAddEditTurfForm = (values) => {
     hasErrors: hasError,
   };
 };
+
+export const validateMobileNumber = (number) => {
+  // Define a regular expression pattern for a 10-digit mobile number
+  var pattern = /^[0-9]{10}$/;
+
+  // Use the test method to check if the number matches the pattern
+  return pattern.test(number);
+}
