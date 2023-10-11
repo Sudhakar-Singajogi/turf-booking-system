@@ -25,6 +25,9 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
+import SlotBookingForm from "./components/Areana/SlotBookingForm";
+import ValidateCaptain from "./components/Areana/ValidateCaptain";
+import { Divider } from "@mui/material";
 
 function getTurfName(turfs, turfId) {
   if (turfId > 0) {
@@ -44,11 +47,13 @@ function CartPaymentPolicy({ isAdmin = false }) {
   const { data: slot } = useSelector((state) => state.booking);
   const [modalOpen, setModalOpen] = useState(false);
   const [showOTP, setShowOTP] = useState(false);
+  const [showPaymentForm,  setShowPaymentForm] = useState(false); 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { getExactToTime } = useGetExactToTime();
   const { initiatePayment } = RazorPayment();
   const couponCost = 0.05;
+
 
   console.log("slot is: ", slot);
   const turfs = slot.turfs;
@@ -63,6 +68,10 @@ function CartPaymentPolicy({ isAdmin = false }) {
       dispatch(applyCouponCost(couponCost));
     }
   }, [couponCost]);
+
+  const proceedToPaymentForm = () => {
+    setShowPaymentForm(true)
+  }
 
   if (
     slot.game === 0 ||
@@ -131,7 +140,6 @@ function CartPaymentPolicy({ isAdmin = false }) {
   ];
 
   const handlePaymentProcess = (e) => {
-
     //cross verify whether this slot is still is available or not
 
     console.log("hey");
@@ -347,81 +355,26 @@ function CartPaymentPolicy({ isAdmin = false }) {
                 </div>
               </div>
 
-              <ul className="fancy-bullets">
-                <li>
-                  <strong style={{ fontSize: "13px" }}>Incldues:</strong>{" "}
-                  <span className="policy-bullet-points">
-                    New ball, Two Heavy Duty Plastic Cricket Bat, Three Wickets
-                  </span>
-                </li>
-                <li>
-                  <strong style={{ fontSize: "13px" }}>After Game:</strong>{" "}
-                  <span className="policy-bullet-points">
-                    The person who booked the game will be responsbile to
-                    handover the Bats, balls and wickets
-                  </span>
-                </li>
-              </ul>
-              <hr />
-            </div>
-            {/** has to uncomment when coupon module is ready */}
-            {/* <div>
-              <h6 style={{ fontWeight: "bold", fontSize: "1rem" }}>
-                <CardGiftcardIcon style={{ color: "orange" }} /> Apply Coupon:
-              </h6>
-              <div
-                style={{
-                  display: "flex",
-                  width: "100%",
-                  justifyContent: "flex-start",
-                }}
-              >
-                <div style={{ position: "relative" }}>
-                  <div title={"Apply Coupon"}>
-                    <CheckCircleIcon
-                      className="apply-coupon-btn"
-                      style={{ color: "orange", cursor: "pointer" }}
-                      onClick={() => console.log("hey")}
-                    />{" "}
-                  </div>
-                  <TextFieldWithIcon />{" "}
-                </div>
-              </div>
-            </div> */}
-
-            {/* <hr /> */}
-            <div className="price-section ">
-              <div className="flex-item ">
-                <h6 style={{ fontWeight: "bold", fontSize: "1rem" }}>
-                  <CurrencyRupeeIcon
-                    style={{ color: "black", fontSize: "1.3rem" }}
-                  />{" "}
-                  Total Price:{" "}
-                </h6>
-              </div>
-              <div className="flex-item text-center ">
-                <span style={{ fontWeight: "bold", fontSize: "15px" }}>
-                  <CurrencyRupeeIcon style={{ fontSize: "15px" }} />
-
-                  {bookingAmount}
-                </span>
-              </div>
-            </div>
-            <FormControl>
-              <RadioGroup
-                row
-                aria-labelledby="demo-row-radio-buttons-group-label"
-                name="row-radio-buttons-group"
-              >
-                <div className="price-section m-y-10">
-                  <div className="flex-item ">
-                    <FormControlLabel
-                      value="Pay Advance"
-                      control={<Radio />}
-                      label="Pay Advance"
-                    />
-
-                    <ul className="fancy-bullets ">
+              {isAdmin === false ? (
+                <ul className="fancy-bullets">
+                  <li>
+                    <strong style={{ fontSize: "13px" }}>Incldues:</strong>{" "}
+                    <span className="policy-bullet-points">
+                      New ball, Two Heavy Duty Plastic Cricket Bat
+                    </span>
+                  </li>
+                  <li>
+                    <strong style={{ fontSize: "13px" }}>After Game:</strong>{" "}
+                    <span className="policy-bullet-points">
+                      The person who booked the game will be responsbile to
+                      handover the Bats & balls
+                    </span>
+                  </li>
+                </ul>
+              ) : (
+                <>
+                  <div className="price-section ">
+                    <ul className="fancy-bullets admin-fancy-bullets ">
                       {!checkIsWeekEnd(slot.bookeddate) ? (
                         <>
                           <li>
@@ -454,73 +407,179 @@ function CartPaymentPolicy({ isAdmin = false }) {
                       </li>
                     </ul>
                   </div>
-                </div>
-
-                <div className="price-section m-y-10">
-                  <div className="flex-item">
-                    <FormControlLabel
-                      value="Pay Full"
-                      control={<Radio />}
-                      label="Pay Full"
-                    />
-
-                    <ul className="fancy-bullets ">
-                      {!checkIsWeekEnd(slot.bookeddate) ? (
-                        <>
-                          <li>
-                            <strong style={{ fontSize: "11px" }}>
-                              Coupon Applied:{" "}
-                              <CurrencyRupeeIcon style={{ fontSize: "15px" }} />
-                              {slot.turfcost * slot.hrs - bookingAmount}
-                            </strong>
-                          </li>
-                        </>
-                      ) : (
-                        ""
-                      )}
-
-                      <li>
-                        <strong style={{ fontSize: "11px" }}>
-                          Amount to be paid:{" "}
-                          <CurrencyRupeeIcon style={{ fontSize: "15px" }} />
-                          {bookingAmount}
-                        </strong>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </RadioGroup>
-            </FormControl>
-
-            <div className="cart-footer">
-              {slot.captain.captainId ? (
-                <>
-                  <button
-                    className="proceed-btn btn-block"
-                    onClick={(e) => {
-                      handlePaymentProcess(e);
-                    }}
-                  >
-                    Proceed To Pay
-                  </button>
-                </>
-              ) : (
-                <>
-                  <button
-                    className="proceed-btn btn-block btn-secondary"
-                    onClick={(e) => {
-                      setModalOpen(true);
-                    }}
-                  >
-                    Sign To Pay
-                  </button>
+                  <hr />
+                  {
+                    showPaymentForm === false ? (<ValidateCaptain proceedToPaymentForm={() => proceedToPaymentForm()} />) : (<SlotBookingForm />)
+                  }
+                  
                 </>
               )}
+
+              <hr />
             </div>
+            {/** has to uncomment when coupon module is ready */}
+            {/* <div>
+              <h6 style={{ fontWeight: "bold", fontSize: "1rem" }}>
+                <CardGiftcardIcon style={{ color: "orange" }} /> Apply Coupon:
+              </h6>
+              <div
+                style={{
+                  display: "flex",
+                  width: "100%",
+                  justifyContent: "flex-start",
+                }}
+              >
+                <div style={{ position: "relative" }}>
+                  <div title={"Apply Coupon"}>
+                    <CheckCircleIcon
+                      className="apply-coupon-btn"
+                      style={{ color: "orange", cursor: "pointer" }}
+                      onClick={() => console.log("hey")}
+                    />{" "}
+                  </div>
+                  <TextFieldWithIcon />{" "}
+                </div>
+              </div>
+            </div> */}
 
+            {/* <hr /> */}
+
+            {isAdmin === false && (
+              <>
+                <div className="price-section ">
+                  <div className="flex-item ">
+                    <h6 style={{ fontWeight: "bold", fontSize: "1rem" }}>
+                      <CurrencyRupeeIcon
+                        style={{ color: "black", fontSize: "1.3rem" }}
+                      />{" "}
+                      Total Price:{" "}
+                    </h6>
+                  </div>
+                  <div className="flex-item text-center ">
+                    <span style={{ fontWeight: "bold", fontSize: "15px" }}>
+                      <CurrencyRupeeIcon style={{ fontSize: "15px" }} />
+
+                      {bookingAmount}
+                    </span>
+                  </div>
+                </div>
+                <FormControl>
+                  <RadioGroup
+                    row
+                    aria-labelledby="demo-row-radio-buttons-group-label"
+                    name="row-radio-buttons-group"
+                  >
+                    <div className="price-section m-y-10">
+                      <div className="flex-item ">
+                        <FormControlLabel
+                          value="Pay Advance"
+                          control={<Radio />}
+                          label="Pay Advance"
+                        />
+
+                        <ul className="fancy-bullets ">
+                          {!checkIsWeekEnd(slot.bookeddate) ? (
+                            <>
+                              <li>
+                                <strong style={{ fontSize: "11px" }}>
+                                  Coupon Applied:{" "}
+                                  <CurrencyRupeeIcon
+                                    style={{ fontSize: "15px" }}
+                                  />
+                                  {slot.turfcost * slot.hrs - bookingAmount}
+                                </strong>
+                              </li>
+                            </>
+                          ) : (
+                            ""
+                          )}
+
+                          <li>
+                            <strong style={{ fontSize: "11px" }}>
+                              Advance to pay:{" "}
+                              <CurrencyRupeeIcon style={{ fontSize: "15px" }} />
+                              {advPayRoundOff}
+                            </strong>
+                          </li>
+                          <li>
+                            <strong style={{ fontSize: "11px" }}>
+                              Amount to be paid at venue:{" "}
+                              <CurrencyRupeeIcon style={{ fontSize: "15px" }} />
+                              {bookingAmount -
+                                bookingAmount * 0.3 +
+                                (advPay - advPayRoundOff)}
+                            </strong>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+
+                    <div className="price-section m-y-10">
+                      <div className="flex-item">
+                        <FormControlLabel
+                          value="Pay Full"
+                          control={<Radio />}
+                          label="Pay Full"
+                        />
+
+                        <ul className="fancy-bullets ">
+                          {!checkIsWeekEnd(slot.bookeddate) ? (
+                            <>
+                              <li>
+                                <strong style={{ fontSize: "11px" }}>
+                                  Coupon Applied:{" "}
+                                  <CurrencyRupeeIcon
+                                    style={{ fontSize: "15px" }}
+                                  />
+                                  {slot.turfcost * slot.hrs - bookingAmount}
+                                </strong>
+                              </li>
+                            </>
+                          ) : (
+                            ""
+                          )}
+
+                          <li>
+                            <strong style={{ fontSize: "11px" }}>
+                              Amount to be paid:{" "}
+                              <CurrencyRupeeIcon style={{ fontSize: "15px" }} />
+                              {bookingAmount}
+                            </strong>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </RadioGroup>
+                </FormControl>
+
+                <div className="cart-footer">
+                  {slot.captain.captainId ? (
+                    <>
+                      <button
+                        className="proceed-btn btn-block"
+                        onClick={(e) => {
+                          handlePaymentProcess(e);
+                        }}
+                      >
+                        Proceed To Pay
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <button
+                        className="proceed-btn btn-block btn-secondary"
+                        onClick={(e) => {
+                          setModalOpen(true);
+                        }}
+                      >
+                        Sign To Pay
+                      </button>
+                    </>
+                  )}
+                </div>
+              </>
+            )}
           </div>
-
-          
         </div>
         <div className="div-c policy-terms show-at-765">
           <div>

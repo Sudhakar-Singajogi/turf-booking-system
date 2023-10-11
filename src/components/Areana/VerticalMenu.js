@@ -9,9 +9,11 @@ import HomeIcon from "@mui/icons-material/Home";
 import { Link } from "react-router-dom";
 import BookingForm from "../BookingForm";
 import { useSelector } from "react-redux";
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 
-const PATHS = ["/admin/dashboard", "/admin/book-slot"];
-const icons = [<HomeIcon />, <AddCircleIcon />];
+const PATHS = ["/admin/dashboard", "/admin/book-slot", "/admin/bookings", "/manage-expense"];
+const icons = [<HomeIcon />, <AddCircleIcon />, <CalendarMonthIcon />, <CurrencyRupeeIcon />];
 
 function getPathDisplayName(path) {
   // Extract the display name from the path, e.g., "/admin/dashboard" -> "Dashboard"

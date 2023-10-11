@@ -321,6 +321,21 @@
   margin: 0;
 }
 
+.admin-fancy-bullets {
+  list-style: none;
+  padding-left: 10px;
+  font-size: 14px !important;
+  margin-top: 10px !important;
+}
+
+.m10 {
+  margin: 10px !important;
+}
+.css-1x51dt5-MuiInputBase-input-MuiInput-input.Mui-disabled {
+  background-color: #999;
+  color: #fff !important;
+}
+
 /* Custom bullet styles using ::before pseudo-element */
 .fancy-bullets li::before {
   content: "\f058"; /* Use the Font Awesome icon code for the bullet (e.g., f058 for solid circle) */
@@ -890,7 +905,6 @@ input {
   margin-top: 0.3rem;
   margin-left: 0.2rem;
   margin-bottom: 0.6rem;
-  
 }
 
 .loader-container-absolute {
@@ -902,7 +916,6 @@ input {
 }
 .checkbox-stack li {
   padding: 0px !important;
-  
 }
 
 .checkbox-label {
@@ -923,18 +936,16 @@ input {
 }
 
 .limit-text-10 {
-  max-width: 15ch !important; 
+  max-width: 15ch !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
-  white-space: nowrap!important;
-  margin-right:20px;
+  white-space: nowrap !important;
+  margin-right: 20px;
 }
 
 .text-right {
   text-align: right !important;
 }
-
-
 
 /* Media query for mobile devices */
 @media (max-width: 767px) {

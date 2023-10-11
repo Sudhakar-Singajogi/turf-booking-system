@@ -63,7 +63,7 @@ function BookingTimePicker() {
 
   const getTimeClassName = (time) => {
     const hours = time.getHours();
-    return hours < 12 ? "time-am" : "time-pm";
+    return hours < 12 ? "time-am" : "time-am";
   };
 
   var tday = "";
@@ -112,7 +112,7 @@ function BookingTimePicker() {
                 onChange={handleTimeChange}
                 showTimeSelect // Show the time picker
                 showTimeSelectOnly // Show only the time picker, hiding the date picker
-                // timeIntervals={5} // Set time intervals (in minutes)
+                timeIntervals={5} // Set time intervals (in minutes)
                 timeCaption="Time"
                 timeFormat="hh:mm aa"
                 dateFormat="MMMM d, yyyy h:mm aa"
