@@ -43,9 +43,9 @@ function ValidateCaptain({ proceedToPaymentForm }) {
     balance_amount:
       data.bookingamount - data.bookingamount * 0.3 + (advPay - advPayRoundOff),
     status: "0",
-    turf_cost:parseInt(data.turfcost),
-    coupon_code : data.coupon_code,
-    coupon_amount : data.coupon_amount
+    turf_cost: parseInt(data.turfcost),
+    coupon_code: data.coupon_code,
+    coupon_amount: data.coupon_amount,
   };
 
   const [captain, setCaptain] = useState(teamcaptain);
@@ -58,7 +58,7 @@ function ValidateCaptain({ proceedToPaymentForm }) {
     captain_contact: "",
   });
 
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -103,8 +103,11 @@ function ValidateCaptain({ proceedToPaymentForm }) {
       if (resp.length > 0) {
         setIsCaptainExists(true);
         setShowOTP(true);
-        paymentObj.booked_by = resp.captainId;
-        
+
+        const capcy = resp[0].captainInfo;
+        paymentObj.booked_by = capcy.captainId;
+        dispatch(setBookedBy(capcy.captainId));
+
         console.log("payment obj is: ", paymentObj);
       } else {
         setIsCaptainExists(false);
@@ -131,21 +134,20 @@ function ValidateCaptain({ proceedToPaymentForm }) {
         captain_name: captain.captain_name,
         captain_email: captain.captain_email,
         captain_contact: captain.captain_contact,
-        status: '1',
+        status: "1",
       };
-      
+
       const resp = await createCaptain(teamcaptain);
-      console.log('resp obj is: ', resp)
+      console.log("resp obj is: ", resp);
       if (!resp.hasOwnProperty("resultCode") && resp.length > 0) {
         const capcy = resp[0];
         paymentObj.booked_by = capcy.captainId;
         dispatch(setBookedBy(capcy.captainId));
         proceed();
-        
       } else {
         //show error msg that user has not created
         if (resp.resultCode !== 200) {
-            console.log(resp.resultCode + ", error message is ", resp.message )
+          console.log(resp.resultCode + ", error message is ", resp.message);
         }
       }
     } else {

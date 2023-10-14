@@ -40,9 +40,12 @@ function RazorPayment() {
         alert("Razorpay SDK failed to load. Are you online?");
         return;
       }
+
+      let payOBJ = paymentobj === "" ? JSON.stringify({ ...getBookingInfo() }) : JSON.stringify(paymentobj)
+
       const resp = await fetch(`${baseURL}order/create-order`, {
         method: "POST",
-        body: paymentobj === "" ? JSON.stringify({ ...getBookingInfo() }) : JSON.stringify(paymentobj),
+        body: payOBJ,
         headers: {
           "Content-type": "application/json; charset=UTF-8",
         },
@@ -86,7 +89,7 @@ function RazorPayment() {
           if (isAdmin !== true) {
             navigate("/booking?venueid=" + bookingData.venuedetails.arena_id);
           } else {
-            navigate("/admin/dashboard");
+            // navigate("/admin/dashboard");
           }
         },
         prefill: { ...getCaptainInfo(false) },

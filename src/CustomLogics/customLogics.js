@@ -13,7 +13,28 @@ export const checkIsWeekEnd = (bookeddate) => {
   return dayOfWeek === 0 || dayOfWeek === 6;
 };
 
+function convertMilliSecToTime(timestamp) {
+  /**
+   * Convert milliseconds to hours, minutes and seconds
+   */
+  const date = new Date(timestamp);
+
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1; // Month is 0-based, so add 1
+  const day = date.getDate();
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const seconds = date.getSeconds();
+
+  console.log(`Date: ${year}-${month}-${day}`);
+  console.log(`Time: ${hours}:${minutes}:${seconds}`);
+
+  return `${hours}:${minutes}`;
+}
+
 export const bookedSlots = (slots, bookeddate) => {
+  console.log("slots are: ", slots);
+  console.log("bookeddate is: ", bookeddate);
   const bookedSlotsData = slots.map((slot) => {
     let strt = slot.start.split(":");
     let end = slot.end.split(":");
@@ -24,16 +45,66 @@ export const bookedSlots = (slots, bookeddate) => {
     };
   });
 
-  console.log("booked Slots: ", bookedSlots);
+  console.log("booked Slots are: ", bookedSlotsData);
 
   const disabledTimes = bookedSlotsData.map((slot) => {
+    const bookedDateStr = bookeddate;
+    let startTimeStr = ""; //slot.start;
+    let endTimeStr = ""; //slot.end;
+
+    const [year, month, day] = bookedDateStr.split("-").map(Number);
+
+    startTimeStr = convertMilliSecToTime(slot.start);
+
+    endTimeStr = convertMilliSecToTime(slot.end);
+
+    console.log("startTimeStr: ", startTimeStr)
+    console.log("endTimeStr: ", endTimeStr)
+
+    // Parse the start time string
+    const [hours, minutes] = startTimeStr.split(":").map(Number);
+    
+    // Parse the end time string
+    const [endHours, endMinutes] = endTimeStr
+    .split(":")
+    .map(Number);
+
+    let ehrs = endHours;
+    let emin = endMinutes;
+
+
+    if(endMinutes === 0){
+      emin = 59;
+      ehrs = endHours-1
+    } else {
+      emin = endMinutes-1;
+    }
+
     return {
-      start: new Date(slot.start),
-      end: new Date(slot.end),
+      start: `${hours}:${minutes}`,
+      end: `${ehrs}:${emin}`,
+    };
+
+    
+    const startDate = new Date(year, month - 1, day, hours, minutes, 0);
+    // Create Date objects
+
+    const endDate = new Date(
+      year,
+      month - 1,
+      day,
+      endHours,
+      endMinutes-1,
+      59
+    );
+
+    return {
+      start: startDate,
+      end: endDate,
     };
   });
 
-  console.log("disabledTimes: ", disabledTimes);
+  console.log("disabledTimes are: ", disabledTimes);
 
   const disabledIntervals = slots.map((slot) => {
     let strt = slot.start.split(":");
@@ -44,13 +115,11 @@ export const bookedSlots = (slots, bookeddate) => {
       end: new Date(bookeddate).setHours(end[0], end[1], 59),
     };
   });
-  
 
   return {
     disabledIntervals,
     disabledTimes,
     bookedSlots: bookedSlotsData,
-    
   };
 };
 
@@ -134,4 +203,4 @@ export const validateMobileNumber = (number) => {
 
   // Use the test method to check if the number matches the pattern
   return pattern.test(number);
-}
+};

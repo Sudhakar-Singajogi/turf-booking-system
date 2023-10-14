@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import useFormatDateYmd from "../../CustomHooks/useFormatDateYmd";
 import { checkIsWeekEnd } from "../../CustomLogics/customLogics";
 
@@ -10,7 +10,8 @@ import TextField from "@mui/material/TextField";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 import Button from "@mui/material/Button";
 import RazorPayment from "../../CustomHooks/RazorPayment";
-
+import { clearTurf } from "../../Redux/Slices/BokingSliceReducer";
+ 
 function SlotBookingForm() {
     const { initiatePayment } = RazorPayment();
   const { data } = useSelector((state) => state.booking);
@@ -41,6 +42,7 @@ function SlotBookingForm() {
   };
 
   console.log("data is:", data);
+  const dispatch = useDispatch();
 
   const addInitPayment = (e) => {
     const { name, value } = e.target;
@@ -58,7 +60,7 @@ function SlotBookingForm() {
     }
   };
 
-  const goForpay = () => {
+  const goForpay = async () => {
     if (parseInt(initAmount) < advPayRoundOff) {
       setInitAmount(advPayRoundOff);
     }
@@ -69,7 +71,13 @@ function SlotBookingForm() {
     paymentObj.balance_amount =
       parseInt(data.bookingamount) - parseInt(initAmount);
       console.log("paymentObj is: ", paymentObj);
-      initiatePayment(true, paymentObj);
+      await initiatePayment(true, paymentObj);
+      dispatch(clearTurf())
+
+      // if(data.validateForm.bookingSuccess) {
+
+      // }
+
   };
 
   return (

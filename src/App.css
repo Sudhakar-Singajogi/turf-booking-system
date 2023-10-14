@@ -800,6 +800,70 @@ input {
 .disp-block {
   display: block !important;
 }
+
+.time-slot-container {
+  display: flex;
+  position: absolute;
+  background-color: #fff;
+  width: 100%;
+  z-index: 999999;
+  border: 1px solid #ccc;
+  margin-top: 0px;
+  overflow: hidden;
+  top: -15px !important;
+}
+
+.time-slot-container .column {
+  flex: 1;
+  padding: 10px;
+  text-align: center;
+  background-color: #fff;
+  /* background-color: #999; */
+}
+
+.time-slot-container .hour {
+  border: 1px solid #ddd;
+  margin: 5px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.time-slot .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+  width: 20% !important;
+  aspect-ratio: 10/10 !important;
+  top: 24.5rem !important;
+  left: 38.3rem !important;
+  position: absolute;
+  opacity: 0.9;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.time-slot-container .column .disabled {
+  background-color: #999 !important;
+  cursor: auto;
+}
+
 /* Keyframes for fadeIn animation */
 @keyframes fadeIn {
   from {
@@ -1110,6 +1174,25 @@ input {
   .css-1pxa9xg-MuiAlert-message {
     font-size: 0.6rem !important;
     padding-top: 0.8rem !important;
+  }
+
+  .time-slot .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+    width: 71% !important;
+    aspect-ratio: 10/10 !important;
+    top: 24.5rem !important;
+    left: 1.8rem !important;
+    position: absolute;
+    opacity: 0.9;
+  }
+
+  .time-slot-container {
+    margin-top: 0.5rem !important;
+  }
+
+  .time-slot-container .column {
+    padding: 3px !important;
+    margin-right:3px !important
+    
   }
 }
 

@@ -6,7 +6,7 @@ import {
 } from "../Redux/Slices/BookingFormValidatorReducer";
 import { useNavigate } from "react-router-dom";
 import useDateTimeRealated from "./useDateTimeRealated";
-
+import { postCall } from "../APIServices";
 import { useLoaderContext } from "../contexts/LoaderContextProvider";
 
 function useValidateBooking() {
@@ -129,7 +129,27 @@ function useValidateBooking() {
     setLoader(false);
   }, [isAvailable]);
 
-  return { validateBooking, CheckAvailability };
+  const isTurfAvailable = async (reqBody) => {
+    let body = JSON.stringify({
+      ...reqBody,
+      arena_id: "r434edd09765457698asd",
+    });
+
+    let resp = await postCall("turf/exists", body);
+
+    resp = await resp.json();
+    if (resp.resultCode === 200) {
+      if (resp.totalRows > 0) {
+        console.log("coupons are:", resp.data);
+        return [{ captainInfo: resp.data }];
+      } else {
+        return [];
+      }
+    }
+    return [];
+  };
+
+  return { validateBooking, CheckAvailability, isTurfAvailable };
 }
 
 export default useValidateBooking;

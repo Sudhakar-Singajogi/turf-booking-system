@@ -1,31 +1,83 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { InputAdornment, TextField } from "@mui/material";
-import {  getTimeformDateTime } from "../../Utils";
+import { getTimeformDateTime } from "../../Utils";
 import DatePicker from "react-datepicker";
 import { useSelector, useDispatch } from "react-redux";
 
-import {
-  changeTimeSlot,
-} from "../../Redux/Slices/BokingSliceReducer";
+import { changeTimeSlot } from "../../Redux/Slices/BokingSliceReducer";
 import { validateBookingForm } from "../../Redux/Slices/BookingFormValidatorReducer";
 import useFormatDateYmd from "../../CustomHooks/useFormatDateYmd";
 import useBooking from "../../CustomHooks/useBooking";
+import ShowTimeSlots from "./ShowTimeSlots";
+const emails = ["username@gmail.com", "user02@gmail.com"];
 
 function BookingTimePicker() {
   const { data } = useSelector((state) => state.booking);
   const calenderRef = useRef();
   const errors = useSelector((state) => state.validateForm.errors);
   const dispatch = useDispatch();
-  const { disabledTimes } = useSelector(
-    (state) => state.venue.bookedSlots
-  );
-
-  console.log('disabledTimes:', disabledTimes)
+  const { disabledTimes } = useSelector((state) => state.venue.bookedSlots);
+  const { bookedSlots } = useSelector((state) => state.venue.bookedSlots);
 
   const { convertDateYmd } = useFormatDateYmd();
   const { useCurrentBookedDate } = useBooking();
+
+  const [open, setOpen] = React.useState(false);
+  const [selectedValue, setSelectedValue] = React.useState(emails[1]);
+
+  useEffect(() => {
+    console.log("booked slots are: ", disabledTimes);
+  }, open);
+
+  const handleClickOpen = (e) => {
+    console.log('booked date is: ', data.bookeddate);
+    console.log('booked turf is: ', data.turf);
+    let ers = {
+      ...errors,
+      turf_error: "",
+      bookeddate_error:""
+    };
+    if(data.turf > 0 && data.bookeddate !== '') {
+      setOpen(true);
+      e.target.blur();
+    } else {
+      if(data.bookeddate === "") {
+        ers = {
+          ...errors,
+          bookeddate_error: "Please select booked date",
+        };
+      }
+      else if(data.turf === 0 ) { 
+        ers = {
+          ...errors,
+          turf_error: "Please select turf",
+        };
+      } 
+       
+    }
+    dispatch(validateBookingForm(ers));
+
+  };
+
+  const handleClose = async (value) => {
+    setOpen(false);
+
+    if(value !== '') {
+      
+          const currentDate = new Date();
+      
+          const year = currentDate.getFullYear();
+          const month = currentDate.getMonth() + 1; // Months are 0-based, so add 1
+          const day = currentDate.getDate();
+      
+          let todayIs = `${year}-${month}-${day}`;
+      
+          await handleTimeChange(new Date(`${todayIs} ${value}`));
+
+    }
+  };
 
   const CustomTimePickerInput = React.forwardRef((props, ref) => {
     return (
@@ -47,6 +99,7 @@ function BookingTimePicker() {
   const TimeRef = useRef();
 
   const handleTimeChange = async (time) => {
+    console.log("time sele:", time);
     let am_pm = getTimeformDateTime(time).split(" ");
     let timeSlot = getTimeformDateTime(time).split(":");
     await dispatch(
@@ -97,7 +150,7 @@ function BookingTimePicker() {
 
   return (
     <>
-      <TextField
+      {/* <TextField
         className="w100"
         label="Start Time"
         id="outlined-start-adornment"
@@ -123,7 +176,7 @@ function BookingTimePicker() {
                   for (const interval of disabledTimes) {
                     if (time >= interval.start && time <= interval.end) {
                       return false;
-                    } 
+                    }
                   }
                   return true;
                 }}
@@ -138,7 +191,24 @@ function BookingTimePicker() {
             </InputAdornment>
           ),
         }}
-      />
+      /> */}
+
+      <div className="pos-rel">
+        <TextField
+          className="w100"
+          label="Start Time"
+          id="outlined-start-adornment"
+          onFocus={(e) => handleClickOpen(e)}
+          value={data.timeslot}
+        />
+
+        <ShowTimeSlots
+          open={open}
+          onClose={handleClose}
+          disabledTimes={disabledTimes}
+        />
+      </div>
+
       {errors.timeslot_error !== "" ? (
         <p className="errmsg">{errors.timeslot_error}</p>
       ) : (

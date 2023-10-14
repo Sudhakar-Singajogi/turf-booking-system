@@ -9,7 +9,14 @@ function useBooking() {
 
   const getBookingInfo = () => {
     const advPay = data.bookingamount * 0.3;
-    const advPayRoundOff = Math.floor(advPay);
+    let advPayRoundOff = Math.floor(advPay);
+    let balance_amount =
+      data.bookingamount - data.bookingamount * 0.3 + (advPay - advPayRoundOff);
+
+    if (data.isFullPayment) {
+      advPayRoundOff = data.bookingamount;
+      balance_amount = 0
+    }
 
     const obj = {
       arena_id: data.venuedetails.arena_id,
@@ -22,11 +29,11 @@ function useBooking() {
       is_weekend: checkIsWeekEnd(data.bookeddate) ? "1" : "0",
       booking_cost: data.bookingamount,
       advance_payment: advPayRoundOff,
-      balance_amount:
-        data.bookingamount -
-        data.bookingamount * 0.3 +
-        (advPay - advPayRoundOff),
+      balance_amount:balance_amount,
       status: "0",
+      turf_cost: parseInt(data.turfcost),
+      coupon_code: data.coupon_code,
+      coupon_amount: data.coupon_amount,
     };
     console.log("booking object is: ", obj);
     return obj;

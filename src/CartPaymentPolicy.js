@@ -18,7 +18,7 @@ import MUIModal from "./components/MUI/MUIModal";
 import LoginComponent from "./components/LoginComponent";
 import RazorPayment from "./CustomHooks/RazorPayment";
 import { checkIsWeekEnd } from "./CustomLogics/customLogics";
-import { applyCouponCost } from "./Redux/Slices/BokingSliceReducer";
+import { applyCouponCost, setFullPayment } from "./Redux/Slices/BokingSliceReducer";
 
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -138,6 +138,11 @@ function CartPaymentPolicy({ isAdmin = false }) {
       },
     ],
   ];
+
+  const set_full_payment = (e) => {
+    const {name, value} = e.target;
+    dispatch(setFullPayment(value === "Pay Full"));
+  };
 
   const handlePaymentProcess = (e) => {
     //cross verify whether this slot is still is available or not
@@ -475,6 +480,7 @@ function CartPaymentPolicy({ isAdmin = false }) {
                           value="Pay Advance"
                           control={<Radio />}
                           label="Pay Advance"
+                          onChange={(e) => {set_full_payment(e)}}
                         />
 
                         <ul className="fancy-bullets ">
@@ -520,6 +526,7 @@ function CartPaymentPolicy({ isAdmin = false }) {
                           value="Pay Full"
                           control={<Radio />}
                           label="Pay Full"
+                          onChange={(e) => {set_full_payment(e)}}
                         />
 
                         <ul className="fancy-bullets ">

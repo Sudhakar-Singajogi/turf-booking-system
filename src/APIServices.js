@@ -3,7 +3,7 @@ export const postCall = async (enpoint, object) => {
   try {
     const resp = await fetch(`${baseURL}${enpoint}`, {
       method: "POST",
-      body: JSON.stringify(object),
+      body: object,
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },

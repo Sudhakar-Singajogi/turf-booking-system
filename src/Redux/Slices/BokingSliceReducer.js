@@ -45,6 +45,7 @@ export const bookingSlice = createSlice({
       bookedBy:"",
       coupon_amount: 0,
       coupon_code: "NA",
+      isFullPayment:false
     },
     status: STATUSES.IDLE,
   },
@@ -73,6 +74,13 @@ export const bookingSlice = createSlice({
     setBookedBy: (state, action) => {
       state.data.bookedBy = action.payload;
     },
+    addCouponToBooking:(state, action) =>  {
+      state.data.coupon_amount = action.payload.couponAmount;
+      state.data.coupon_code = action.payload.couponCode;
+    },
+    setFullPayment:(state, action) => {
+      state.data.isFullPayment = action.payload
+    },
 
     clearTurf: (state, action) => {
       state.data = {
@@ -91,6 +99,7 @@ export const bookingSlice = createSlice({
         coupon_amount: 0,
         coupon_code: "NA",
         bookedBy:"",
+        isFullPayment:false
       };
       state.isAvailable = "";
     },
@@ -487,5 +496,7 @@ export const {
   clearTurf,
   applyCouponCost,
   getBookingSliceInfo,
-  setBookedBy
+  setBookedBy,
+  addCouponToBooking,
+  setFullPayment
 } = bookingSlice.actions;

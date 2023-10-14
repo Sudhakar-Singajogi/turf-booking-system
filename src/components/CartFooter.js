@@ -11,14 +11,18 @@ import {
   checkTurfAvailability,
   validateBookingForm,
 } from "../Redux/Slices/BookingFormValidatorReducer";
+import useDateTimeRealated from "../CustomHooks/useDateTimeRealated";
 
 function CartFooter({ isAdmin, showConfirmSlot }) {
   const { data } = useSelector((state) => state.booking);
-  const { validateBooking } = useValidateBooking();
+  const { validateBooking, isTurfAvailable } = useValidateBooking();
   const isAvailable = useSelector((state) => state.validateForm.isAvailable);
   const errors = useSelector((state) => state.validateForm.errors);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const { convertDateYmd, convertDateTimeToMillSec, addHoursToTimeSlot } =
+    useDateTimeRealated();
 
   console.log("isAdmin:", isAdmin);
 
@@ -26,7 +30,32 @@ function CartFooter({ isAdmin, showConfirmSlot }) {
     e.preventDefault();
     validateBooking(isAdmin);
     // checkTurfAvailability();
-    if(isAdmin) {
+
+    // Split the original date string into components
+    const dateComponents = data.bookeddate.split("/");
+
+    // Create a new date string in "Y-m-d" format
+    const year = dateComponents[2];
+    const month = dateComponents[1].padStart(2, "0");
+    const day = dateComponents[0].padStart(2, "0");
+
+    const bookedDate = `${year}-${month}-${day}`;
+
+    let reqObj = {
+      arena_id: data.venuedetails.arena_id,
+      bookedAt: data.timeslot,
+      bookedTill: data.hrs,
+      turf_id: data.turf,
+      bookedDate: bookedDate,
+    }; 
+
+    console.log("req obj is:", reqObj);
+
+    let resp = await isTurfAvailable(reqObj);
+
+    console.log("isTurfAvailable:", resp);
+
+    if (isAdmin) {
       showConfirmSlot();
     }
   };
@@ -71,9 +100,9 @@ function CartFooter({ isAdmin, showConfirmSlot }) {
       <div className="footer-icon">
         {isAdmin ? (
           <>
-            <span 
+            <span
               onClick={(e) => ProceedToPolicy(e)}
-              style={{ color: "#fff", cursor:"pointer"}}
+              style={{ color: "#fff", cursor: "pointer" }}
             >
               <ArrowCircleRightIcon className="proceed-icon" />{" "}
             </span>
