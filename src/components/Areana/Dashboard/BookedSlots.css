@@ -16,7 +16,6 @@
   margin-left: 5px;
   border-radius: 5px;
   box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for separation */
-  
 }
 
 .react-calendar__navigation {
@@ -34,19 +33,18 @@
   padding-top: 1rem;
   padding-bottom: 1rem;
   padding-left: 0.5rem;
-  box-shadow: 4px 8px 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for separation */ 
-  cursor: pointer;  
+  box-shadow: 4px 8px 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for separation */
+  cursor: pointer;
 }
 
 .date-time-picker-parent:first-child {
-  width:96% !important;
-  margin-left:10px !important;
+  width: 96% !important;
+  margin-left: 10px !important;
 }
 
 .date-time-picker-parent:hover {
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for separation */
-    
-  }
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for separation */
+}
 
 .react-datetime-picker__button:enabled
   svg.react-datetime-picker__calendar-button__icon {
@@ -61,15 +59,15 @@
 }
 
 .filter-sec label {
-  margin-top:8px;
+  margin-top: 8px;
 }
 
 .booked-slot-search-icon {
-  /* position: absolute; */
-  /* border-radius: 5px;  */
-  /* top: 0px; */
+  position: absolute;
+  border-radius: 5px;
+  top: 0px;
   background-color: #cdc8c8;
-  margin-left:-10px !important;
+  margin-left: -10px !important;
   cursor: pointer;
   height: 54px;
   line-height: 39px;
@@ -100,43 +98,79 @@
 }
 
 .slots-container {
-    flex-grow: 1;   
+  flex-grow: 1;
+}
+
+
+
+
+
+.stack-top {
+  display: none;
+}
+
+.stack-top.left {
+  display: none;
+}
+
+.grid-btn-view {
+  padding: 6px 11px !important;
+  line-height: normal!  important;
+  margin:3px !important
 }
 
 @media (min-width: 300px) and (max-width: 400px) {
   /* .date-time-picker-parent {
     max-width: 300px !important;
   } */
+
+  .date-time-picker-parent {
+    position: relative;
+  }
+  
+  .stack-top {
+    /* adjust the below to control the shape */
+    --d:20px; 
+    --w:120px;
+    --c:#fda235;
+    /**/
+    display: block !important;
+  
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(29.29%, -100%) rotate(45deg); /* 29.29% = 100%*(1 - cos(45deg)) */
+    color: #fff;
+    text-align: center;
+    width: var(--w);
+    transform-origin: bottom left;
+    padding:5px 0 calc(var(--d) + 5px);
+    background:
+      linear-gradient(rgba(245, 150, 48, 0.6) 0 0) bottom/100% var(--d) no-repeat
+      var(--c);
+    clip-path:polygon(0 100%,0 calc(100% - var(--d)),50% calc(100% - var(--d) - var(--w)/2),100% calc(100% - var(--d)),100% 100%,calc(100% - var(--d)) calc(100% - var(--d)), var(--d) calc(100% - var(--d)))
+  }
+
+
+  .stack-top.left {
+    left:0;
+    right:auto;
+    transform: translate(-29.29%, -100%) rotate(-45deg);
+    transform-origin: bottom right;
+    font-size: 12px !important;
+  }
+
+  .dashboard-comp-title {
+    display: none !important;
+  }
   .rdt_Pagination span {
     display: none;
   }
-  .filter-sec label{
-    margin-top:18px !important;
+  .filter-sec label {
+    margin-top: 18px !important;
     font-size: 14px !important;
     font-weight: bold !important;
-  }
-/* 
-  .filter-sec {
-    margin-bottom: 10px !important; 
-    position: relative;
-    text-align: right;
-    margin-right: 5px;
-    display: block !important;
-  }
-  .filter-sec .MuiFormControl-root {
-    margin:0.2rem !important;
-    width:14rem !important;
-  }
-
-  .filter-sec .MuiFormControl-root .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
-    padding: 7px 7px !important
-  }
-
-  .filter-sec .MuiFormControl-root .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input fieldset .css-yjsfm1{
-    height:9px !important;
-  }  */
-
-
+  } 
   .rdt_TableRow .rdt_TableCell {
     font-size: 10px !important;
   }
@@ -151,15 +185,15 @@
     /* left: 16.6rem; */
     /* height: 35px; */
     /* top: 0px; */
-    width:1.5rem !important;
+    width: 1.5rem !important;
     background-color: #cdc8c8;
-    cursor: pointer; 
+    cursor: pointer;
   }
 
-  .booked-slot-search-icon svg{
+  .booked-slot-search-icon svg {
     /* position: absolute; */
     margin-top: 1.1rem;
-    margin-left:-1px;
+    margin-left: -1px;
   }
 
   .react-datetime-picker__button svg {
@@ -170,11 +204,18 @@
   .filter-sec {
     float: left !important;
     margin-right: 0px !important;
-    
+    width: 100% !important;
+  }
+  .filter-sec label {
+    display: none !important;
+  }
+
+  .slots-booked-section {
+    margin-top: 4rem !important;
   }
 
   .date-time-picker-parent {
-    /* border: 1px solid #cdc8c8; */ 
+    /* border: 1px solid #cdc8c8; */
     float: right;
     padding-top: 1rem;
     padding-bottom: 1rem;
@@ -183,55 +224,78 @@
   }
 
   .slots-container {
-    width: 300px !important; 
-    margin-left:0.7rem !important
+    width: 300px !important;
+    margin-left: 0.7rem !important;
+    margin-bottom: 0.7rem !important;
   }
 
-  
   .date-time-picker-parent:first-child {
-    width:100% !important;
-    margin-left:0px !important;
+    width: 100% !important;
+    margin-left: 0px !important;
   }
-  
+
   .date-time-picker-parent {
-    width:100% !important;
-    margin-left:10px !important;
-    margin-bottom:10px !important;
+    width: 100% !important;
+    margin-left: 10px !important;
+    margin-bottom: 10px !important;
+  }
+
+  .filter-opt {
+    top: 5px !important;
+    right: 10px !important;
+  }
+
+  .booked-slot-search-icon {
+    height: 35px !important;
+    right: 0px !important;
+
+  }
+
+  .booked-slot-search-icon svg{
+    margin-top: 0px !important
+
   }
 
 }
 
+.filter-opt {
+  position: absolute;
+  z-index: 9;
+  top: -36px;
+  right: 5px;
+}
 
+.react-datepicker-wrapper {
+  width: 55% !important;
+}
 
 @media (max-width: 530px) {
-
   .react-datetime-picker__wrapper {
     padding: 3px !important;
     margin-left: 5px;
   }
 }
 
-@media (min-width:530px) and (max-width: 767px) {
-    
+@media (min-width: 530px) and (max-width: 767px) {
   .booked-slot-search-icon {
     height: 38.5px !important;
     left: 25.5rem !important;
   }
 }
 
-@media (min-width:768px) {
-    .booked-slot-search-icon {
-        height: 40px !important;
-        left: 25.5rem !important;
-      } 
+@media (min-width: 768px) {
+  .booked-slot-search-icon {
+    height: 38px !important;
+    left: 18.7rem !important;
+  }
 }
 
-@media (min-width:1024px) {
-    .min-1024 {
-        display: block !important;
-      }
-    .slots-container {        
-        margin: 0px !important;
-        width: calc(33.3% - 20px) !important;       
-      }
+@media (min-width: 1024px) {
+  .min-1024 {
+    display: block !important;
+  }
+  .slots-container {
+    margin: 0px !important;
+    width: calc(50% - 20px) !important;
+  }
 }

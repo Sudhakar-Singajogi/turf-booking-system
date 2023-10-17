@@ -2,14 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 
 import ReactDataTable from "../../MUI/ReactDataTable";
-import TextField from "@mui/material/TextField";
-// import DatePicker from "react-datepicker";
-// import "react-datetime-picker/dist/DateTimePicker.css";
-// import "react-calendar/dist/Calendar.css";
-// import "react-clock/dist/Clock.css";
-
 import "./BookedSlots.css";
-import SearchIcon from "@mui/icons-material/Search";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import "react-datepicker/dist/react-datepicker.css";
 import useBooking from "../../../CustomHooks/useBooking";
@@ -19,11 +12,16 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useSelector } from "react-redux";
+import TextField from "@mui/material/TextField";
 
-function BookedSlots() {
+import Button from "@mui/material/Button";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+
+
+function ManageSlots() {
   const [startDate, setStartDate] = useState(new Date());
   const [slotsBooked, setSlotsBooked] = useState([]);
-
+  const [mobileNumber, setMobileNumber] = useState("");
   const [value, setValue] = React.useState(dayjs(new Date()));
   const [turf, setTurf] = React.useState("");
   const [venueTurfs, setVenueTurfs] = useState([]);
@@ -44,20 +42,36 @@ function BookedSlots() {
       selector: (row) => row.turf,
     },
     {
+      name: "Mobile",
+      selector: (row) => row.mobile,
+    },
+    {
       name: "Booked On",
       selector: (row) => row.bookedOn,
     },
-
     {
-      name: "Booked Slot",
-      selector: (row) => row.bookedSlot,
-    }
-    
+      name: "Action",
+      cell: (row) => (
+        <Button
+          className="grid-btn-view"
+          variant="contained"
+          startIcon={<VisibilityIcon />}
+          onClick={() => handleButtonClick(row)}
+          style={{fontSize:'10px'}}
+        >
+          Details
+        </Button>
+      ),
+    },
   ];
 
   const { getBookedSlots } = useBooking();
   const checkSlotAvailable = () => {
     console.log("selected date and time is:", startDate);
+  };
+
+  const handleButtonClick = (row) => {
+    console.log("clicked on ", row);
   };
 
   useEffect(() => {
@@ -129,16 +143,16 @@ function BookedSlots() {
           start = start[0].slice(0, -3);
           end = end[0].slice(0, -3);
 
-
           arr.push({
             turf: turfName,
             bookedOn: obj.bookedDate,
-            bookedSlot: start + " to " + end,
+            mobile: "84908081693",
           });
         });
       }
     }
     setSlotsBooked(arr);
+    // setSlotsBooked([]);
   };
 
   const handleDateChange = (newValue) => {
@@ -156,11 +170,28 @@ function BookedSlots() {
     getAllBookedSlots(formattedDate);
   };
 
+  const handleKeyPress = (e) => {
+    const input = e.target.value;
+    
+    // Remove any non-numeric characters
+    const numericValue = input.replace(/\D/g, '');    
+    // Limit the input to 10 digits
+    const truncatedValue = numericValue.slice(0, 10);    
+    // Update the state with the sanitized value
+    setMobileNumber(truncatedValue);
+
+    if (input.length === 10) { 
+          console.log("check the slots booked here"); 
+      }
+
+ 
+  };
+
   return (
     <>
       <div className="date-time-picker-parent">
-        <div className="stack-top left">Booked Slots</div>
-        <h2 className="dashboard-comp-title">Booked Slots</h2>
+        <div className="stack-top left">Manage Slots</div>
+        <h2 className="dashboard-comp-title">Manage Slots</h2>
 
         <div className="filter-sec">
           <div className="filter-opt">
@@ -174,8 +205,20 @@ function BookedSlots() {
                 />
               </LocalizationProvider>
 
-              <FormControl style={{marginLeft:'5px'}} fullWidth>
-                <InputLabel id="demo-simple-select-label">
+              <FormControl style={{ marginLeft: "5px" }} fullWidth>
+                <TextField
+                  value={mobileNumber}
+                  id="outlined-basic"
+                  label="Mobile Number"
+                  variant="outlined"
+                  onChange={handleKeyPress}
+                  inputProps={{
+                    inputMode: "numeric",
+                    pattern: "[0-9]*", // Additionally, you can use a regular expression pattern to further restrict input
+                  }}
+                />
+
+                {/* <InputLabel id="demo-simple-select-label">
                   Booked Turf
                 </InputLabel>
                 <Select
@@ -190,7 +233,7 @@ function BookedSlots() {
                       {turf.turfName}
                     </MenuItem>
                   ))}
-                </Select>
+                </Select> */}
               </FormControl>
             </div>
 
@@ -199,7 +242,10 @@ function BookedSlots() {
             </span> */}
           </div>
         </div>
-        <div className="slots-booked-section" style={{marginTop:'2rem',  overflowX: 'auto'}}>
+        <div
+          className="slots-booked-section"
+          style={{ marginTop: "2rem", overflowX: "auto" }}
+        >
           <ReactDataTable
             columns={columns}
             data={slotsBooked}
@@ -211,4 +257,4 @@ function BookedSlots() {
   );
 }
 
-export default BookedSlots;
+export default ManageSlots;

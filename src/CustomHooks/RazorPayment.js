@@ -26,6 +26,7 @@ function RazorPayment() {
   const { getBookingInfo, getCaptainInfo } = useBooking();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { admin } = useSelector((state) => state.venue);
 
   const { data: bookingData } = useSelector((state) => state.booking);
   console.log("bookingData: ", bookingData);
@@ -41,7 +42,10 @@ function RazorPayment() {
         return;
       }
 
-      let payOBJ = paymentobj === "" ? JSON.stringify({ ...getBookingInfo() }) : JSON.stringify(paymentobj)
+      let payOBJ =
+        paymentobj === ""
+          ? JSON.stringify({ ...getBookingInfo() })
+          : JSON.stringify(paymentobj);
 
       const resp = await fetch(`${baseURL}order/create-order`, {
         method: "POST",
@@ -79,17 +83,24 @@ function RazorPayment() {
 
           const result = await axios.post(`${baseURL}order/success`, data);
 
-          dispatch(turfbookedsuccessfully(true));
-          dispatch(clearTurf());
+          await dispatch(turfbookedsuccessfully(true));
+          await dispatch(clearTurf());
           console.log(
             "redirecting fro here: ",
             bookingData.venuedetails.arena_id
           );
 
-          if (isAdmin !== true) {
+          const adminInfo = admin.info;
+          console.log("adminInfo:", adminInfo.arena_name);
+
+          const isAdminLogeedIn = adminInfo.hasOwnProperty("arena_name")
+            ? true
+            : false;
+
+          if (!isAdminLogeedIn) {
             navigate("/booking?venueid=" + bookingData.venuedetails.arena_id);
           } else {
-            // navigate("/admin/dashboard");
+            navigate("/admin/dashboard");
           }
         },
         prefill: { ...getCaptainInfo(false) },

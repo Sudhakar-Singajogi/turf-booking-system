@@ -24,6 +24,16 @@ ChartJS.register(
 
 export const options = {
   responsive: true,
+  animations: {
+    tension: {
+      duration: 1000,
+      easing: 'easeInBounce',
+      from: 1,
+      to: 0,
+      loop: true
+    }
+  },
+  
   plugins: {
     legend: {
       display: true,
@@ -36,11 +46,13 @@ export const options = {
     title: {
       display: true,
       text: "Weekly Bookings",
+      align:"center",
+      position:'left'
     },
   },
 };
 
-const labels = ["Thrusday", "Friday", "Saturday", "Sunday"];
+const labels = ["THR", "FRI", "SAT", "SUN"];
 
 export const data = {
   labels,

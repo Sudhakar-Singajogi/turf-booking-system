@@ -108,7 +108,7 @@ function useValidateBooking() {
         return true;
       }
       */
-      if (!isAdmin) navigate("/booking/confirm");
+      // if (!isAdmin) navigate("/booking/confirm");
     }
     setLoader(false);
   };
@@ -139,9 +139,9 @@ function useValidateBooking() {
 
     resp = await resp.json();
     if (resp.resultCode === 200) {
-      if (resp.totalRows > 0) {
+      if (resp.hasOwnProperty("ValidationErrors") && resp.ValidationErrors !== "" ) {
         console.log("coupons are:", resp.data);
-        return [{ captainInfo: resp.data }];
+        return [{ "exists" : false, "message": resp.ValidationErrors }];
       } else {
         return [];
       }

@@ -27,7 +27,7 @@ function CartFooter({ isAdmin, showConfirmSlot }) {
   console.log("isAdmin:", isAdmin);
 
   const ProceedToPolicy = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     validateBooking(isAdmin);
     // checkTurfAvailability();
 
@@ -49,30 +49,47 @@ function CartFooter({ isAdmin, showConfirmSlot }) {
       bookedDate: bookedDate,
     }; 
 
+  //   reqObj =   {
+  //     "arena_id": "r434edd09765457698asd",
+  //     "bookedAt": "6:30 am",
+  //     "bookedTill": 1,
+  //     "turf_id": 33,
+  //     "bookedDate": "2023-10-17"
+  // }
+
     console.log("req obj is:", reqObj);
 
     let resp = await isTurfAvailable(reqObj);
 
     console.log("isTurfAvailable:", resp);
 
-    if (isAdmin) {
-      showConfirmSlot();
-    }
+    if(resp.length>0) {
+      let form_errors = { ...errors };
+      form_errors.turf_error = "Turf is not available during this time slot";
+      await dispatch(validateBookingForm(form_errors)); 
+
+    } else {
+      if (isAdmin) {
+        showConfirmSlot();
+      } else {
+        navigate("/booking/confirm");
+      }
+    } 
   };
 
-  useEffect(() => {
-    let form_errors = { ...errors };
-    console.log("use effect ran");
+  // useEffect(() => {
+  //   let form_errors = { ...errors };
+  //   console.log("use effect ran");
 
-    if (isAvailable === "") {
-    } else if (isAvailable === false) {
-      form_errors.turf_error = "Turf is not available during this time slot";
-      dispatch(validateBookingForm(form_errors));
-    } else {
-      // navigate("/booking/confirm");
-    }
-    dispatch(validateBookingForm(form_errors));
-  }, [isAvailable]);
+  //   if (isAvailable === "") {
+  //   } else if (isAvailable === false) {
+  //     form_errors.turf_error = "Turf is not available during this time slot";
+  //     dispatch(validateBookingForm(form_errors));
+  //   } else {
+  //     // navigate("/booking/confirm");
+  //   }
+  //   dispatch(validateBookingForm(form_errors));
+  // }, [isAvailable]);
 
   return (
     <div className="footer">
@@ -109,13 +126,19 @@ function CartFooter({ isAdmin, showConfirmSlot }) {
           </>
         ) : (
           <>
-            <Link
+            {/* <Link
               to="/booking/confirm"
               onClick={(e) => ProceedToPolicy(e)}
               style={{ color: "#fff" }}
             >
               <ArrowCircleRightIcon className="proceed-icon" />{" "}
-            </Link>
+            </Link> */}
+            <span onClick={(e) => ProceedToPolicy(e)}
+              style={{ color: "#fff", cursor:"pointer" }}>
+                
+              <ArrowCircleRightIcon className="proceed-icon" />{" "}
+              
+            </span>
           </>
         )}
       </div>

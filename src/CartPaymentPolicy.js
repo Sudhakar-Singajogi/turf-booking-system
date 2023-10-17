@@ -18,7 +18,10 @@ import MUIModal from "./components/MUI/MUIModal";
 import LoginComponent from "./components/LoginComponent";
 import RazorPayment from "./CustomHooks/RazorPayment";
 import { checkIsWeekEnd } from "./CustomLogics/customLogics";
-import { applyCouponCost, setFullPayment } from "./Redux/Slices/BokingSliceReducer";
+import {
+  applyCouponCost,
+  setFullPayment,
+} from "./Redux/Slices/BokingSliceReducer";
 
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -43,17 +46,24 @@ function getGameName(games, gameId) {
   }
 }
 
-function CartPaymentPolicy({ isAdmin = false }) {
+function CartPaymentPolicy({ isAdmin }) {
   const { data: slot } = useSelector((state) => state.booking);
   const [modalOpen, setModalOpen] = useState(false);
   const [showOTP, setShowOTP] = useState(false);
-  const [showPaymentForm,  setShowPaymentForm] = useState(false); 
+  const [showPaymentForm, setShowPaymentForm] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { getExactToTime } = useGetExactToTime();
   const { initiatePayment } = RazorPayment();
   const couponCost = 0.05;
+  const { admin } = useSelector((state) => state.venue);
 
+  const adminInfo = admin.info;
+  console.log("adminInfo:", adminInfo.arena_name);
+
+  const isAdminLogeedIn = adminInfo.hasOwnProperty("arena_name") ? true : false;
+
+  console.log("isAdminLogeedIn:", isAdminLogeedIn);
 
   console.log("slot is: ", slot);
   const turfs = slot.turfs;
@@ -65,13 +75,15 @@ function CartPaymentPolicy({ isAdmin = false }) {
     console.log("is weekend: ", checkIsWeekEnd(slot.bookeddate));
 
     if (!checkIsWeekEnd(slot.bookeddate)) {
-      dispatch(applyCouponCost({couponCost: couponCost, "couponCode":"WeekDay"}));
+      dispatch(
+        applyCouponCost({ couponCost: couponCost, couponCode: "WeekDay" })
+      );
     }
   }, [couponCost]);
 
   const proceedToPaymentForm = () => {
-    setShowPaymentForm(true)
-  }
+    setShowPaymentForm(true);
+  };
 
   if (
     slot.game === 0 ||
@@ -140,7 +152,7 @@ function CartPaymentPolicy({ isAdmin = false }) {
   ];
 
   const set_full_payment = (e) => {
-    const {name, value} = e.target;
+    const { name, value } = e.target;
     dispatch(setFullPayment(value === "Pay Full"));
   };
 
@@ -150,7 +162,7 @@ function CartPaymentPolicy({ isAdmin = false }) {
     console.log("hey");
     // setModalOpen(true);
     e.preventDefault();
-    initiatePayment(isAdmin);
+    initiatePayment(isAdminLogeedIn);
   };
 
   const handleModalClose = () => {
@@ -259,7 +271,7 @@ function CartPaymentPolicy({ isAdmin = false }) {
                 ))}
               </div>
             </div>
-            {isAdmin === false && (
+            {isAdminLogeedIn === false && (
               <>
                 <hr />
                 <div className="dnt-show-at-765">
@@ -360,7 +372,7 @@ function CartPaymentPolicy({ isAdmin = false }) {
                 </div>
               </div>
 
-              {isAdmin === false ? (
+              {isAdminLogeedIn === false ? (
                 <ul className="fancy-bullets">
                   <li>
                     <strong style={{ fontSize: "13px" }}>Incldues:</strong>{" "}
@@ -413,10 +425,13 @@ function CartPaymentPolicy({ isAdmin = false }) {
                     </ul>
                   </div>
                   <hr />
-                  {
-                    showPaymentForm === false ? (<ValidateCaptain proceedToPaymentForm={() => proceedToPaymentForm()} />) : (<SlotBookingForm />)
-                  }
-                  
+                  {showPaymentForm === false ? (
+                    <ValidateCaptain
+                      proceedToPaymentForm={() => proceedToPaymentForm()}
+                    />
+                  ) : (
+                    <SlotBookingForm />
+                  )}
                 </>
               )}
 
@@ -449,7 +464,7 @@ function CartPaymentPolicy({ isAdmin = false }) {
 
             {/* <hr /> */}
 
-            {isAdmin === false && (
+            {isAdminLogeedIn === false && (
               <>
                 <div className="price-section ">
                   <div className="flex-item ">
@@ -480,7 +495,9 @@ function CartPaymentPolicy({ isAdmin = false }) {
                           value="Pay Advance"
                           control={<Radio />}
                           label="Pay Advance"
-                          onChange={(e) => {set_full_payment(e)}}
+                          onChange={(e) => {
+                            set_full_payment(e);
+                          }}
                         />
 
                         <ul className="fancy-bullets ">
@@ -526,7 +543,9 @@ function CartPaymentPolicy({ isAdmin = false }) {
                           value="Pay Full"
                           control={<Radio />}
                           label="Pay Full"
-                          onChange={(e) => {set_full_payment(e)}}
+                          onChange={(e) => {
+                            set_full_payment(e);
+                          }}
                         />
 
                         <ul className="fancy-bullets ">
@@ -589,63 +608,70 @@ function CartPaymentPolicy({ isAdmin = false }) {
           </div>
         </div>
         <div className="div-c policy-terms show-at-765">
-          <div>
-            <h6
-              className="dnt-show-at-765"
-              style={{ fontWeight: "bold", fontSize: "1rem" }}
-            >
-              Reschedule Policy:
-            </h6>
-            <h6 className="show-at-765" style={{ fontWeight: "bold" }}>
-              Reschedule & Cancellation Policy:
-            </h6>
+          {isAdminLogeedIn === false ? (
             <ul className="fancy-bullets">
               <li>
-                <strong style={{ fontSize: "14px" }}>
-                  Advance Notice Required:
-                </strong>{" "}
+                <strong style={{ fontSize: "13px" }}>Incldues:</strong>{" "}
                 <span className="policy-bullet-points">
-                  Rescheduling requests must be submitted at least 2 hours prior
-                  to the scheduled booking time.
+                  New ball, Two Heavy Duty Plastic Cricket Bat
                 </span>
               </li>
               <li>
-                <strong style={{ fontSize: "14px" }}>
-                  One-time Reschedule:
-                </strong>{" "}
+                <strong style={{ fontSize: "13px" }}>After Game:</strong>{" "}
                 <span className="policy-bullet-points">
-                  Customers are allowed a single opportunity to reschedule their
-                  booking. Once rescheduled, cancellations will no longer be
-                  permitted.
+                  The person who booked the game will be responsbile to handover
+                  the Bats & balls
                 </span>
               </li>
             </ul>
+          ) : (
+            <>
+              <div className="price-section ">
+                <ul className="fancy-bullets admin-fancy-bullets ">
+                  {!checkIsWeekEnd(slot.bookeddate) ? (
+                    <>
+                      <li>
+                        <strong style={{ fontSize: "11px" }}>
+                          Coupon Applied:{" "}
+                          <CurrencyRupeeIcon style={{ fontSize: "15px" }} />
+                          {slot.turfcost * slot.hrs - bookingAmount}
+                        </strong>
+                      </li>
+                    </>
+                  ) : (
+                    ""
+                  )}
 
-            <h6 className="dnt-show-at-765" style={{ fontWeight: "bold" }}>
-              Cancellation Policy:
-            </h6>
-
-            <ul className="fancy-bullets">
-              <li>
-                <strong style={{ fontSize: "13px" }}>
-                  Cancellation Timeframe:
-                </strong>{" "}
-                <span className="policy-bullet-points">
-                  Cancellation is not possible less than 2 hours prior to the
-                  scheduled booking time.
-                </span>
-              </li>
-              <li>
-                <strong style={{ fontSize: "13px" }}>Cancellation Fee:</strong>{" "}
-                <span className="policy-bullet-points">
-                  In case of cancellations made within the permissible
-                  timeframe, a cancellation fee of 15% of the total booking
-                  amount will be deducted.
-                </span>
-              </li>
-            </ul>
-          </div>
+                  <li>
+                    <strong style={{ fontSize: "11px" }}>
+                      Advance to pay:{" "}
+                      <CurrencyRupeeIcon style={{ fontSize: "15px" }} />
+                      {advPayRoundOff}
+                    </strong>
+                  </li>
+                  <li>
+                    <strong style={{ fontSize: "11px" }}>
+                      Amount to be paid at venue:{" "}
+                      <CurrencyRupeeIcon style={{ fontSize: "15px" }} />
+                      {bookingAmount -
+                        bookingAmount * 0.3 +
+                        (advPay - advPayRoundOff)}
+                    </strong>
+                  </li>
+                </ul>
+              </div>
+              <hr />
+              {showPaymentForm === false ? (
+                <ValidateCaptain
+                  proceedToPaymentForm={() => proceedToPaymentForm()}
+                />
+              ) : (
+                <SlotBookingForm />
+              )}
+            </>
+          )}
         </div>
+
         <MUIModal
           params={{
             open: modalOpen,

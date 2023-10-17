@@ -9,9 +9,10 @@ function useCaptain() {
   const { admin } = useSelector((state) => state.venue);
 
   const GetCaptainDetails = async (captain_contact) => {
-    let resp = await postCall("captain/details", {
+    console.log('captain_contact:', captain_contact)
+    let resp = await postCall("captain/details", JSON.stringify({
       captain_contact: captain_contact,
-    });
+    }) );
 
     resp = await resp.json();
     if (resp.resultCode === 200) {
@@ -26,7 +27,7 @@ function useCaptain() {
   };
 
   const createCaptain = async (captainObj) => {
-    let resp = await postCall("captain/create", captainObj);
+    let resp = await postCall("captain/create", JSON.stringify(captainObj));
     resp = await resp.json();
 
     if (resp.data.length === 0 && resp.message === "Failed to create captain") {

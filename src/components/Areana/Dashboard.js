@@ -12,8 +12,18 @@ import {
 import { faker } from "@faker-js/faker";
 import MonthlyBookings from "./Dashboard/MonthlyBookings";
 import { WeeklyBookings } from "./Dashboard/WeeklyBookings";
+import ManageSlots from "./Dashboard/ManageSlots";
 
 export const options = {
+  animations: {
+    tension: {
+      duration: 1000,
+      easing: 'easeInBounce',
+      from: 1,
+      to: 0,
+      loop: true
+    }
+  },
   plugins: {
     legend: {
       display: true,
@@ -26,6 +36,8 @@ export const options = {
     title: {
       display: true,
       text: "Yearly Bookings",
+      position:'left',
+      
     },
   },
   responsive: true,
@@ -57,7 +69,7 @@ export const options2 = {
   },
 };
 
-const labels = ["January", "February", "March", "April"];
+const labels = ["JAN", "FEB", "MAR", "APR"];
 
 export const data = {
   labels,
@@ -139,7 +151,8 @@ function Dashboard() {
           <BookedSlots />
         </div>
         <div className="slots-container">
-          <BookedSlots />
+          <ManageSlots />
+          
         </div>
         <div className="slots-container"></div>
       </div>

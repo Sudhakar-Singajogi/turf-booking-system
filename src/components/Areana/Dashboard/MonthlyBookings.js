@@ -28,12 +28,14 @@ export const data = {
   
 };
 
-const options = {
+const options = { 
   plugins: {
     legend: {
       display: true,
+      fullSize:true,
       position: "bottom",
-      align: "start",
+      align: "center",
+      
       labels: {
         color: "000",
       },
@@ -41,6 +43,7 @@ const options = {
     title: {
       display: true,
       text: "Monthly Bookings",
+      
     },
   }, 
 };

@@ -815,27 +815,29 @@ input {
 
 .time-slot-container .column {
   flex: 1;
-  padding: 10px;
+  padding: 0px;
   text-align: center;
   background-color: #fff;
-  /* background-color: #999; */
+  margin-top:15px !important;
 }
 
 .time-slot-container .hour {
   border: 1px solid #ddd;
   margin: 5px;
-  padding: 10px;
+  padding: 5px;
+  margin-left:0px;
+  margin-right:0px;
   background-color: #f9f9f9;
   border-radius: 5px;
-  font-size: 16px;
+  font-size: 13px;
   cursor: pointer;
 }
 
 .time-slot .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
   width: 20% !important;
   aspect-ratio: 10/10 !important;
-  top: 24.5rem !important;
-  left: 38.3rem !important;
+  top: 19.6rem !important;
+  right: 0rem !important;
   position: absolute;
   opacity: 0.9;
 }
@@ -1179,8 +1181,8 @@ input {
   .time-slot .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
     width: 71% !important;
     aspect-ratio: 10/10 !important;
-    top: 24.5rem !important;
-    left: 1.8rem !important;
+    top: 24.8rem !important;
+    right: 0.6rem !important;
     position: absolute;
     opacity: 0.9;
   }
@@ -1191,8 +1193,7 @@ input {
 
   .time-slot-container .column {
     padding: 3px !important;
-    margin-right:3px !important
-    
+    margin-right: 3px !important;
   }
 }
 

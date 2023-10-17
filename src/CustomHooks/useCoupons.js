@@ -9,9 +9,9 @@ function useCoupons() {
   const { admin } = useSelector((state) => state.venue);
 
   const GetAllCouponsByArena = async () => {
-    let resp = await postCall("coupons/byareana", {
+    let resp = await postCall("coupons/byareana", JSON.stringify({
       arena_id: admin.info.arena_id,
-    });
+    }));
     resp = await resp.json();
     if (resp.resultCode === 200) {
       if (resp.resultTotal > 0) {

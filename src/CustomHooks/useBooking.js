@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import useFormatDateYmd from "./useFormatDateYmd";
 import { checkIsWeekEnd } from "../CustomLogics/customLogics";
+import { postCall } from "../APIServices";
 // import { getBookedSlots } from "../Redux/Slices/BokingSliceReducer";
 function useBooking() {
   const { data } = useSelector((state) => state.booking);
@@ -100,10 +101,32 @@ function useBooking() {
     return currentTimeRef.current;
   };
 
+  const getBookedSlots = async (obj) => {
+    // obj = {
+    //   "arena_id": "r434edd09765457698asd",
+    //   "bookedDate": "2023-10-17"
+    // }
+    
+
+    let resp = await postCall("booking/get-booked-slots", JSON.stringify(obj));
+    resp = await resp.json();
+    if (resp.resultCode === 200) {
+      if (resp.resultTotal > 0 || resp.totalRows > 0) {
+        console.log('Booked slots are:', resp.data)
+        return [resp.data];
+      } else {
+        return [];
+      }
+    }
+    return [];
+
+  }
+
   return {
     getBookingInfo,
     getCaptainInfo,
     useCurrentBookedDate,
+    getBookedSlots
   };
 }
 

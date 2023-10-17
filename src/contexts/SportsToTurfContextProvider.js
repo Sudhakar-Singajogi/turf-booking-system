@@ -17,10 +17,10 @@ const SportsToTurfContextProvider = ({ children }) => {
       return "";
     }
     setTurfId(() => turfid);
-    const apiResp = await postCall("turf/sports", {
+    const apiResp = await postCall("turf/sports", JSON.stringify({
       arena_id: admin.info.arena_id,
       turfid: turfid,
-    });
+    }));
 
     setSportsByTurf([]);
     const response = await apiResp.json();
@@ -40,6 +40,7 @@ const SportsToTurfContextProvider = ({ children }) => {
       return sprts.push({ sport: sport, turfid: turfId });
     });
     obj.sports = sprts;
+    obj = JSON.stringify(obj);
     let apiResp = await postCall("turf/addsports", obj);
     // console.log("status:", await apiResp.json());
     apiResp = await apiResp.json();
