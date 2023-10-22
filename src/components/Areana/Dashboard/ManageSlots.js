@@ -15,26 +15,19 @@ import { useSelector } from "react-redux";
 import TextField from "@mui/material/TextField";
 
 import Button from "@mui/material/Button";
-import VisibilityIcon from '@mui/icons-material/Visibility';
-
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import MUIModal from "../../MUI/MUIModal";
+import ManageSlotsPopup from "./ManageSlotsPopup";
 
 function ManageSlots() {
   const [startDate, setStartDate] = useState(new Date());
   const [slotsBooked, setSlotsBooked] = useState([]);
   const [mobileNumber, setMobileNumber] = useState("");
   const [value, setValue] = React.useState(dayjs(new Date()));
-  const [turf, setTurf] = React.useState("");
-  const [venueTurfs, setVenueTurfs] = useState([]);
-
+  const [mobile, setMobile] = React.useState("");
+  const [open, setOpen] = useState(false);
+  const [bookingOrderDetails, setBookingOrderDetails] = useState({});
   const { admin } = useSelector((state) => state.venue);
-  console.log("Turfs are  :", admin.turfs);
-
-  const handleChange = (event) => {
-    setTurf(event.target.value);
-    getAllBookedSlots("", event.target.value);
-  };
-
-  const gotCoupons = useRef(false);
 
   const columns = [
     {
@@ -47,7 +40,8 @@ function ManageSlots() {
     },
     {
       name: "Booked On",
-      selector: (row) => row.bookedOn,
+      // selector: (row) => row.bookedOn,
+      cell: (row) => <div>{dayjs(row.bookedOn).format("YYYY-MM-DD")}</div>,
     },
     {
       name: "Action",
@@ -57,7 +51,7 @@ function ManageSlots() {
           variant="contained"
           startIcon={<VisibilityIcon />}
           onClick={() => handleButtonClick(row)}
-          style={{fontSize:'10px'}}
+          style={{ fontSize: "10px" }}
         >
           Details
         </Button>
@@ -65,89 +59,82 @@ function ManageSlots() {
     },
   ];
 
-  const { getBookedSlots } = useBooking();
-  const checkSlotAvailable = () => {
-    console.log("selected date and time is:", startDate);
+  const { getBookingOrders, getBookingOrderDetails } = useBooking();
+
+  const handleButtonClick = async (row) => {
+    console.log("clicked on ", row);
+    console.log("arena_id:", admin.info.arena_id);
+    //get the details of the slot
+    let bookingOrderDetails = await getBookingOrderDetails({
+      bookingId: row.bookingId,
+      arena_id: admin.info.arena_id,
+    });
+
+    
+    if (bookingOrderDetails.length > 0) {
+      let details = bookingOrderDetails[0]
+      setBookingOrderDetails(details[0]);
+    }
+
+    console.log("bookingOrderDetails are:", bookingOrderDetails);
+    setOpen(true);
   };
 
-  const handleButtonClick = (row) => {
-    console.log("clicked on ", row);
+  const handleClose = () => {
+    setOpen(false);
   };
 
   useEffect(() => {
+    getBookingInfo(dayjs(new Date()).format("YYYY-MM-DD"));
     console.log("slotsBooked are:", slotsBooked);
-    let turfs = [];
-    if (admin.turfs.length > 0) {
-      let allTurfs = admin.turfs;
-      console.log("admin.turfs", admin.turfs);
-      allTurfs.map((turf) => {
-        turfs.push({
-          turfName: turf.turf_name,
-          turfId: turf.turfId,
-        });
-      });
+  }, []);
 
-      setVenueTurfs(() => turfs);
-    }
-  }, [startDate, slotsBooked]);
-
-  const getAllBookedSlots = async (selectedDate = "", selectedTurf = "") => {
+  const getBookingInfo = async (selectedDate = "", selectedMobile = "") => {
     let obj = {};
 
     if (startDate !== "" && selectedDate !== "") {
-      obj.bookedDate = selectedDate;
+      obj.bookedDate = dayjs(selectedDate).format("YYYY-MM-DD");
     } else {
       if (startDate !== "") {
-        obj.bookedDate = startDate;
+        obj.bookedDate = dayjs(startDate).format("YYYY-MM-DD");
       }
     }
 
     if (startDate !== "") {
-      obj.bookedDate = startDate;
+      obj.bookedDate = dayjs(startDate).format("YYYY-MM-DD");
     }
 
     if (selectedDate !== "") {
-      obj.bookedDate = selectedDate;
+      obj.bookedDate = dayjs(selectedDate).format("YYYY-MM-DD");
     }
 
-    if (turf !== "") {
-      obj.turf_id = turf;
+    if (mobile !== "") {
+      obj.contact_number = mobile;
     }
 
-    if (selectedTurf !== "") {
-      obj.turf_id = selectedTurf;
+    if (selectedMobile !== "") {
+      obj.contact_number = selectedMobile;
     }
 
     obj.arena_id = admin.info.arena_id;
 
-    let resp = await getBookedSlots(obj);
+    let resp = await getBookingOrders(obj);
     console.log("Response is:", resp);
 
     let arr = [];
     if (resp.length > 0) {
-      let slotsData = resp[0].data;
+      let slotsData = resp[0];
       console.log("booked slots are:", slotsData);
 
       if (slotsData.length > 0) {
         slotsData.map((item) => {
-          let start = item.start;
-          start = start.split(".");
-
-          let end = item.end;
-          end = end.split(".");
-
-          let allTurfs = admin.turfs;
-          const foundTurf = allTurfs.find((turf) => turf.turfId === item.turf);
-          const turfName = foundTurf ? foundTurf.turf_name : "";
-
-          start = start[0].slice(0, -3);
-          end = end[0].slice(0, -3);
-
           arr.push({
-            turf: turfName,
-            bookedOn: obj.bookedDate,
-            mobile: "84908081693",
+            bookingId: item.bookingId,
+            turf: item.turf,
+            bookedOn: item.bookedOn,
+            mobile: item.mobile,
           });
+          console.log("booked info is:", arr);
         });
       }
     }
@@ -167,85 +154,76 @@ function ManageSlots() {
     setStartDate(() => formattedDate);
 
     console.log("Selected date:", formattedDate);
-    getAllBookedSlots(formattedDate);
+    getBookingInfo(formattedDate);
   };
 
   const handleKeyPress = (e) => {
     const input = e.target.value;
-    
+
     // Remove any non-numeric characters
-    const numericValue = input.replace(/\D/g, '');    
+    const numericValue = input.replace(/\D/g, "");
     // Limit the input to 10 digits
-    const truncatedValue = numericValue.slice(0, 10);    
+    const truncatedValue = numericValue.slice(0, 10);
     // Update the state with the sanitized value
     setMobileNumber(truncatedValue);
 
-    if (input.length === 10) { 
-          console.log("check the slots booked here"); 
-      }
+    if (input.length === 10) {
+      console.log("check the slots booked here");
+      getBookingInfo("", input);
+    } else if (input.length === 0) {
+      getBookingInfo("", "");
+    }
+  };
 
- 
+  const loadComponent = () => {
+    return <ManageSlotsPopup compProps={bookingOrderDetails} />;
   };
 
   return (
     <>
       <div className="date-time-picker-parent">
         <div className="stack-top left">Manage Slots</div>
-        <h2 className="dashboard-comp-title">Manage Slots</h2>
 
         <div className="filter-sec">
           <div className="filter-opt">
             <div style={{ display: "flex" }}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  label="Booke Date"
-                  value={value}
-                  onChange={handleDateChange}
-                  disablePast={true}
-                />
-              </LocalizationProvider>
+              <div className="mng-slot-header-col">
+                <FormControl fullWidth>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                      label="Booke Date"
+                      value={value}
+                      onChange={handleDateChange}
+                      disablePast={true}
+                    />
+                  </LocalizationProvider>
+                </FormControl>
+              </div>
 
-              <FormControl style={{ marginLeft: "5px" }} fullWidth>
-                <TextField
-                  value={mobileNumber}
-                  id="outlined-basic"
-                  label="Mobile Number"
-                  variant="outlined"
-                  onChange={handleKeyPress}
-                  inputProps={{
-                    inputMode: "numeric",
-                    pattern: "[0-9]*", // Additionally, you can use a regular expression pattern to further restrict input
-                  }}
-                />
-
-                {/* <InputLabel id="demo-simple-select-label">
-                  Booked Turf
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={turf} // Set the selected value to the state variable
-                  label="Turfs"
-                  onChange={handleChange}
-                >
-                  {venueTurfs.map((turf) => (
-                    <MenuItem key={turf.turfId} value={turf.turfId}>
-                      {turf.turfName}
-                    </MenuItem>
-                  ))}
-                </Select> */}
-              </FormControl>
+              <div className="mng-slot-header-col">
+                <FormControl fullWidth>
+                  <TextField
+                    fullWidth
+                    value={mobileNumber}
+                    id="outlined-basic"
+                    label="Mobile Number"
+                    variant="outlined"
+                    onChange={handleKeyPress}
+                    inputProps={{
+                      inputMode: "numeric",
+                      pattern: "[0-9]*", // Additionally, you can use a regular expression pattern to further restrict input
+                    }}
+                  />
+                </FormControl>
+              </div>
             </div>
-
-            {/* <span className="booked-slot-search-icon">
-              <SearchIcon onClick={() => checkSlotAvailable()} />
-            </span> */}
           </div>
         </div>
         <div
           className="slots-booked-section"
-          style={{ marginTop: "2rem", overflowX: "auto" }}
+          style={{ marginTop: "1rem", overflowX: "auto" }}
         >
+          <hr style={{ border: "1px solid #d4cfcf" }} />
           <ReactDataTable
             columns={columns}
             data={slotsBooked}
@@ -253,6 +231,21 @@ function ManageSlots() {
           />
         </div>
       </div>
+      {/* <MUIModal adjustTop="35%" modalTitle="Manage Booked Slots" handleClose={handleClose}  open={open} component={<ManageSlotsPopup /> } modalpopupwidth="modal-md" closebtncls="mnge-slots-modal-close-btn" /> */}
+
+      <MUIModal
+        params={{
+          adjustTop: "35%",
+          modalTitle: "Manage Booked Slots",
+          handleClose: handleClose,
+          open: open,
+          width: 1000,
+          component: loadComponent,
+          compLoaded: true,
+          modalpopupwidth: "modal-md",
+          closebtncls: "mnge-slots-modal-close-btn",
+        }}
+      />
     </>
   );
 }

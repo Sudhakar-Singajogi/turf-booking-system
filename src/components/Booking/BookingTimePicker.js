@@ -73,6 +73,7 @@ function BookingTimePicker() {
           const day = currentDate.getDate();
       
           let todayIs = `${year}-${month}-${day}`;
+          console.warn('today is:', todayIs);
       
           await handleTimeChange(new Date(`${todayIs} ${value}`));
 

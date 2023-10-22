@@ -16,6 +16,7 @@
 }
 .flex {
   display: flex;
+  justify-content: space-between;
 }
 
 .right-column {
@@ -836,8 +837,8 @@ input {
 .time-slot .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
   width: 20% !important;
   aspect-ratio: 10/10 !important;
-  top: 19.6rem !important;
-  right: 0rem !important;
+  top: 24.5em !important;
+  right: 43rem !important;
   position: absolute;
   opacity: 0.9;
 }
@@ -866,6 +867,72 @@ input {
   cursor: auto;
 }
 
+.wid-100-per {
+  width: 100% !important;
+}
+
+.modal-wrapper {
+  width: 100% !important;
+  padding-left: 1rem !important;
+  padding-right:1rem !important;
+
+}
+
+.css-h93ljk-MuiTypography-root {
+  margin: 0px !important;
+  padding-bottom: 0px !important;
+}
+
+.hr-sonet {
+margin:5px !important
+}
+
+.default-modal-btn-close {
+  margin-top:0px;
+}
+
+
+.mnge-slots-modal-close-btn {
+  margin-top:9px;
+}
+
+.modal-md {
+  width: 50% !important;
+}
+
+.modal-tabs-bg {
+  background-color: rgb(25, 118, 210);
+  color: #fff;
+  border-radius:3px
+}
+
+.MuiTab-textColorPrimary {
+  color: #fff !important;
+}
+
+.css-1h9z7r5-MuiButtonBase-root-MuiTab-root.Mui-selected {
+  color: #fff !important;
+  border-bottom: 5px solid #fff !important;
+}
+
+.tab-body {
+  padding: 5px;
+  border: 1px solid #eee;
+  border-radius: 5px;
+  margin-bottom:10px
+}
+
+.mt10 {
+  margin-top: 10px;
+}
+
+.font-strong {
+  font-weight: bold;
+}
+
+.disable-tf {
+  background-color: none !important;
+}
 /* Keyframes for fadeIn animation */
 @keyframes fadeIn {
   from {
@@ -1181,8 +1248,8 @@ input {
   .time-slot .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
     width: 71% !important;
     aspect-ratio: 10/10 !important;
-    top: 24.8rem !important;
-    right: 0.6rem !important;
+    top: 23.67rem !important;
+    right: 1.2rem !important;
     position: absolute;
     opacity: 0.9;
   }

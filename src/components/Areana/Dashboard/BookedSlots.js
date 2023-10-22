@@ -51,8 +51,7 @@ function BookedSlots() {
     {
       name: "Booked Slot",
       selector: (row) => row.bookedSlot,
-    }
-    
+    },
   ];
 
   const { getBookedSlots } = useBooking();
@@ -129,7 +128,6 @@ function BookedSlots() {
           start = start[0].slice(0, -3);
           end = end[0].slice(0, -3);
 
-
           arr.push({
             turf: turfName,
             bookedOn: obj.bookedDate,
@@ -160,38 +158,43 @@ function BookedSlots() {
     <>
       <div className="date-time-picker-parent">
         <div className="stack-top left">Booked Slots</div>
-        <h2 className="dashboard-comp-title">Booked Slots</h2>
 
         <div className="filter-sec">
           <div className="filter-opt">
             <div style={{ display: "flex" }}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  label="Booke Date"
-                  value={value}
-                  onChange={handleDateChange}
-                  disablePast={true}
-                />
-              </LocalizationProvider>
+              <div className="mng-slot-header-col" >
+                <FormControl fullWidth>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                      label="Booke Date"
+                      value={value}
+                      onChange={handleDateChange}
+                      disablePast={true}
+                    />
+                  </LocalizationProvider>
+                </FormControl>
+              </div>
 
-              <FormControl style={{marginLeft:'5px'}} fullWidth>
-                <InputLabel id="demo-simple-select-label">
-                  Booked Turf
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={turf} // Set the selected value to the state variable
-                  label="Turfs"
-                  onChange={handleChange}
-                >
-                  {venueTurfs.map((turf) => (
-                    <MenuItem key={turf.turfId} value={turf.turfId}>
-                      {turf.turfName}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+              <div className="mng-slot-header-col" >
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label">
+                    Booked Turf
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={turf} // Set the selected value to the state variable
+                    label="Turfs"
+                    onChange={handleChange}
+                  >
+                    {venueTurfs.map((turf) => (
+                      <MenuItem key={turf.turfId} value={turf.turfId}>
+                        {turf.turfName}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </div>
             </div>
 
             {/* <span className="booked-slot-search-icon">
@@ -199,7 +202,11 @@ function BookedSlots() {
             </span> */}
           </div>
         </div>
-        <div className="slots-booked-section" style={{marginTop:'2rem',  overflowX: 'auto'}}>
+        <div
+          className="slots-booked-section"
+          style={{ marginTop: "2rem", overflowX: "auto" }}
+        >
+          <hr style={{border: "1px solid #d4cfcf"}} />
           <ReactDataTable
             columns={columns}
             data={slotsBooked}

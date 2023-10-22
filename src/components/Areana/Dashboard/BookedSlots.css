@@ -101,63 +101,157 @@
   flex-grow: 1;
 }
 
-
-
-
+.date-time-picker-parent {
+  position: relative;
+}
 
 .stack-top {
-  display: none;
+  /* adjust the below to control the shape */
+  --d: 15px;
+  --w: 120px;
+  --c: #fda235;
+  /**/
+  display: block !important;
+
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(29.29%, -100%) rotate(45deg); /* 29.29% = 100%*(1 - cos(45deg)) */
+  color: #fff;
+  text-align: center;
+  width: var(--w);
+  transform-origin: bottom left;
+  padding: 5px 0 calc(var(--d) + 5px);
+  background: linear-gradient(rgba(245, 150, 48, 0.6) 0 0) bottom/100% var(--d)
+    no-repeat var(--c);
+  clip-path: polygon(
+    0 100%,
+    0 calc(100% - var(--d)),
+    50% calc(100% - var(--d) - var(--w) / 2),
+    100% calc(100% - var(--d)),
+    100% 100%,
+    calc(100% - var(--d)) calc(100% - var(--d)),
+    var(--d) calc(100% - var(--d))
+  );
 }
 
 .stack-top.left {
-  display: none;
+  left: 0;
+  right: auto;
+  transform: translate(-29.29%, -100%) rotate(-45deg);
+  transform-origin: bottom right;
+  font-size: 12px !important;
 }
 
 .grid-btn-view {
   padding: 6px 11px !important;
-  line-height: normal!  important;
-  margin:3px !important
+  line-height: normal !important;
+  margin: 3px !important;
+}
+
+.mng-slot-header-col {
+  width: 50%;
+}
+
+.mng-slot-header-col:last-child {
+  margin-left: 5px;
+}
+.slots-booked-section {
+  margin-top: 3.5rem !important;
+}
+
+.tab-body .css-19kzrtu {
+  padding: 0px;
+}
+
+.icon-text {
+  position: absolute !important;
+  top: 0.2rem !important;
+  left: 2rem !important;
+}
+
+.flex-column {
+  flex: 1; /* Allow the columns to grow and take up equal space within the container */
+  padding: 10px; /* Add some padding for spacing */
+}
+
+.flex-column-right-border {
+  border-right: 1px solid #ccc;
+}
+
+.left-column {
+  flex: 1; /* Left column takes up 1 unit of space */
+}
+
+.right-column {
+  flex: 1.5; /* Right column takes up 2 units of space */
+}
+
+.icon-text-col2 {
+  left:13.5rem !important
+}
+
+.icon-person-col2 {
+  position: absolute !important;
+  left:12rem !important
+}
+
+.css-1x51dt5-MuiInputBase-input-MuiInput-input.Mui-disabled {
+  background-color: currentColor !important;
 }
 
 @media (min-width: 300px) and (max-width: 400px) {
   /* .date-time-picker-parent {
     max-width: 300px !important;
   } */
-
-  .date-time-picker-parent {
-    position: relative;
-  }
-  
-  .stack-top {
-    /* adjust the below to control the shape */
-    --d:20px; 
-    --w:120px;
-    --c:#fda235;
-    /**/
-    display: block !important;
-  
-    position: absolute;
-    top: 0;
-    right: 0;
-    transform: translate(29.29%, -100%) rotate(45deg); /* 29.29% = 100%*(1 - cos(45deg)) */
-    color: #fff;
-    text-align: center;
-    width: var(--w);
-    transform-origin: bottom left;
-    padding:5px 0 calc(var(--d) + 5px);
-    background:
-      linear-gradient(rgba(245, 150, 48, 0.6) 0 0) bottom/100% var(--d) no-repeat
-      var(--c);
-    clip-path:polygon(0 100%,0 calc(100% - var(--d)),50% calc(100% - var(--d) - var(--w)/2),100% calc(100% - var(--d)),100% 100%,calc(100% - var(--d)) calc(100% - var(--d)), var(--d) calc(100% - var(--d)))
+  .tab-body .flex {
+    flex-direction: column; /* Change the flex direction to column */
   }
 
+  .tab-body .right-column {
+    flex: 1;
+  }
 
-  .stack-top.left {
-    left:0;
-    right:auto;
-    transform: translate(-29.29%, -100%) rotate(-45deg);
-    transform-origin: bottom right;
-    font-size: 12px !important;
+  .tab-body .flex-column-right-border {
+    border-right: 0px solid #ccc;
+    }
+
+    
+.icon-text-col2 {
+  left:12rem !important
+}
+
+.icon-person-col2 {
+  position: absolute !important;
+  left:10.5rem !important
+}
+
+  .modal-md {
+    width: 85% !important;
+  }
+
+  .mng-slot-header-col {
+    width: 40% !important;
+  }
+
+  .modal-tabs-bg .css-1ujnqem-MuiTabs-root {
+    min-height: 35px !important;
+  }
+
+  .MuiTabs-flexContainer .css-1h9z7r5-MuiButtonBase-root-MuiTab-root {
+    height: 35px !important;
+  }
+  .mng-slot-header-col:first-child {
+    margin-left: 3rem;
+  }
+
+  .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
+    padding: 13px !important;
+    font-size: 0.8rem !important;
+  }
+
+  .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+    padding: 10.6px !important;
   }
 
   .dashboard-comp-title {
@@ -170,7 +264,7 @@
     margin-top: 18px !important;
     font-size: 14px !important;
     font-weight: bold !important;
-  } 
+  }
   .rdt_TableRow .rdt_TableCell {
     font-size: 10px !important;
   }
@@ -211,7 +305,7 @@
   }
 
   .slots-booked-section {
-    margin-top: 4rem !important;
+    margin-top: 3rem !important;
   }
 
   .date-time-picker-parent {
@@ -248,20 +342,17 @@
   .booked-slot-search-icon {
     height: 35px !important;
     right: 0px !important;
-
   }
 
-  .booked-slot-search-icon svg{
-    margin-top: 0px !important
-
+  .booked-slot-search-icon svg {
+    margin-top: 0px !important;
   }
-
 }
 
 .filter-opt {
   position: absolute;
   z-index: 9;
-  top: -36px;
+  top: 0px;
   right: 5px;
 }
 

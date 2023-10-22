@@ -122,11 +122,43 @@ function useBooking() {
 
   }
 
+  const getBookingOrders =async(obj) => {
+    let resp = await postCall("booking/get-bookings-info", JSON.stringify(obj));
+    resp = await resp.json();
+    if (resp.resultCode === 200) {
+      if (resp.resultTotal > 0 || resp.totalRows > 0) {
+        console.log('Booked slots are:', resp.data)
+        return [resp.data];
+      } else {
+        return [];
+      }
+    }
+    return [];
+  }
+
+  const getBookingOrderDetails = async(obj) => {
+
+    let resp = await postCall("booking/get-bookings-order-deatils", JSON.stringify(obj));
+    resp = await resp.json();
+    if (resp.resultCode === 200) {
+      if (resp.resultTotal > 0 || resp.totalRows > 0) {
+        console.log('Booked slots are:', resp.data)
+        return [resp.data];
+      } else {
+        return [];
+      }
+    }
+    return [];
+
+  }
+
   return {
     getBookingInfo,
     getCaptainInfo,
     useCurrentBookedDate,
-    getBookedSlots
+    getBookedSlots,
+    getBookingOrders,
+    getBookingOrderDetails
   };
 }
 

@@ -23,8 +23,9 @@ function ShowTimeSlots(props) {
   let times = [];
   const startDate = new Date(0); // Initialize with the Unix epoch
   startDate.setUTCHours(0, 0, 0, 0); // Set the start time to midnight
+  let dontallowtime = false;
 
-  for (let i = 0; i <= 96; i++) {
+  for (let i = 0; i <= 90; i++) {
     // 24 hours * 60 minutes / 30-minute intervals
     times.push(
       startDate.toLocaleTimeString("en-US", {
@@ -36,7 +37,9 @@ function ShowTimeSlots(props) {
     startDate.setMinutes(startDate.getMinutes() + 15);
   }
   times = times.sort();
-  times = splitArrayIntoRows(times, 32);
+
+  console.log("times are:", times);
+  times = splitArrayIntoRows(times, 29);
 
   console.log("disabledTimes areere: ", disabledTimes);
 
@@ -61,25 +64,32 @@ function ShowTimeSlots(props) {
           return (
             <div className="column">
               {items.map((item) => {
+                console.log("item is:", item);
+
+                if (item === "23:15") {
+                  dontallowtime = true;
+                }
                 // return shouldShowTime(item, disabledTimes) && <div className="hour">{item}</div>;
 
                 let isTimebtw = false;
-                if (disabledTimes.length > 0) {
-                  disabledTimes.map((bookedSlots) => {
-                    const startTimeObj = new Date(
-                      `${todayIs} ${bookedSlots.start}`
-                    );
+                if (!dontallowtime) {
+                  if (disabledTimes.length > 0) {
+                    disabledTimes.map((bookedSlots) => {
+                      const startTimeObj = new Date(
+                        `${todayIs} ${bookedSlots.start}`
+                      );
 
-                    const endTimeObj = new Date(
-                      `${todayIs} ${bookedSlots.end}`
-                    );
-                    const timeObj = new Date(`${todayIs} ${item}`);
+                      const endTimeObj = new Date(
+                        `${todayIs} ${bookedSlots.end}`
+                      );
+                      const timeObj = new Date(`${todayIs} ${item}`);
 
-                    // Check if time is between startTime and endTime
-                    if (timeObj >= startTimeObj && timeObj <= endTimeObj) {
-                      isTimebtw = true;
-                    }
-                  });
+                      // Check if time is between startTime and endTime
+                      if (timeObj >= startTimeObj && timeObj <= endTimeObj) {
+                        isTimebtw = true;
+                      }
+                    });
+                  }
                 }
 
                 /**
@@ -101,23 +111,25 @@ function ShowTimeSlots(props) {
                 if (data.bookeddate === tday) {
                   const currentDateTime = new Date();
                   const timeObj = new Date(`${todayIs} ${item}`);
-                    if (currentDateTime >= timeObj) {
-                      isTimebtw = true;
-                    }
+                  if (currentDateTime >= timeObj) {
+                    isTimebtw = true;
+                  }
                 }
 
-                return !isTimebtw ? (
-                  <div
-                    className="hour"
-                    onClick={() => {
-                      setSelectedTime(item);
-                    }}
-                  >
-                    {item}
-                  </div>
-                ) : (
-                  <div className="hour disabled">{item}</div>
-                );
+                if (!dontallowtime) {
+                  return !isTimebtw ? (
+                    <div
+                      className="hour"
+                      onClick={() => {
+                        setSelectedTime(item);
+                      }}
+                    >
+                      {item}
+                    </div>
+                  ) : (
+                    <div className="hour disabled">{item}</div>
+                  );
+                }
               })}
             </div>
           );

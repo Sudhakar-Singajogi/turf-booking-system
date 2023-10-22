@@ -675,9 +675,9 @@ function CartPaymentPolicy({ isAdmin }) {
         <MUIModal
           params={{
             open: modalOpen,
-            handleClose: handleModalClose,
-            modalTitle: "Login",
+            handleClose: handleModalClose, 
             component: LoginComponent,
+            compLoaded: false,
             width: 1000,
             adjustTop: "30%",
             showTitle: "yes",
