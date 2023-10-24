@@ -168,6 +168,8 @@
   position: absolute !important;
   top: 0.2rem !important;
   left: 2rem !important;
+  white-space: normal !important;
+  width: 150px !important;
 }
 
 .flex-column {
@@ -200,6 +202,24 @@
   background-color: currentColor !important;
 }
 
+.pay-info-section .css-q0jhri-MuiInputBase-root-MuiInput-root{
+  width:100% !important;
+
+}
+
+.cancel-order-btn, .submit-payment-btn {
+  margin-top: 0.5rem !important;
+}
+
+.time-slot .css-1t1j96h-MuiPaper-root-MuiDialog-paper:has(>.admin-time-picker-popup) {
+  right: 0% !important;
+  top: 19.8rem!important;
+}
+
+.w30Per {
+  width: 30% !important;
+}
+
 @media (min-width: 300px) and (max-width: 400px) {
   /* .date-time-picker-parent {
     max-width: 300px !important;
@@ -211,7 +231,7 @@
   .tab-body .right-column {
     flex: 1;
   }
-
+  
   .tab-body .flex-column-right-border {
     border-right: 0px solid #ccc;
     }

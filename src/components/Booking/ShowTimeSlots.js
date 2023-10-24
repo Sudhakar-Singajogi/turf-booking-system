@@ -16,6 +16,12 @@ function ShowTimeSlots(props) {
   const { data } = useSelector((state) => state.booking);
   console.log("booked date is:", data.bookeddate);
 
+  const { admin } = useSelector((state) => state.venue);
+
+  let isAdmin = admin?.info?.venueId ? true:false
+
+  console.log('isAdmin: ', isAdmin)
+
   const handleClose = (value) => {
     onClose("");
   };
@@ -59,7 +65,7 @@ function ShowTimeSlots(props) {
 
   return (
     <Dialog onClose={() => handleClose()} open={open} className="time-slot">
-      <div className="time-slot-container">
+      <div className={`time-slot-container ${isAdmin === true ? "admin-time-picker-popup" :""}`} >
         {times.map((items) => {
           return (
             <div className="column">

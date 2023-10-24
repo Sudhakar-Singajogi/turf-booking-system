@@ -18,11 +18,11 @@ export const options = {
   animations: {
     tension: {
       duration: 1000,
-      easing: 'easeInBounce',
+      easing: "easeInBounce",
       from: 1,
       to: 0,
-      loop: true
-    }
+      loop: true,
+    },
   },
   plugins: {
     legend: {
@@ -36,8 +36,7 @@ export const options = {
     title: {
       display: true,
       text: "Yearly Bookings",
-      position:'left',
-      
+      position: "left",
     },
   },
   responsive: true,
@@ -95,6 +94,16 @@ export const data = {
 function Dashboard() {
   return (
     <>
+      <div className="dashboard-container mt20">
+        <div className="slots-container flex-box">
+          <BookedSlots />
+        </div>
+        <div className="slots-container">
+          <ManageSlots />
+        </div>
+        <div className="slots-container"></div>
+      </div>
+      <Divider style={{ margin: "10px 20px" }} />
       <div className="dashboard-container">
         <div className="chart-container">
           <div className="chart">
@@ -105,7 +114,9 @@ function Dashboard() {
           <div className="chart">
             <div className="chart pos-rel">
               <FormControl className="select-month-filter" variant="standard">
-                <InputLabel id="demo-simple-select-label">Select Quarter</InputLabel>
+                <InputLabel id="demo-simple-select-label">
+                  Select Quarter
+                </InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
@@ -144,17 +155,6 @@ function Dashboard() {
             </div>
           </div>
         </div>
-      </div>
-      <Divider style={{ margin: "10px 20px" }} />
-      <div className="dashboard-container">
-        <div className="slots-container flex-box">
-          <BookedSlots />
-        </div>
-        <div className="slots-container">
-          <ManageSlots />
-          
-        </div>
-        <div className="slots-container"></div>
       </div>
     </>
   );

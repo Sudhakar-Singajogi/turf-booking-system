@@ -2,19 +2,14 @@ import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 
 import ReactDataTable from "../../MUI/ReactDataTable";
-import TextField from "@mui/material/TextField";
-// import DatePicker from "react-datepicker";
-// import "react-datetime-picker/dist/DateTimePicker.css";
-// import "react-calendar/dist/Calendar.css";
-// import "react-clock/dist/Clock.css";
 
 import "./BookedSlots.css";
-import SearchIcon from "@mui/icons-material/Search";
+
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import "react-datepicker/dist/react-datepicker.css";
 import useBooking from "../../../CustomHooks/useBooking";
 import dayjs from "dayjs";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -23,7 +18,7 @@ import { useSelector } from "react-redux";
 function BookedSlots() {
   const [startDate, setStartDate] = useState(new Date());
   const [slotsBooked, setSlotsBooked] = useState([]);
-
+  const [showLoader, setShowLoader] = useState(false);
   const [value, setValue] = React.useState(dayjs(new Date()));
   const [turf, setTurf] = React.useState("");
   const [venueTurfs, setVenueTurfs] = useState([]);
@@ -104,6 +99,8 @@ function BookedSlots() {
     }
 
     obj.arena_id = admin.info.arena_id;
+    
+    setShowLoader(true)
 
     let resp = await getBookedSlots(obj);
     console.log("Response is:", resp);
@@ -136,7 +133,12 @@ function BookedSlots() {
         });
       }
     }
-    setSlotsBooked(arr);
+
+    setTimeout(() => {
+      setShowLoader(false)
+      setSlotsBooked(arr);
+    },300)
+
   };
 
   const handleDateChange = (newValue) => {
@@ -162,7 +164,7 @@ function BookedSlots() {
         <div className="filter-sec">
           <div className="filter-opt">
             <div style={{ display: "flex" }}>
-              <div className="mng-slot-header-col" >
+              <div className="mng-slot-header-col">
                 <FormControl fullWidth>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
@@ -175,7 +177,7 @@ function BookedSlots() {
                 </FormControl>
               </div>
 
-              <div className="mng-slot-header-col" >
+              <div className="mng-slot-header-col">
                 <FormControl fullWidth>
                   <InputLabel id="demo-simple-select-label">
                     Booked Turf
@@ -206,12 +208,22 @@ function BookedSlots() {
           className="slots-booked-section"
           style={{ marginTop: "2rem", overflowX: "auto" }}
         >
-          <hr style={{border: "1px solid #d4cfcf"}} />
-          <ReactDataTable
-            columns={columns}
-            data={slotsBooked}
-            selectableRows={false}
-          />
+          <hr style={{ border: "1px solid #d4cfcf" }} />
+          {showLoader === false ? (
+            <>
+              <ReactDataTable
+                columns={columns}
+                data={slotsBooked}
+                selectableRows={false}
+              />
+            </>
+          ) : (
+            <>
+              <div className="centered-container">
+                <div className="loader"></div>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </>

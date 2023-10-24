@@ -19,6 +19,8 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import MUIModal from "../../MUI/MUIModal";
 import ManageSlotsPopup from "./ManageSlotsPopup";
 
+import "../../Loader.css";
+
 function ManageSlots() {
   const [startDate, setStartDate] = useState(new Date());
   const [slotsBooked, setSlotsBooked] = useState([]);
@@ -28,6 +30,7 @@ function ManageSlots() {
   const [open, setOpen] = useState(false);
   const [bookingOrderDetails, setBookingOrderDetails] = useState({});
   const { admin } = useSelector((state) => state.venue);
+  const [showLoader, setShowLoader] = useState(false);
 
   const columns = [
     {
@@ -65,27 +68,32 @@ function ManageSlots() {
     console.log("clicked on ", row);
     console.log("arena_id:", admin.info.arena_id);
     //get the details of the slot
+    setShowLoader(true);
     let bookingOrderDetails = await getBookingOrderDetails({
       bookingId: row.bookingId,
       arena_id: admin.info.arena_id,
     });
 
-    
     if (bookingOrderDetails.length > 0) {
-      let details = bookingOrderDetails[0]
+      let details = bookingOrderDetails[0];
       setBookingOrderDetails(details[0]);
     }
-
-    console.log("bookingOrderDetails are:", bookingOrderDetails);
-    setOpen(true);
+    setTimeout(() => {
+      setShowLoader(false);
+      setOpen(true);
+    }, 300);
   };
 
-  const handleClose = () => {
+  const handleClose = (paymentSuccess=false) => {
+    console.log('paymentSuccess: ', paymentSuccess);
     setOpen(false);
+    if (paymentSuccess !=='' && paymentSuccess === true) {
+      getBookingInfo(dayjs(new Date(startDate)).format("YYYY-MM-DD"));
+    }
   };
 
   useEffect(() => {
-    getBookingInfo(dayjs(new Date()).format("YYYY-MM-DD"));
+    getBookingInfo(dayjs(new Date(startDate)).format("YYYY-MM-DD"));
     console.log("slotsBooked are:", slotsBooked);
   }, []);
 
@@ -118,6 +126,8 @@ function ManageSlots() {
 
     obj.arena_id = admin.info.arena_id;
 
+    setShowLoader(true);
+
     let resp = await getBookingOrders(obj);
     console.log("Response is:", resp);
 
@@ -138,7 +148,11 @@ function ManageSlots() {
         });
       }
     }
-    setSlotsBooked(arr);
+
+    setTimeout(() => {
+      setShowLoader(false);
+      setSlotsBooked(arr);
+    }, 300);
     // setSlotsBooked([]);
   };
 
@@ -176,18 +190,23 @@ function ManageSlots() {
   };
 
   const loadComponent = () => {
-    return <ManageSlotsPopup compProps={bookingOrderDetails} />;
+    return (
+      <ManageSlotsPopup
+        compProps={bookingOrderDetails}
+        handleClose={handleClose}
+      />
+    );
   };
 
-  return (
+  return ( 
     <>
       <div className="date-time-picker-parent">
         <div className="stack-top left">Manage Slots</div>
 
         <div className="filter-sec">
           <div className="filter-opt">
-            <div style={{ display: "flex" }}>
-              <div className="mng-slot-header-col">
+            <div style={{ display: "flex", justifyContent: "flex-end" }}>
+              <div className="mng-slot-header-col w30Per">
                 <FormControl fullWidth>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
@@ -200,7 +219,7 @@ function ManageSlots() {
                 </FormControl>
               </div>
 
-              <div className="mng-slot-header-col">
+              <div className="mng-slot-header-col w30Per flex-end">
                 <FormControl fullWidth>
                   <TextField
                     fullWidth
@@ -224,18 +243,28 @@ function ManageSlots() {
           style={{ marginTop: "1rem", overflowX: "auto" }}
         >
           <hr style={{ border: "1px solid #d4cfcf" }} />
-          <ReactDataTable
-            columns={columns}
-            data={slotsBooked}
-            selectableRows={false}
-          />
+          {showLoader === false ? (
+            <>
+              <ReactDataTable
+                columns={columns}
+                data={slotsBooked}
+                selectableRows={false}
+              />
+            </>
+          ) : (
+            <>
+              <div className="centered-container">
+                <div className="loader"></div>
+              </div>
+            </>
+          )}
         </div>
       </div>
       {/* <MUIModal adjustTop="35%" modalTitle="Manage Booked Slots" handleClose={handleClose}  open={open} component={<ManageSlotsPopup /> } modalpopupwidth="modal-md" closebtncls="mnge-slots-modal-close-btn" /> */}
 
       <MUIModal
         params={{
-          adjustTop: "35%",
+          adjustTop: "45%",
           modalTitle: "Manage Booked Slots",
           handleClose: handleClose,
           open: open,

@@ -46,6 +46,11 @@ function ManageSlotsPopup(props) {
     setValue(newValue);
   };
 
+  const closeModal = (paymentSuccess=false) => {
+    console.log("paymentSuccess:", paymentSuccess)
+    props.handleClose(paymentSuccess)
+  }
+
   return (
     <>
       {/* <hr className="hr-sonet" /> */}
@@ -66,11 +71,11 @@ function ManageSlotsPopup(props) {
           </Box>
           <CustomTabPanel className="tab-body " value={value} index={0} >
             
-            <PayCancel type="pay" bookingOrderObj={props.compProps}  />
+            <PayCancel type="pay" bookingOrderObj={props.compProps} closeModal={closeModal}  />
           </CustomTabPanel>
           <CustomTabPanel className="tab-body" value={value} index={1}>
             
-            <PayCancel type="cancel" bookingOrderObj={props.compProps} />
+            <PayCancel type="cancel" bookingOrderObj={props.compProps} closeModal={closeModal} />
           </CustomTabPanel>
         </Box>
       </div>

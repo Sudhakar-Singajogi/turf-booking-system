@@ -933,6 +933,16 @@ margin:5px !important
 .disable-tf {
   background-color: none !important;
 }
+
+.sil-confirm-modal {
+  top:-50% !important
+}
+
+.mt1rem {
+  margin-top:1rem !important
+}
+
+
 /* Keyframes for fadeIn animation */
 @keyframes fadeIn {
   from {
@@ -1080,6 +1090,16 @@ margin:5px !important
   text-align: right !important;
 }
 
+.centered-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mt20 {
+  margin-top:20px;
+}
+
 /* Media query for mobile devices */
 @media (max-width: 767px) {
   /* .containers {
@@ -1183,6 +1203,9 @@ margin:5px !important
     flex-basis: 100% !important;
   }
 
+  .modal-title{
+    font-size: 20px !important;
+  }
   .dnt-show-mble {
     display: none;
   }

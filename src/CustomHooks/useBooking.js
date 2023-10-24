@@ -16,7 +16,7 @@ function useBooking() {
 
     if (data.isFullPayment) {
       advPayRoundOff = data.bookingamount;
-      balance_amount = 0
+      balance_amount = 0;
     }
 
     const obj = {
@@ -30,7 +30,7 @@ function useBooking() {
       is_weekend: checkIsWeekEnd(data.bookeddate) ? "1" : "0",
       booking_cost: data.bookingamount,
       advance_payment: advPayRoundOff,
-      balance_amount:balance_amount,
+      balance_amount: balance_amount,
       status: "0",
       turf_cost: parseInt(data.turfcost),
       coupon_code: data.coupon_code,
@@ -102,55 +102,72 @@ function useBooking() {
   };
 
   const getBookedSlots = async (obj) => {
-    // obj = {
-    //   "arena_id": "r434edd09765457698asd",
-    //   "bookedDate": "2023-10-17"
-    // }
-    
-
     let resp = await postCall("booking/get-booked-slots", JSON.stringify(obj));
-    resp = await resp.json();
-    if (resp.resultCode === 200) {
-      if (resp.resultTotal > 0 || resp.totalRows > 0) {
-        console.log('Booked slots are:', resp.data)
-        return [resp.data];
-      } else {
-        return [];
-      }
-    }
-    return [];
+    return validateResp(resp);
+  };
 
-  }
-
-  const getBookingOrders =async(obj) => {
+  const getBookingOrders = async (obj) => {
     let resp = await postCall("booking/get-bookings-info", JSON.stringify(obj));
+    return validateResp(resp);
+  };
+
+  const getBookingOrderDetails = async (obj) => {
+    let resp = await postCall(
+      "booking/get-bookings-order-details",
+      JSON.stringify(obj)
+    );
+    return validateResp(resp);
+  };
+
+  const payBalAmount = async (obj) => {
+    let resp = await postCall(
+      "booking/pay-balance-amount",
+      JSON.stringify(obj)
+    );
+
+    return validateResp(resp, "updateOrderAmount");
+  };
+
+  const validateResp = async (resp, feature = "") => {
     resp = await resp.json();
     if (resp.resultCode === 200) {
       if (resp.resultTotal > 0 || resp.totalRows > 0) {
-        console.log('Booked slots are:', resp.data)
+        console.log("Response Data is:", resp.data);
         return [resp.data];
       } else {
+        if (resp.message === "Validation Errors") {
+          let errs = resp.ValidationErrors;
+          let validationErrors = [];
+          let errors = [];
+
+          if (feature === "updateOrderAmount") {
+            errs.map((obj) => {
+              if (obj.hasOwnProperty("Booking")) {
+                validationErrors.push({
+                  bookingError: obj.Booking,
+                });
+              } else if (obj.hasOwnProperty("order")) {
+                validationErrors.push({
+                  orderError: obj.order,
+                });
+              }
+            });
+          }
+
+          if (validationErrors.lengrth > 0) {
+            return (errors["validationErrors"] = validationErrors);
+          }
+          return [];
+        }
         return [];
       }
+    } else if (resp.responseCode === 403) {
+      //do a local logs here
+      console.log("Error message is:", resp.message);
     }
+
     return [];
-  }
-
-  const getBookingOrderDetails = async(obj) => {
-
-    let resp = await postCall("booking/get-bookings-order-deatils", JSON.stringify(obj));
-    resp = await resp.json();
-    if (resp.resultCode === 200) {
-      if (resp.resultTotal > 0 || resp.totalRows > 0) {
-        console.log('Booked slots are:', resp.data)
-        return [resp.data];
-      } else {
-        return [];
-      }
-    }
-    return [];
-
-  }
+  };
 
   return {
     getBookingInfo,
@@ -158,7 +175,8 @@ function useBooking() {
     useCurrentBookedDate,
     getBookedSlots,
     getBookingOrders,
-    getBookingOrderDetails
+    getBookingOrderDetails,
+    payBalAmount,
   };
 }
 
