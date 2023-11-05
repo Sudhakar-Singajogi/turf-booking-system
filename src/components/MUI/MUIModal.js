@@ -11,7 +11,7 @@ import {
 
 function MUIModal(props, comp = null) {
   console.log("comp is:", comp);
-
+console.log('props are:', props)
   const modalStyle = {
     position: "absolute",
     top: props.params.adjustTop ?? "50%",
@@ -36,13 +36,13 @@ function MUIModal(props, comp = null) {
       }}
     >
       <Fade in={props.params.open}>
-        <Card className="cardBox modal-md" sx={modalStyle}>
+        <Card className= {`${!props.params.width ? "cardBox modal-md" : ""}`} sx={modalStyle}>
           <CardContent className="assignsection-card">
             <div className="pt10 modal-body">
-              <span className="modal-close-btn">
+              <span className={`modal-close-btn  ${props.params.closebtncls}`} >
                 <ClearIcon onClick={props.params.handleClose} />
               </span>
-              {props.params.modalTitle && (
+              {props.params.showTitle && (
                 <Typography
                   className="modal-title"
                   variant="h5"
@@ -52,7 +52,7 @@ function MUIModal(props, comp = null) {
                   {props.params.modalTitle}
                 </Typography>
               )}
-
+              
               {props.params.compLoaded === true
                 ? props.params.component()
                 : props.params.component(props)}

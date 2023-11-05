@@ -202,6 +202,10 @@
   background-color: currentColor !important;
 }
 
+.Mui-disabled:before {
+  /* border: none !important; */
+}
+
 .pay-info-section .css-q0jhri-MuiInputBase-root-MuiInput-root{
   width:100% !important;
 

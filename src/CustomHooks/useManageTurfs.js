@@ -10,7 +10,7 @@ function useManageTurfs() {
     try {
       const resp = await fetch(`${baseURL}turf/byareana`, {
         method: "POST",
-        body: JSON.stringify({ arena_id: arena_id }),
+        body: JSON.stringify({ arena_id: admin.info.arena_id }),
         headers: {
           "Content-type": "application/json; charset=UTF-8",
         },

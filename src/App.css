@@ -616,10 +616,19 @@
 
 .modal-close-btn {
   position: absolute;
-  right: 10px;
-  top: 05px;
+  right: 0.2rem;
+  top: 0rem;
   cursor: pointer;
   z-index: 1;
+  border-radius: 50%;
+  background-color: #a83737;
+  color: #fff !important;
+}
+
+.modal-close-btn:hover {
+  background-color: #f93131;
+  border-radius: 50%; 
+  color: #fff !important;
 }
 
 .modal-body {
@@ -819,15 +828,15 @@ input {
   padding: 0px;
   text-align: center;
   background-color: #fff;
-  margin-top:15px !important;
+  margin-top: 15px !important;
 }
 
 .time-slot-container .hour {
   border: 1px solid #ddd;
   margin: 5px;
   padding: 5px;
-  margin-left:0px;
-  margin-right:0px;
+  margin-left: 0px;
+  margin-right: 0px;
   background-color: #f9f9f9;
   border-radius: 5px;
   font-size: 13px;
@@ -874,8 +883,7 @@ input {
 .modal-wrapper {
   width: 100% !important;
   padding-left: 1rem !important;
-  padding-right:1rem !important;
-
+  padding-right: 1rem !important;
 }
 
 .css-h93ljk-MuiTypography-root {
@@ -884,16 +892,15 @@ input {
 }
 
 .hr-sonet {
-margin:5px !important
+  margin: 5px !important;
 }
 
 .default-modal-btn-close {
-  margin-top:0px;
+  margin-top: 0px;
 }
 
-
 .mnge-slots-modal-close-btn {
-  margin-top:9px;
+  margin-top: 9px;
 }
 
 .modal-md {
@@ -903,7 +910,7 @@ margin:5px !important
 .modal-tabs-bg {
   background-color: rgb(25, 118, 210);
   color: #fff;
-  border-radius:3px
+  border-radius: 3px;
 }
 
 .MuiTab-textColorPrimary {
@@ -919,7 +926,7 @@ margin:5px !important
   padding: 5px;
   border: 1px solid #eee;
   border-radius: 5px;
-  margin-bottom:10px
+  margin-bottom: 10px;
 }
 
 .mt10 {
@@ -935,13 +942,35 @@ margin:5px !important
 }
 
 .sil-confirm-modal {
-  top:-50% !important
+  top: -50% !important;
 }
 
 .mt1rem {
-  margin-top:1rem !important
+  margin-top: 1rem !important;
 }
 
+.w100 {
+  width:100% !important;
+}
+
+.sil-box-border {
+  border: 1px solid #c0bcbc;
+  border-radius: 5px;
+}
+.nullify-margins {
+  margin: 0px !important;
+}
+.nullify-paddings {
+  padding: 0px !important;
+}
+
+.pt10 {
+  padding-top: 10px !important;
+}
+
+.hide-close-icon {
+  display: none !important;
+}
 
 /* Keyframes for fadeIn animation */
 @keyframes fadeIn {
@@ -1097,7 +1126,7 @@ margin:5px !important
 }
 
 .mt20 {
-  margin-top:20px;
+  margin-top: 20px;
 }
 
 /* Media query for mobile devices */
@@ -1202,12 +1231,19 @@ margin:5px !important
   .booking-form-container .div-a {
     flex-basis: 100% !important;
   }
+  .add-margin-top10{
+    margin-top: 10px !important;
+  }
 
-  .modal-title{
+  .show-fullwidth-mobile {
+    flex-basis: 100% !important;
+  }
+
+  .modal-title {
     font-size: 20px !important;
   }
   .dnt-show-mble {
-    display: none;
+    display: none !important;
   }
 
   .pricing-details {

@@ -41,6 +41,8 @@ function ConfTurf({ ...props }) {
         setAllTurfs(() => allturfsResp.data);
       }
     };
+    alert('admin info is:', admin.info)
+    console.log('admin info is:', admin.info)
 
     fetchAllTurfs(admin.info.arena_id);
   }, [edit]);

@@ -488,6 +488,7 @@ function CartPaymentPolicy({ isAdmin }) {
                     row
                     aria-labelledby="demo-row-radio-buttons-group-label"
                     name="row-radio-buttons-group"
+                    defaultValue={()=> { dispatch(setFullPayment(true)); return "Pay Full" }}
                   >
                     <div className="price-section m-y-10">
                       <div className="flex-item ">
@@ -678,9 +679,10 @@ function CartPaymentPolicy({ isAdmin }) {
             handleClose: handleModalClose, 
             component: LoginComponent,
             compLoaded: false,
-            width: 1000,
+            width: 380,
             adjustTop: "30%",
             showTitle: "yes",
+            modalTitle:"Enter your mobile number"
           }}
         />
       </div>

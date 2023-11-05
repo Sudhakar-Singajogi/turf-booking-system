@@ -40,28 +40,28 @@ export const venueSlice = createSlice({
         selectedTurf: {},
         updateTurfMsg: "",
         insertTurfMsg: "",
-        deleteTurfMsg:""
+        deleteTurfMsg: "",
       };
     },
-    clearMsgs:(state, action) => {
+    clearMsgs: (state, action) => {
       state.admin = {
         ...state.admin,
         updateTurfMsg: "",
         insertTurfMsg: "",
-        deleteTurfMsg:""
+        deleteTurfMsg: "",
       };
     },
     turfUpdateMsg: (state, action) => {
       state.admin = {
         ...state.admin,
         updateTurfMsg: action.payload,
-        insertTurfMsg: ""
+        insertTurfMsg: "",
       };
     },
     turfCreateMsg: (state, action) => {
       state.admin = {
         ...state.admin,
-        updateTurfMsg:"",
+        updateTurfMsg: "",
         insertTurfMsg: action.payload,
       };
     },
@@ -70,9 +70,9 @@ export const venueSlice = createSlice({
         ...state.admin,
         deleteTurfMsg: action.payload,
         insertTurfMsg: "",
-        updateTurfMsg:"", 
+        updateTurfMsg: "",
       };
-    }, 
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -132,17 +132,34 @@ export const venueSlice = createSlice({
         }
       })
       .addCase(doAdminLogin.rejected, (state, action) => {
-        state.admin = {
-          info: action.payload.data,
-          invalidcredentals: "",
-          turfs: [],
-        };
+        console.log("action payload is", action);
+        if (action.payload && action.payload.hasOwnProperty("data")) {
+          if (action.payload.totalRows === 0 || action.payload.totalRows === 0) {
+            state.admin = {
+              info: {},
+              invalidcredentals: true,
+              turfs: [],
+            };
+          } else {
+            state.admin = {
+              info: {},
+              invalidcredentals: false,
+              turfs: [],
+            };
+          }
+        } else {
+          state.admin = {
+            info: "Login failed contact the admin",
+            invalidcredentals: true,
+            turfs: [],
+          };
+        }
       })
       .addCase(getTuyfsByArena.pending, (state, action) => {
         state.admin = {
           ...state.admin,
           turfs: [],
-          selectedTurf: {}, 
+          selectedTurf: {},
         };
       })
       .addCase(getTuyfsByArena.fulfilled, (state, action) => {
@@ -152,13 +169,13 @@ export const venueSlice = createSlice({
           state.admin = {
             ...state.admin,
             turfs: [],
-            selectedTurf: {}, 
+            selectedTurf: {},
           };
         } else {
           state.admin = {
             ...state.admin,
             turfs: action.payload.data,
-            selectedTurf: {}, 
+            selectedTurf: {},
           };
         }
       })
@@ -166,47 +183,46 @@ export const venueSlice = createSlice({
         state.admin = {
           ...state.admin,
           turfs: [],
-          selectedTurf: {}, 
+          selectedTurf: {},
         };
-      })
-      // .addCase(getATurf.pending, (state, action) => {
-      //   state.admin = {
-      //     ...state.admin,
-      //     selectedTurf: {},
-      //     updateTurfMsg: "",
-      //     insertTurfMsg: "",
-      //     deleteTurfMsg:""
-      //   };
-      // })
-      // .addCase(getATurf.fulfilled, (state, action) => {
-      //   const apiResp = action.payload;
+      });
+    // .addCase(getATurf.pending, (state, action) => {
+    //   state.admin = {
+    //     ...state.admin,
+    //     selectedTurf: {},
+    //     updateTurfMsg: "",
+    //     insertTurfMsg: "",
+    //     deleteTurfMsg:""
+    //   };
+    // })
+    // .addCase(getATurf.fulfilled, (state, action) => {
+    //   const apiResp = action.payload;
 
-      //   if (
-      //     apiResp.hasOwnProperty("resultTotal") &&
-      //     apiResp.resultTotal === 0
-      //   ) {
-      //     state.admin = {
-      //       ...state.admin,
-      //       selectedTurf: {},
-      //       updateTurfMsg: "",
-      //       insertTurfMsg: "",
-      //       deleteTurfMsg:""
-      //     };
-      //   } else {
-      //     state.admin = { ...state.admin, selectedTurf: apiResp.data };
-      //   }
-      // })
-      // .addCase(getATurf.rejected, (state, action) => {
-      //   state.admin = {
-      //     ...state.admin,
-      //     turfs: [],
-      //     selectedTurf: {},
-      //     updateTurfMsg: "",
-      //     insertTurfMsg: "",
-      //     deleteTurfMsg:""
-      //   };
-      // })
-      ;
+    //   if (
+    //     apiResp.hasOwnProperty("resultTotal") &&
+    //     apiResp.resultTotal === 0
+    //   ) {
+    //     state.admin = {
+    //       ...state.admin,
+    //       selectedTurf: {},
+    //       updateTurfMsg: "",
+    //       insertTurfMsg: "",
+    //       deleteTurfMsg:""
+    //     };
+    //   } else {
+    //     state.admin = { ...state.admin, selectedTurf: apiResp.data };
+    //   }
+    // })
+    // .addCase(getATurf.rejected, (state, action) => {
+    //   state.admin = {
+    //     ...state.admin,
+    //     turfs: [],
+    //     selectedTurf: {},
+    //     updateTurfMsg: "",
+    //     insertTurfMsg: "",
+    //     deleteTurfMsg:""
+    //   };
+    // })
   },
 });
 
@@ -258,7 +274,10 @@ export const doAdminLogin = createAsyncThunk(
         throw new Error("Failed to get response, contact admin");
       }
       const data = await resp.json();
-      dispatch(getTuyfsByArena(data.data.arena_id));
+      console.log("login response is:", data);
+      if (data.totalResults === 1 || data.totalRows === 1) {
+        dispatch(getTuyfsByArena(data.data.arena_id));
+      }
       console.log("login resp: ", data);
       return data;
     } catch (error) {
@@ -344,7 +363,7 @@ export const updateATurf = createAsyncThunk(
       if (response.message === "Query Success") {
         dispatch(getTuyfsByArena(arena_id));
       }
-      
+
       setTimeout(() => {
         if (response.message === "Query Success") {
           dispatch(turfUpdateMsg("Turf Updated successfully"));
@@ -383,7 +402,7 @@ export const createATurf = createAsyncThunk(
       if (response.message === "Query Success") {
         dispatch(getTuyfsByArena(arena_id));
       }
-      
+
       setTimeout(() => {
         if (response.message === "Query Success") {
           dispatch(turfCreateMsg("Turf created successfully"));
@@ -403,7 +422,7 @@ export const deleteATurf = createAsyncThunk(
     try {
       let state = getState();
       const arena_id = state.venue.admin.info.arena_id;
-      const turfObj = {"turfId":turfId, "arena_id":arena_id}; 
+      const turfObj = { turfId: turfId, arena_id: arena_id };
 
       const resp = await fetch(`${baseURL}turf/delete`, {
         method: "POST",
@@ -420,7 +439,7 @@ export const deleteATurf = createAsyncThunk(
       if (response.message === "Query Success") {
         dispatch(getTuyfsByArena(arena_id));
       }
-      
+
       setTimeout(() => {
         if (response.message === "Query Success") {
           dispatch(turfDeleteMsg("Turf deleted successfully"));
@@ -434,5 +453,11 @@ export const deleteATurf = createAsyncThunk(
   }
 );
 
-export const { adminLogout, turfUpdateMsg, turfCreateMsg, turfDeleteMsg, clearMsgs} = venueSlice.actions;
+export const {
+  adminLogout,
+  turfUpdateMsg,
+  turfCreateMsg,
+  turfDeleteMsg,
+  clearMsgs,
+} = venueSlice.actions;
 export default venueSlice.reducer;

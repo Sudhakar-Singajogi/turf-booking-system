@@ -54,7 +54,7 @@ function ManageSlotsPopup(props) {
   return (
     <>
       {/* <hr className="hr-sonet" /> */}
-      <div className="modal-wrapper mt10 wid-100-per">
+      <div className="modal-wrapper mt10 wid-100-per pt10">
         <Box sx={{ width: "100%" }}>
           <Box
             sx={{ borderBottom: 1, borderColor: "divider" }}

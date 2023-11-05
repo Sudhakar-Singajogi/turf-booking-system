@@ -128,6 +128,15 @@ function useBooking() {
     return validateResp(resp, "updateOrderAmount");
   };
 
+  const cancelOrder = async (obj) => {
+    let resp = await postCall(
+      "booking/cancel-booking-order",
+      JSON.stringify(obj)
+    );
+
+    return validateResp(resp, "cancelOrder");
+  };
+
   const validateResp = async (resp, feature = "") => {
     resp = await resp.json();
     if (resp.resultCode === 200) {
@@ -140,7 +149,7 @@ function useBooking() {
           let validationErrors = [];
           let errors = [];
 
-          if (feature === "updateOrderAmount") {
+          if (feature === "updateOrderAmount" || feature === "cancelOrder") {
             errs.map((obj) => {
               if (obj.hasOwnProperty("Booking")) {
                 validationErrors.push({
@@ -177,6 +186,7 @@ function useBooking() {
     getBookingOrders,
     getBookingOrderDetails,
     payBalAmount,
+    cancelOrder,
   };
 }
 

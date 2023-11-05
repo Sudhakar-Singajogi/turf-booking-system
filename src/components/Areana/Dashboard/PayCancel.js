@@ -17,18 +17,30 @@ import { useEffect } from "react";
 import useBooking from "../../../CustomHooks/useBooking";
 import { useSelector } from "react-redux";
 
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+
 function PayCancel({ type, bookingOrderObj, closeModal }) {
   console.log("bookingOrderObj:", bookingOrderObj);
   const { admin } = useSelector((state) => state.venue);
   console.log("admin info:", admin);
   const bookingId = bookingOrderObj.bookingId;
   const orderId = bookingOrderObj.orderId;
-  const [paidAmount, setPaidAmount] = useState(bookingOrderObj.balAmount);
+  const [paidAmount, setPaidAmount] = useState(
+    type === "pay" ? bookingOrderObj.balAmount : 0
+  );
   const [paidAmountErr, setPaidAmountErr] = useState("");
   const [disabledSubmit, setDisabledSubmit] = useState(false);
   const inputDate = new Date(bookingOrderObj.bookedOn);
   const [modalOpen, setModalOpen] = useState(false);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
+  const [paidvia, setPaidVia] = useState("0");
+  const [paidviaErrMsg, setPaidViaErrMsg] = useState("");
+  const [transActionNumber, setTransActionNumber]  = useState("");
+  const [transActionNumberErrMsg, setTransActionNumberErrMsg] = useState('');
+
   const monthNames = [
     "Jan",
     "Feb",
@@ -46,7 +58,7 @@ function PayCancel({ type, bookingOrderObj, closeModal }) {
   const month = monthNames[inputDate.getUTCMonth()];
   const day = inputDate.getUTCDate();
   const year = inputDate.getUTCFullYear();
-  const { payBalAmount } = useBooking();
+  const { payBalAmount, cancelOrder } = useBooking();
 
   const formattedDate = `${month}-${day}`;
 
@@ -54,40 +66,68 @@ function PayCancel({ type, bookingOrderObj, closeModal }) {
     console.log("hey loaded here");
   }, [modalOpen]);
 
-  const cancelOrder = () => {};
+  const CancelOrder = async () => {
+    if (parseInt(paidAmount) >= 0) {
+      let obj = {
+        bookingId: bookingId,
+        orderId: orderId,
+        paidAmount: paidAmount,
+        arena_id: admin.info.arena_id,
+      };
 
-  const payBalance = () => {
-    if (bookingOrderObj.balAmount > parseInt(paidAmount)) {
-      setModalOpen(true);
-    } else {
-      payBalanceAmount(true);
+      const resp = await cancelOrder(obj);
+
+      if (resp.length > 0) {
+        if (resp.hasOwnProperty("validationErrors")) {
+        } else {
+          setPaymentSuccess(true);
+        }
+      } else {
+        setPaidAmountErr("Please enter refund amount");
+      }
     }
   };
 
-  const balanceAmount = (value) => {
+  const payBalance = () => {
+    if (parseInt(paidAmount) > bookingOrderObj.balAmount) {
+      if (bookingOrderObj.balAmount > parseInt(paidAmount)) {
+        setModalOpen(true);
+      } else {
+        payBalanceAmount(true);
+      }
+    } else {
+      // setPaidAmountErr("Please check the balance amount to pay");
+      setModalOpen(true);
+      // payBalanceAmount(true);
+    }
+  };
+
+  const balanceAmount = (value, type) => {
     // Remove non-numeric characters
     var newValue = value.replace(/[^0-9]/g, "");
 
-    if (newValue.trim() === "") {
-      setPaidAmount("");
-    } else {
-      const numericValue = parseInt(newValue);
-
-      if (
-        parseInt(numericValue) > bookingOrderObj.advpaid &&
-        parseInt(numericValue) <= bookingOrderObj.balAmount
-      ) {
-        setPaidAmount(numericValue.toString());
-        setPaidAmountErr(""); // Reset the error message
-        setDisabledSubmit(false);
+    if (type === "pay") {
+      if (newValue.trim() === "") {
+        setPaidAmount("");
       } else {
-        setPaidAmountErr(
-          `Please enter a value between ${bookingOrderObj.advpaid} and ${
-            bookingOrderObj.balAmount + 1
-          }`
-        );
-        setDisabledSubmit(true);
-        setPaidAmount(numericValue.toString());
+        const numericValue = parseInt(newValue);
+
+        if (
+          parseInt(numericValue) > bookingOrderObj.advpaid &&
+          parseInt(numericValue) <= bookingOrderObj.balAmount
+        ) {
+          setPaidAmount(numericValue.toString());
+          setPaidAmountErr(""); // Reset the error message
+          setDisabledSubmit(false);
+        } else {
+          setPaidAmountErr(
+            `Please enter a value between ${bookingOrderObj.advpaid} and ${
+              bookingOrderObj.balAmount + 1
+            }`
+          );
+          setDisabledSubmit(true);
+          setPaidAmount(numericValue.toString());
+        }
       }
     }
   };
@@ -96,18 +136,31 @@ function PayCancel({ type, bookingOrderObj, closeModal }) {
     if (confirm) {
       //pay the balance give a api call
 
+      //check whether user has selected payvia or not
+      if(paidvia === "0") {
+        setPaidViaErrMsg("Please Select Paid Via");
+        return false;
+      }
+
+      //check whether user has entered the phone nukber or not
+      if(transActionNumber.length !== 10) { 
+        setTransActionNumberErrMsg("Please Enter Valid Phone Number");
+        return false;
+      }
+
+
       let obj = {
         bookingId: bookingId,
         orderId: orderId,
         paidAmount: paidAmount,
         arena_id: admin.info.arena_id,
+        balance_amount_paid_via:paidvia
       };
 
       const resp = await payBalAmount(obj);
 
       if (resp.length > 0) {
         if (resp.hasOwnProperty("validationErrors")) {
-
         } else {
           setPaymentSuccess(true);
         }
@@ -115,6 +168,29 @@ function PayCancel({ type, bookingOrderObj, closeModal }) {
       }
     }
   };
+
+  const pay_via = (payviaval) => {
+    setPaidVia(() => payviaval) 
+    if(payviaval === "0") {
+      setPaidViaErrMsg("Please Select Paid Via");
+
+    } else {
+      setPaidViaErrMsg("");
+    }
+  }
+
+  const handlePaidNumber = (value) => {
+    var mobile_num = value.replace(/[^0-9]/g, "");
+    setTransActionNumberErrMsg("");
+    if(mobile_num.length>10) {
+
+    } else {
+      setTransActionNumber(mobile_num);      
+    }
+    
+  }
+  
+  
 
   return (
     <>
@@ -188,56 +264,133 @@ function PayCancel({ type, bookingOrderObj, closeModal }) {
                       disabled
                     />
                   </div>
-                </div>
-                <div className="flex-column right-column pos-rel ">
-                  <div className="pos-rel">
+                  <div className="pos-rel mt10 mt1rem">
                     <Input
                       id="input-with-icon-adornment"
                       placeholder={`Balance  Amount ${bookingOrderObj.balAmount}`}
                       disabled
                     />
                   </div>
+                </div>
+                <div className="flex-column right-column pos-rel ">
+                  <div className="pos-rel">
+                    {type === "pay" ? (
+                      bookingOrderObj.balAmount > 0 && (
+                        <Input
+                          id="input-with-icon-adornment"
+                          disabled={
+                            `${bookingOrderObj.balAmount} > 0 ` ? false : true
+                          }
+                          placeholder={`${
+                            type === "pay" ? "Enter Paid" : "Refund"
+                          } Amount`}
+                          startAdornment={
+                            <InputAdornment position="start">
+                              <CurrencyRupeeIcon />
+                            </InputAdornment>
+                          }
+                          value={`${type !== "pay" ? 0 : paidAmount}`}
+                          onChange={(e) => balanceAmount(e.target.value, type)}
+                        />
+                      )
+                    ) : (
+                      <Input
+                        id="input-with-icon-adornment"
+                        placeholder={`${
+                          type === "pay" ? "Enter Paid" : "Refund"
+                        } Amount`}
+                        startAdornment={
+                          <InputAdornment position="start">
+                            <CurrencyRupeeIcon />
+                          </InputAdornment>
+                        }
+                        value={`${
+                          type !== "pay"
+                            ? bookingOrderObj.balAmount === 0
+                              ? ""
+                              : bookingOrderObj.balAmount
+                            : paidAmount
+                        }`}
+                        onChange={(e) => balanceAmount(e.target.value, type)}
+                      />
+                    )}
 
-                  <div className="pos-rel mt10">
-                    <Input
-                      id="input-with-icon-adornment"
-                      placeholder={`${
-                        type === "pay" ? "Enter Paid" : "Refund"
-                      } Amount`}
-                      startAdornment={
-                        <InputAdornment position="start">
-                          <CurrencyRupeeIcon />
-                        </InputAdornment>
-                      }
-                      value={`${type !== "pay" ? "" : paidAmount}`}
-                      onChange={(e) => balanceAmount(e.target.value)}
-                    />
                     {paidAmountErr !== "" && (
                       <p className="errmsg">{paidAmountErr}</p>
                     )}
                   </div>
 
+                  <div className="pos-rel mt20">
+                    {type === "pay" && bookingOrderObj.balAmount > 0 && (
+                      // <Input
+                      //   id="input-with-icon-adornment"
+                      //   placeholder="Paid via"
+                      //   value=""
+                      //   onChange={(e) => "" }
+                      // />
+                      <> 
+                        <Select
+                        variant="standard"
+                          labelId="demo-simple-select-label"
+                          id="demo-simple-select"
+                          value={paidvia}
+                          label="Paid Via"
+                          onChange={(e) => pay_via(e.target.value)}
+                          defaultValue={paidvia}
+                          fullWidth
+                        >
+                          <MenuItem value="0">Paid Via</MenuItem>
+                          <MenuItem value="PhonePay">PhonePay</MenuItem>
+                          <MenuItem value="Gpay">GPay</MenuItem>
+                          <MenuItem value="Cash">Cash</MenuItem>
+                        </Select>
+                      </>
+                    )}
+
+                    {paidviaErrMsg !== "" && (
+                      <p className="errmsg">{paidviaErrMsg}</p>
+                    )}
+                  </div>
+                  <div className="pos-rel mt10">
+                    {type === "pay" && bookingOrderObj.balAmount > 0 && (
+                      (paidvia !== 'Cash' && paidvia !== '0') && (
+                        <Input
+                        id="input-with-icon-adornment"
+                        placeholder={`Enter ${paidvia} Number`}
+                        value={transActionNumber}
+                        onChange={(e) => handlePaidNumber(e.target.value) }
+                      /> 
+                      )                      
+                    )}
+
+                    {transActionNumberErrMsg !== "" && (
+                      <p className="errmsg">{transActionNumberErrMsg}</p>
+                    )}
+                  </div>
+
                   <div className="pos-rel mt10">
                     {type === "pay" ? (
-                      <Button
-                        variant="contained"
-                        endIcon={<CheckCircleIcon />}
-                        onClick={() => payBalance()}
-                        disabled={disabledSubmit}
-                        fullWidth
-                        className="submit-payment-btn"
-                      >
-                        Sumit
-                      </Button>
+                      bookingOrderObj.balAmount > 0 && (
+                        <Button
+                          variant="contained"
+                          endIcon={<CheckCircleIcon />}
+                          onClick={() => payBalance()}
+                          disabled={disabledSubmit}
+                          fullWidth
+                          className="submit-payment-btn"
+                        >
+                          Sumit
+                        </Button>
+                      )
                     ) : (
                       <Button
                         variant="contained"
                         endIcon={<ThumbDown />}
-                        onClick={() => cancelOrder()}
-                        className="cancel-order-btn"
+                        onClick={() => CancelOrder()}
+                        className="cancel-order-btn "
                         fullWidth
                       >
-                        Cancel
+                        Cancel Order
                       </Button>
                     )}
                   </div>
@@ -247,7 +400,12 @@ function PayCancel({ type, bookingOrderObj, closeModal }) {
           )}
 
           {paymentSuccess === true && (
-            <Alert onClose={() => {closeModal(paymentSuccess)}} severity="success">
+            <Alert
+              onClose={() => {
+                closeModal(paymentSuccess);
+              }}
+              severity="success"
+            >
               Payment has been successfully completed
             </Alert>
           )}

@@ -27,7 +27,7 @@ export default function MUIDrawer({ open, component }) {
 
   const list = (anchor) => (
     <Box
-      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 370 }}
+      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : "auto" }}
       role="presentation" 
       className="admin-book-slot"
     >
@@ -44,6 +44,7 @@ export default function MUIDrawer({ open, component }) {
             anchor={anchor}
             open={open}
             // onClose={toggleDrawer(anchor, false)}
+            key={anchor}
           >
             {list(anchor)}
           </Drawer> 

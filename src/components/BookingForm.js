@@ -106,8 +106,8 @@ const BookingForm = ({ venue }) => {
   }
   return (
     <>
-      <div className="booking-cart-wrapper column right-column">
-        <div className="booking-form-container ">
+      <div className= {` column right-column ${!isAdmin ? "booking-cart-wrapper": "sil-box-border" }` }>
+        <div className={`${!isAdmin ? 'booking-form-container' : 'w100'} `}>
           <div className="div-a ">
             {showConfirm === false ? (
               <>
@@ -137,24 +137,28 @@ const BookingForm = ({ venue }) => {
                 </div>
 
                 <div className="form-container">
-                  <div>
-                    <h1 className="font-bold text-md text-xl text-typography pos-rel">
-                      {data.venuedetails?.arena_name}
-                      {!isLoading ? (
-                        <CleaningServicesIcon
-                          className="clear-form-fields"
-                          onClick={() => {
-                            dispatch(clearErrors());
-                          }}
-                        />
-                      ) : null}
-                    </h1>
-                    <h6 style={{ fontWeight: "bold", color: "#999" }}>
-                      {data.venuedetails?.arena_location}
-                    </h6>
-                  </div>
+                  {!isAdmin && (
+                    <div>
+                      <h1 className="font-bold text-md text-xl text-typography pos-rel">
+                        {data.venuedetails?.arena_name}
+                        {!isLoading ? (
+                          <CleaningServicesIcon
+                            className="clear-form-fields"
+                            onClick={() => {
+                              dispatch(clearErrors());
+                            }}
+                          />
+                        ) : null}
+                      </h1>
+                      <h6 style={{ fontWeight: "bold", color: "#999" }}>
+                        {data.venuedetails?.arena_location}
+                      </h6>
+                    </div>
+                  )
+                  }
+
                   {/* Your form fields go here */}
-                  <div className="form-fields mar-tp30">
+                  <div className= {`${!isAdmin ? "form-fields mar-tp30" : "w100" }`}>
                     <div>
                       <BookingDatePicker />
 
@@ -204,7 +208,6 @@ const BookingForm = ({ venue }) => {
               </>
             ) : (
               <div className="admin-cart-policy">
-                
                 <CartPaymentPolicy isAdmin={isAdmin} />
               </div>
             )}

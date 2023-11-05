@@ -49,6 +49,7 @@ function ManageSlots() {
     {
       name: "Action",
       cell: (row) => (
+        
         <Button
           className="grid-btn-view"
           variant="contained"
@@ -268,11 +269,10 @@ function ManageSlots() {
           modalTitle: "Manage Booked Slots",
           handleClose: handleClose,
           open: open,
-          width: 1000,
           component: loadComponent,
           compLoaded: true,
           modalpopupwidth: "modal-md",
-          closebtncls: "mnge-slots-modal-close-btn",
+          closebtncls: "mnge-slots-modal-close-btn hide-close-icon",
         }}
       />
     </>

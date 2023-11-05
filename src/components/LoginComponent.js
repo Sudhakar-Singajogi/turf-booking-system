@@ -58,11 +58,11 @@ const LoginComponent = (props) => {
     
     // remove the below two line once your testing with existing phone number in the database. and uncomment the signInWithPhoneNumber section
 
-    dispatch(getUserInfo(ph));
-    props.params.handleClose();
+    // dispatch(getUserInfo(ph));
+    // props.params.handleClose();
 
 
-    /*
+    
 
     signInWithPhoneNumber(auth, formatPh, appVerifier)
       .then((confirmationResult) => {
@@ -83,7 +83,7 @@ const LoginComponent = (props) => {
         // toast.success("Failed to send OTP");
         setLoading(false);
       });
-      */
+      
   };
 
   function onOTPVerify() {
@@ -127,7 +127,7 @@ const LoginComponent = (props) => {
             👍Login Success
           </h2>
         ) : (
-          <div className="w-80 flex flex-col gap-4 rounded-lg p-4 mar-tp30">
+          <div className="w-80 flex flex-col gap-4 rounded-lg p-4">
             {showOTP ? (
               <>
                 <label htmlFor="otp" className="font-bold text-xl">

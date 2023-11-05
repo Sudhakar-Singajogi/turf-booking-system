@@ -98,7 +98,7 @@ function Dashboard() {
         <div className="slots-container flex-box">
           <BookedSlots />
         </div>
-        <div className="slots-container">
+        <div className="slots-container add-margin-top10">
           <ManageSlots />
         </div>
         <div className="slots-container"></div>
