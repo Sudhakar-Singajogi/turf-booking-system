@@ -32,7 +32,7 @@ function RazorPayment() {
   console.log("bookingData: ", bookingData);
 
   const initiatePayment = async (isAdmin, paymentobj = "") => {
-    try {
+       try {
       const res = await loadScript(
         "https://checkout.razorpay.com/v1/checkout.js"
       );
@@ -120,7 +120,67 @@ function RazorPayment() {
     }
   };
 
-  return { initiatePayment };
+  const bookSlotWithoutPaymentOption = async (isAdmin, paymentobj = "") => {
+    try { 
+
+      let payOBJ =
+        paymentobj === ""
+          ? JSON.stringify({ ...getBookingInfo() })
+          : JSON.stringify(paymentobj);
+
+      const resp = await fetch(`${baseURL}order/create-order`, {
+        method: "POST",
+        body: payOBJ,
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+      if (!resp.result === "OK") {
+        throw new Error("Failed to get response, contact admin");
+      }
+      const response = await resp.json();
+      console.log("resp data: ", response.data[0]);
+
+      const { order_id, amount, bookingid, orderId } = response.data[0];
+      console.log("amount is: ", amount);      
+
+      const data = {
+        orderCreationId: order_id,
+        razorpayPaymentId: "Manual payment request",
+        razorpayOrderId: "Manual order request",
+        razorpaySignature: "Manual payment request",
+        bookingid: bookingid,
+        orderId: orderId,
+      };
+
+      await axios.post(`${baseURL}order/success`, data);
+      dispatch(turfbookedsuccessfully(true));
+      dispatch(clearTurf());
+      console.log(
+        "redirecting from here: ",
+        bookingData.venuedetails.arena_id
+      );
+
+      const adminInfo = admin.info;
+      console.log("adminInfo:", adminInfo.arena_name);
+
+      const isAdminLogeedIn = adminInfo.hasOwnProperty("arena_name")
+        ? true
+        : false;
+
+      if (!isAdminLogeedIn) {
+        navigate("/booking?venueid=" + bookingData.venuedetails.arena_id);
+      } else {
+        navigate("/admin/dashboard");
+      }
+
+    } catch (error) {
+      return Promise.reject(error);
+    }
+
+  }
+
+  return { initiatePayment, bookSlotWithoutPaymentOption };
 }
 
 export default RazorPayment;

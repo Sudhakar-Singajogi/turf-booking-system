@@ -435,6 +435,7 @@ export const getUserInfo = createAsyncThunk(
     console.log("captain_contact: ", captain_contact);
     try {
       // const resp = await fetch("baseURLturf/byareana", {
+      captain_contact = captain_contact.slice(-10);
       const resp = await fetch(`${baseURL}captain/details`, {
         method: "POST",
         body: JSON.stringify({

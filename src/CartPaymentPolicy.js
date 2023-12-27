@@ -31,6 +31,7 @@ import FormLabel from "@mui/material/FormLabel";
 import SlotBookingForm from "./components/Areana/SlotBookingForm";
 import ValidateCaptain from "./components/Areana/ValidateCaptain";
 import { Divider } from "@mui/material";
+import { Label } from "@mui/icons-material";
 
 function getTurfName(turfs, turfId) {
   if (turfId > 0) {
@@ -54,7 +55,7 @@ function CartPaymentPolicy({ isAdmin }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { getExactToTime } = useGetExactToTime();
-  const { initiatePayment } = RazorPayment();
+  const { initiatePayment, bookSlotWithoutPaymentOption } = RazorPayment();
   const couponCost = 0.05;
   const { admin } = useSelector((state) => state.venue);
 
@@ -162,7 +163,8 @@ function CartPaymentPolicy({ isAdmin }) {
     console.log("hey");
     // setModalOpen(true);
     e.preventDefault();
-    initiatePayment(isAdminLogeedIn);
+    // initiatePayment(isAdminLogeedIn); /** Uncomment this once payment option is enabled and comment the below line*/
+    bookSlotWithoutPaymentOption(isAdminLogeedIn)
   };
 
   const handleModalClose = () => {
@@ -342,7 +344,7 @@ function CartPaymentPolicy({ isAdmin }) {
                 }}
               >
                 <div className="flex-item">
-                  <h5 style={{ fontSize: "1rem", fontWeight: "bold" }}>
+                  <h5 style={{margin:'0.5rem', fontSize: "1rem", fontWeight: "bold" }}>
                     Price Details
                   </h5>
                 </div>
@@ -352,6 +354,7 @@ function CartPaymentPolicy({ isAdmin }) {
             <div>
               <div
                 style={{
+                  marginLeft:'0.2rem',
                   display: "flex",
                   width: "100%",
                   justifyContent: "space-between",
@@ -484,17 +487,19 @@ function CartPaymentPolicy({ isAdmin }) {
                   </div>
                 </div>
                 <FormControl>
-                  <RadioGroup
+                {/** Uncomment this once payment option is enabled*/}
+                  {/* <RadioGroup
                     row
                     aria-labelledby="demo-row-radio-buttons-group-label"
                     name="row-radio-buttons-group"
                     defaultValue={()=> { dispatch(setFullPayment(true)); return "Pay Full" }}
-                  >
+                  > */}
                     <div className="price-section m-y-10">
                       <div className="flex-item ">
                         <FormControlLabel
                           value="Pay Advance"
-                          control={<Radio />}
+                          // control={<Radio />} /** Uncomment this once payment option is enabled and comment the below line*/
+                          control={<Label style={{'marginLeft':'10px'}} />}
                           label="Pay Advance"
                           onChange={(e) => {
                             set_full_payment(e);
@@ -537,8 +542,13 @@ function CartPaymentPolicy({ isAdmin }) {
                         </ul>
                       </div>
                     </div>
-
-                    <div className="price-section m-y-10">
+                    {
+                      /* 
+                      uncomment the below line if you wnat to provide the payment option to the user
+                      */
+                    }
+                                
+                    {/* <div className="price-section m-y-10">
                       <div className="flex-item">
                         <FormControlLabel
                           value="Pay Full"
@@ -575,8 +585,8 @@ function CartPaymentPolicy({ isAdmin }) {
                           </li>
                         </ul>
                       </div>
-                    </div>
-                  </RadioGroup>
+                    </div> */}
+                  {/* </RadioGroup> */}
                 </FormControl>
 
                 <div className="cart-footer">
@@ -588,7 +598,8 @@ function CartPaymentPolicy({ isAdmin }) {
                           handlePaymentProcess(e);
                         }}
                       >
-                        Proceed To Pay
+                        {/* Proceed To Pay */} {/** Uncomment this once payment option is enabled and comment the below line*/}
+                        Proceed To Booking
                       </button>
                     </>
                   ) : (
@@ -599,7 +610,7 @@ function CartPaymentPolicy({ isAdmin }) {
                           setModalOpen(true);
                         }}
                       >
-                        Sign To Pay
+                        Sign To Booking
                       </button>
                     </>
                   )}

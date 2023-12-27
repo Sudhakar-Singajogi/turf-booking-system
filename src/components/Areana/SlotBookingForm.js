@@ -13,7 +13,7 @@ import RazorPayment from "../../CustomHooks/RazorPayment";
 import { clearTurf } from "../../Redux/Slices/BokingSliceReducer";
  
 function SlotBookingForm() {
-    const { initiatePayment } = RazorPayment();
+    const { initiatePayment, bookSlotWithoutPaymentOption } = RazorPayment();
   const { data } = useSelector((state) => state.booking);
 
   const advPay = data.bookingamount * 0.3;
@@ -71,7 +71,8 @@ function SlotBookingForm() {
     paymentObj.balance_amount =
       parseInt(data.bookingamount) - parseInt(initAmount);
       console.log("paymentObj is: ", paymentObj);
-      await initiatePayment(true, paymentObj);
+      // await initiatePayment(true, paymentObj);    /** Uncomment this once payment option is enabled and comment the below line*/
+      await bookSlotWithoutPaymentOption(true, paymentObj)
       dispatch(clearTurf())
 
       // if(data.validateForm.bookingSuccess) {
